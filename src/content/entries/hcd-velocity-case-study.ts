@@ -13,6 +13,7 @@ export const HCD_VELOCITY_CASE_STUDY_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/case-studies/scaling-hcd-through-ai",
+  effortId: "effort-navy-hr-modernization",
   externalUrl:
     "https://natebyrnes.wixsite.com/kmux/portfolio/scaling-strategic-impact%3A-automating-hcd-synthesis-yields-80%25-capacity-gain",
   relatedEntryIds: ["method-evidence-first-synthesis"],

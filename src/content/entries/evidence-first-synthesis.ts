@@ -12,6 +12,7 @@ export const EVIDENCE_FIRST_SYNTHESIS_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/methods/evidence-first-synthesis",
+  effortId: "effort-navy-hr-modernization",
   relatedEntryIds: [
     "tool-evidence-traceability-matrix",
     "case-study-hcd-velocity-engine",

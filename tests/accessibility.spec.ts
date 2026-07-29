@@ -59,6 +59,51 @@ test("draft evidence log is clearly identified", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "This is a proof of concept" }),
   ).toBeVisible();
+  await expect(page.locator("details.version-notes")).not.toHaveAttribute(
+    "open",
+    "",
+  );
+});
+
+test("tool directory exposes status and verification context", async ({
+  page,
+}) => {
+  await page.goto("/tools");
+  const row = page.getByRole("row", {
+    name: "Evidence Traceability Matrix Builder HCD research synthesis and team alignment",
+    exact: false,
+  });
+  await expect(row).toContainText("Working proof of concept");
+  await expect(row).toContainText("Jul 28, 2026");
+});
+
+test("tool table scrolls within its region without widening the mobile page", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/tools");
+
+  const dimensions = await page.evaluate(() => {
+    const region = document.querySelector<HTMLElement>(".tool-directory");
+    return {
+      pageWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+      regionWidth: region?.clientWidth ?? 0,
+      regionScrollWidth: region?.scrollWidth ?? 0,
+    };
+  });
+
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
+  expect(dimensions.regionScrollWidth).toBeGreaterThan(dimensions.regionWidth);
+});
+
+test("case study identifies its shared effort", async ({ page }) => {
+  await page.goto("/case-studies/scaling-hcd-through-ai");
+  await expect(
+    page.getByRole("heading", {
+      name: "Navy HR modernization through human-centered design",
+    }),
+  ).toBeVisible();
 });
 
 test("404 page is readable and accessible in explicit dark mode", async ({

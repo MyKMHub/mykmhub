@@ -277,6 +277,10 @@ h3 {
   gap: clamp(3rem, 7vw, 6rem);
 }
 
+.content-page > * {
+  min-width: 0;
+}
+
 .not-found-page {
   display: grid;
   gap: clamp(2.5rem, 7vw, 5rem);
@@ -397,6 +401,78 @@ h3 {
 .tool-card p:not(.eyebrow) {
   max-width: 50rem;
   line-height: 1.65;
+}
+
+.tool-directory {
+  width: 100%;
+  min-width: 0;
+  margin-block-start: 2rem;
+}
+
+.tool-directory table {
+  min-width: 64rem;
+}
+
+.tool-directory th[scope="row"] a {
+  color: inherit;
+  font-weight: 700;
+}
+
+.tool-directory td small {
+  max-width: 28rem;
+}
+
+.tool-support {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.8fr);
+  gap: clamp(1.5rem, 5vw, 3rem);
+  padding-block-start: 2.5rem;
+  border-block-start: 1px solid var(--surface-border);
+}
+
+.tool-support li,
+.version-notes p {
+  line-height: 1.6;
+}
+
+.version-notes {
+  padding: 1.25rem;
+  background: var(--surface-subtle);
+  border: 1px solid var(--surface-border);
+}
+
+.version-notes summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.version-notes[open] summary {
+  margin-block-end: 1.25rem;
+}
+
+.effort-context {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(15rem, 0.7fr);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  margin-block-start: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  color: CanvasText;
+  background: var(--surface-subtle);
+  border: 1px solid var(--surface-border);
+}
+
+.effort-context h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.effort-context p:not(.eyebrow) {
+  line-height: 1.65;
+}
+
+.effort-context .related-links {
+  display: grid;
+  align-content: start;
+  margin: 0;
 }
 
 .tag-list {
@@ -785,6 +861,11 @@ html[data-motion="reduced"] *::after {
 
   .on-this-page {
     position: static;
+  }
+
+  .tool-support,
+  .effort-context {
+    grid-template-columns: 1fr;
   }
 
   .footer-inner {

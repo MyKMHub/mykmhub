@@ -35,7 +35,9 @@ export interface PortfolioApplication {
 }
 
 export interface PortfolioCaseStudy {
+  id: string;
   slug: string;
+  effortId?: string;
   title: string;
   cardSummary: string;
   client: string;

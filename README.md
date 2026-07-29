@@ -41,10 +41,20 @@ Content is maintained independently in `src/content`:
 
 - `types.ts` defines reusable content metadata.
 - `entries/` contains canonical content objects.
+- `efforts/` connects multiple perspectives on the same body of work.
+- `portfolio/` stores normalized case-study records and content blocks.
+- `tools/` stores tool status, accessibility, privacy, relationship, and
+  version metadata.
+- `relationships.ts` records how case studies, methods, knowledge, and tools
+  relate without duplicating them.
 - `registry.ts` exposes published public content.
 - `navigation.ts` derives navigation only from published routes.
 
 A route does not appear merely because it is planned. Future MVP areas become public only when they contain useful content.
+
+Portfolio routes render through a shared case-study component. Tool directory
+and detail pages read from the same normalized tool records, including
+operational status and last-verification information.
 
 ## Accessibility and typography
 

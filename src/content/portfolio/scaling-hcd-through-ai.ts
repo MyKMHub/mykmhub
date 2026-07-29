@@ -1,7 +1,9 @@
 import type { PortfolioCaseStudy } from "./types";
 
 export const SCALING_HCD_THROUGH_AI = {
+  id: "case-study-hcd-velocity-engine",
   slug: "scaling-hcd-through-ai",
+  effortId: "effort-navy-hr-modernization",
   title:
     "Scaling HCD Through AI: Transforming Research Synthesis into Strategic Decision Support",
   cardSummary:
