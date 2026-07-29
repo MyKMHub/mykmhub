@@ -379,6 +379,10 @@ h3 {
   border: 1px solid var(--surface-border);
 }
 
+.portfolio-card-text {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .portfolio-list {
   display: grid;
   gap: 1.5rem;
@@ -465,6 +469,61 @@ h3 {
 
 .tool-facts dd {
   margin: 0;
+}
+
+.image-prompt-wizard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.prompt-builder,
+.prompt-preview,
+.prompt-fields {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.prompt-step {
+  display: grid;
+  gap: 1rem;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid var(--surface-border);
+}
+
+.prompt-step h3,
+.iteration-notes h3 {
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+}
+
+.prompt-preview {
+  position: sticky;
+  inset-block-start: 6rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--surface-subtle);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+}
+
+.negative-shortcuts {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--surface-border);
+}
+
+.negative-shortcuts legend {
+  padding-inline: 0.25rem;
+  font-weight: 700;
+}
+
+.iteration-notes {
+  padding-block-start: 1rem;
+  border-block-start: 1px solid var(--surface-border);
 }
 
 .form-generator {
@@ -1037,6 +1096,14 @@ html[data-motion="reduced"] *::after {
   .project-facts,
   .case-study-layout {
     grid-template-columns: 1fr;
+  }
+
+  .image-prompt-wizard {
+    grid-template-columns: 1fr;
+  }
+
+  .prompt-preview {
+    position: static;
   }
 
   .not-found-help {

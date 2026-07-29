@@ -7,9 +7,11 @@ const PUBLIC_ROUTES = [
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
+  "/tools/ai-image-prompt-wizard",
   "/case-studies/scaling-hcd-through-ai",
   "/case-studies/scaling-automated-hcd-in-navy-hr-modernization",
   "/case-studies/accessible-form-component-and-ux-requirements-generator",
+  "/case-studies/ai-image-creation-wizard",
   "/methods/evidence-first-synthesis",
 ] as const;
 
@@ -226,6 +228,45 @@ test("form generator exports JavaScript that matches an interactive switch", asy
   await expect(javascript).toContainText(
     'control.textContent = nextState ? "On" : "Off"',
   );
+});
+
+test("AI image prompt wizard compiles source fields and supports guided navigation", async ({
+  page,
+}) => {
+  await page.goto("/tools/ai-image-prompt-wizard");
+  await page.getByRole("textbox", { name: "Primary subject" }).fill(
+    "An accessibility researcher",
+  );
+  await page.getByRole("textbox", { name: "Action or expression" }).fill(
+    "reviewing a journey map",
+  );
+
+  const preview = page.getByRole("textbox", { name: "Image prompt" });
+  await expect(preview).toContainText("An accessibility researcher");
+  await expect(preview).toContainText("reviewing a journey map");
+  await expect(preview).toContainText("Photograph");
+  await expect(preview).toContainText("Avoid:");
+
+  await page.getByRole("button", { name: "Next step" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Setting and mood" }),
+  ).toBeVisible();
+
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  expect(results.violations).toEqual([]);
+});
+
+test("AI image prompt wizard does not widen the mobile page", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/tools/ai-image-prompt-wizard");
+
+  const dimensions = await page.evaluate(() => ({
+    pageWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
 });
 
 test("portfolio project facts use a compact label and value layout", async ({

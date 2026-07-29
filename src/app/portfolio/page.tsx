@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SCALING_AUTOMATED_HCD_NAVY_HR } from "@/content/portfolio/scaling-automated-hcd-navy-hr";
 import { SCALING_HCD_THROUGH_AI } from "@/content/portfolio/scaling-hcd-through-ai";
 import { ACCESSIBLE_FORM_GENERATOR_CASE_STUDY } from "@/content/portfolio/accessible-form-generator";
+import { AI_IMAGE_PROMPT_WIZARD_CASE_STUDY } from "@/content/portfolio/ai-image-prompt-wizard";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -12,6 +13,11 @@ export const metadata: Metadata = {
 };
 
 const PORTFOLIO_ITEMS = [
+  {
+    study: AI_IMAGE_PROMPT_WIZARD_CASE_STUDY,
+    href: "/case-studies/ai-image-creation-wizard",
+    cover: undefined,
+  },
   {
     study: ACCESSIBLE_FORM_GENERATOR_CASE_STUDY,
     href:
@@ -46,19 +52,21 @@ export default function PortfolioPage() {
       <div className="portfolio-list">
         {PORTFOLIO_ITEMS.map(({ study, href, cover }) => (
           <section
-            className="portfolio-card"
+            className={`portfolio-card${cover ? "" : " portfolio-card-text"}`}
             aria-labelledby={`${study.slug}-title`}
             key={study.id}
           >
-            <Link href={href} tabIndex={-1} aria-hidden="true">
-              <Image
-                src={cover.src}
-                width={cover.width}
-                height={cover.height}
-                alt=""
-                sizes="(max-width: 768px) 100vw, 520px"
-              />
-            </Link>
+            {cover && (
+              <Link href={href} tabIndex={-1} aria-hidden="true">
+                <Image
+                  src={cover.src}
+                  width={cover.width}
+                  height={cover.height}
+                  alt=""
+                  sizes="(max-width: 768px) 100vw, 520px"
+                />
+              </Link>
+            )}
             <div>
               <p className="eyebrow">
                 {study.client} · {study.year}

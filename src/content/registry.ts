@@ -7,6 +7,8 @@ import { PORTFOLIO_ENTRY } from "./entries/portfolio";
 import { NAVY_HR_AUTOMATED_HCD_CASE_STUDY_ENTRY } from "./entries/navy-hr-automated-hcd-case-study";
 import { ACCESSIBLE_FORM_GENERATOR_CASE_STUDY_ENTRY } from "./entries/accessible-form-generator-case-study";
 import { ACCESSIBLE_FORM_GENERATOR_TOOL_ENTRY } from "./entries/accessible-form-generator-tool";
+import { AI_IMAGE_PROMPT_WIZARD_CASE_STUDY_ENTRY } from "./entries/ai-image-prompt-wizard-case-study";
+import { AI_IMAGE_PROMPT_WIZARD_TOOL_ENTRY } from "./entries/ai-image-prompt-wizard-tool";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -18,6 +20,8 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   NAVY_HR_AUTOMATED_HCD_CASE_STUDY_ENTRY,
   ACCESSIBLE_FORM_GENERATOR_CASE_STUDY_ENTRY,
   ACCESSIBLE_FORM_GENERATOR_TOOL_ENTRY,
+  AI_IMAGE_PROMPT_WIZARD_CASE_STUDY_ENTRY,
+  AI_IMAGE_PROMPT_WIZARD_TOOL_ENTRY,
   EVIDENCE_FIRST_SYNTHESIS_ENTRY,
 ];
 

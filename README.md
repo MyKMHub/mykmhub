@@ -83,5 +83,9 @@ Tool and Portfolio entry. Its canonical working application lives in Tools,
 while its normalized Portfolio record documents the design context,
 accessibility decisions, and outcomes without duplicating the application.
 
+The AI Image Prompt Wizard follows the same hybrid pattern. Its working,
+model-independent prompt planner is listed in Tools, while Portfolio documents
+the original product problem, six-stage workflow, accessibility decisions, and
+future Visual Intent Compiler concept.
 
 Authentication, private workspaces, multi-tenancy, billing, server-side research processing, and other future platform capabilities remain intentionally out of scope.

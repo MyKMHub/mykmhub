@@ -2,6 +2,12 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "tool-ai-image-prompt-wizard",
+    toEntryId: "case-study-ai-image-prompt-wizard",
+    type: "implements",
+    label: "Design context and original product concept",
+  },
+  {
     fromEntryId: "tool-accessible-form-generator",
     toEntryId: "case-study-accessible-form-generator",
     type: "implements",
