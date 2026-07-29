@@ -10,6 +10,7 @@ const PUBLIC_ROUTES = [
   "/knowledge/building-mykmhub-ai-assisted-development",
   "/toolkit",
   "/about",
+  "/frameworks/hcd-operating-model-baseline",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -268,6 +269,26 @@ test("About explains the public site and its future boundary", async ({
   ).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Use the HCD Director Toolkit" }),
+  ).toHaveAttribute("href", "/toolkit");
+});
+
+test("HCD operating model provides a usable governance baseline", async ({
+  page,
+}) => {
+  await page.goto("/frameworks/hcd-operating-model-baseline");
+  await expect(
+    page.getByRole("heading", { name: "Seven capabilities that must connect" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Create a minimum operating agreement" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Questions for a Director-level review" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", {
+      name: "Return to the HCD Director Toolkit",
+    }),
   ).toHaveAttribute("href", "/toolkit");
 });
 

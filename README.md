@@ -72,6 +72,10 @@ The About page explains Nathan Byrnes's connected HCD, accessibility, knowledge
 management, and responsible-automation practice. It also makes the boundary
 between the current public site and future authenticated capabilities explicit.
 
+Phase 3 begins with an HCD operating model baseline: a substantive Director
+framework covering mandate, intake, evidence, decision rights, delivery
+integration, accessibility, measurement, and organizational learning.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

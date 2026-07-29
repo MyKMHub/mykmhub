@@ -14,6 +14,10 @@ const pathways = [
       "Set the operating context, preserve accountability, and keep research, accessibility, privacy, and delivery decisions visible.",
     links: [
       {
+        label: "Establish an HCD operating model baseline",
+        href: "/frameworks/hcd-operating-model-baseline",
+      },
+      {
         label: "Use the evidence-first synthesis method",
         href: "/methods/evidence-first-synthesis",
       },

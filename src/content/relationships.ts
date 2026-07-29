@@ -2,6 +2,24 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "landing-hcd-director-toolkit",
+    toEntryId: "framework-hcd-operating-model-baseline",
+    type: "related",
+    label: "Director-level governance and operating model",
+  },
+  {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "method-evidence-first-synthesis",
+    type: "related",
+    label: "Evidence lifecycle method",
+  },
+  {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "case-study-navy-hr-automated-hcd",
+    type: "demonstrates",
+    label: "Operational-design example",
+  },
+  {
     fromEntryId: "landing-about",
     toEntryId: "landing-hcd-director-toolkit",
     type: "explains",

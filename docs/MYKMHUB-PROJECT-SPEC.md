@@ -798,6 +798,12 @@ Populate high-value Director resources and begin connecting:
 
 **knowledge ↔ tools ↔ methods ↔ patterns ↔ portfolio**
 
+The first Phase 3 Director resource is published at
+`/frameworks/hcd-operating-model-baseline`. It provides a reusable governance
+framework, minimum operating-agreement structure, leadership review questions,
+and warning signs. The framework is connected to the Director Toolkit,
+evidence-first synthesis method, and relevant portfolio evidence.
+
 ### Phase 4+
 
 Evaluate:

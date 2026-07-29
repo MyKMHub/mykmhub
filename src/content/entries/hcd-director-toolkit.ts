@@ -13,6 +13,7 @@ export const HCD_DIRECTOR_TOOLKIT_ENTRY = {
   visibility: "public",
   route: "/toolkit",
   relatedEntryIds: [
+    "framework-hcd-operating-model-baseline",
     "method-evidence-first-synthesis",
     "tool-accessible-form-generator",
     "guidance-ai-assisted-mykmhub-development",
