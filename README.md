@@ -98,4 +98,9 @@ redesign, including responsive information architecture, participation paths,
 centralized current content, and a distributed publishing model for a
 volunteer-led organization.
 
+The Navy KPI Dashboard case study documents a 2025 decision-support concept
+that organizes execution health, quality and delivery risk, impact, and
+customer experience. Its displayed values are explicitly treated as
+illustrative until operationally validated.
+
 Authentication, private workspaces, multi-tenancy, billing, server-side research processing, and other future platform capabilities remain intentionally out of scope.

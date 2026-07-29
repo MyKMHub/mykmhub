@@ -14,6 +14,7 @@ const PUBLIC_ROUTES = [
   "/case-studies/ai-image-creation-wizard",
   "/case-studies/doj-site-redesign-accessibility-usability",
   "/case-studies/march-for-science-site-redesign",
+  "/case-studies/navy-kpi-dashboard",
   "/methods/evidence-first-synthesis",
 ] as const;
 
@@ -172,6 +173,35 @@ test("March for Science case study preserves its four original design figures", 
   }));
   expect(dimensions.brokenImages).toBe(0);
   expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
+});
+
+test("Navy KPI Dashboard identifies its values as illustrative concept data", async ({
+  page,
+}) => {
+  await page.goto("/case-studies/navy-kpi-dashboard");
+  await expect(
+    page.getByRole("heading", { name: "Navy KPI Dashboard" }),
+  ).toBeVisible();
+  await expect(page.locator("figure")).toHaveCount(1);
+  await expect(
+    page.getByText(
+      "The values demonstrate the proposed information model; they are not presented as verified operational results.",
+      { exact: false },
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "A concept requiring operational and accessibility validation",
+    }),
+  ).toBeVisible();
+
+  const brokenImages = await page.evaluate(
+    () =>
+      Array.from(document.images).filter(
+        (image) => image.complete && image.naturalWidth === 0,
+      ).length,
+  );
+  expect(brokenImages).toBe(0);
 });
 
 test("Navy modernization case study contains its media and contained data table", async ({

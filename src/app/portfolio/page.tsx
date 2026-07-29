@@ -7,6 +7,7 @@ import { ACCESSIBLE_FORM_GENERATOR_CASE_STUDY } from "@/content/portfolio/access
 import { AI_IMAGE_PROMPT_WIZARD_CASE_STUDY } from "@/content/portfolio/ai-image-prompt-wizard";
 import { DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY } from "@/content/portfolio/doj-accessibility-redesign";
 import { MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY } from "@/content/portfolio/march-for-science-redesign";
+import { NAVY_KPI_DASHBOARD_CASE_STUDY } from "@/content/portfolio/navy-kpi-dashboard";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -15,6 +16,11 @@ export const metadata: Metadata = {
 };
 
 const PORTFOLIO_ITEMS = [
+  {
+    study: NAVY_KPI_DASHBOARD_CASE_STUDY,
+    href: "/case-studies/navy-kpi-dashboard",
+    cover: NAVY_KPI_DASHBOARD_CASE_STUDY.figures[0],
+  },
   {
     study: MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY,
     href: "/case-studies/march-for-science-site-redesign",
