@@ -14,7 +14,7 @@ import { Slider } from "@react-spectrum/s2/Slider";
 import { Switch } from "@react-spectrum/s2/Switch";
 import { TextArea } from "@react-spectrum/s2/TextArea";
 import { TextField } from "@react-spectrum/s2/TextField";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Engine = "openai" | "gemini" | "midjourney" | "stable-diffusion";
 type Quality = "low" | "medium" | "high";
@@ -70,6 +70,8 @@ const EMPTY_API_KEYS: Record<Engine, string> = {
   midjourney: "",
   "stable-diffusion": "",
 };
+
+const SESSION_API_KEYS_STORAGE = "mykmhub:ai-image-provider-keys";
 
 const INITIAL_RESOLUTIONS: Record<Engine, string> = {
   openai: "provider",
@@ -241,12 +243,49 @@ export function AiImagePromptWizard() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [image, setImage] = useState("");
   const [apiKeys, setApiKeys] = useState<Record<Engine, string>>(EMPTY_API_KEYS);
+  const [rememberApiKeys, setRememberApiKeys] = useState(false);
+  const [hasLoadedApiKeys, setHasLoadedApiKeys] = useState(false);
   const [resolutions, setResolutions] =
     useState<Record<Engine, string>>(INITIAL_RESOLUTIONS);
   const compiled = useMemo(() => compilePrompt(form), [form]);
   const previewPrompt = useMemo(() => compileNatural(form), [form]);
   const output = isManual ? manualPrompt : compiled;
   const seedSupported = form.engine === "midjourney" || form.engine === "stable-diffusion";
+
+  useEffect(() => {
+    const loadCachedKeys = window.setTimeout(() => {
+      try {
+        const cached = sessionStorage.getItem(SESSION_API_KEYS_STORAGE);
+        if (cached) {
+          const parsed = JSON.parse(cached) as Partial<Record<Engine, unknown>>;
+          setApiKeys({
+            openai: typeof parsed.openai === "string" ? parsed.openai : "",
+            gemini: typeof parsed.gemini === "string" ? parsed.gemini : "",
+            midjourney: "",
+            "stable-diffusion":
+              typeof parsed["stable-diffusion"] === "string"
+                ? parsed["stable-diffusion"]
+                : "",
+          });
+          setRememberApiKeys(true);
+        }
+      } catch {
+        sessionStorage.removeItem(SESSION_API_KEYS_STORAGE);
+      } finally {
+        setHasLoadedApiKeys(true);
+      }
+    }, 0);
+    return () => window.clearTimeout(loadCachedKeys);
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedApiKeys) return;
+    if (rememberApiKeys) {
+      sessionStorage.setItem(SESSION_API_KEYS_STORAGE, JSON.stringify(apiKeys));
+    } else {
+      sessionStorage.removeItem(SESSION_API_KEYS_STORAGE);
+    }
+  }, [apiKeys, hasLoadedApiKeys, rememberApiKeys]);
 
   function update<Key extends keyof PromptState>(key: Key, value: PromptState[Key]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -342,8 +381,21 @@ export function AiImagePromptWizard() {
                   [form.engine]: value,
                 }))}
                 autoComplete="off"
-                description={`${CREDENTIALS[form.engine].description} The key is not saved by this tool.`}
+                description={`${CREDENTIALS[form.engine].description} It is not retained unless browser-session caching is enabled below.`}
               />
+            )}
+            {form.engine !== "midjourney" && (
+              <div>
+                <Switch
+                  isSelected={rememberApiKeys}
+                  onChange={setRememberApiKeys}
+                >
+                  Remember provider API keys for this browser session
+                </Switch>
+                <p className="field-description">
+                  Opt in to retain the masked provider keys across reloads in this tab. Closing the browser session discards them; shared devices are not recommended.
+                </p>
+              </div>
             )}
             <FieldPicker label="Preview quality" value={form.quality} values={["low", "medium", "high"]} onChange={(value) => update("quality", value as Quality)} />
             <Picker label="Aspect ratio" selectedKey={form.aspect} onSelectionChange={(key) => update("aspect", String(key))}>
@@ -466,7 +518,7 @@ export function AiImagePromptWizard() {
           <Button variant="accent" onPress={generateImage} isPending={isGenerating}>
             {form.engine === "midjourney" ? "Copy for Midjourney" : `Generate with ${ENGINES.find((item) => item.id === form.engine)?.label}`}
           </Button>
-          <Button variant="negative" fillStyle="outline" onPress={() => { setForm(INITIAL); setManualPrompt(""); setIsManual(false); setImage(""); setApiKeys(EMPTY_API_KEYS); setResolutions(INITIAL_RESOLUTIONS); setStatus("Reset the image workspace and cleared all API keys."); }}>Reset</Button>
+          <Button variant="negative" fillStyle="outline" onPress={() => { setForm(INITIAL); setManualPrompt(""); setIsManual(false); setImage(""); setApiKeys(EMPTY_API_KEYS); setRememberApiKeys(false); sessionStorage.removeItem(SESSION_API_KEYS_STORAGE); setResolutions(INITIAL_RESOLUTIONS); setStatus("Reset the image workspace and cleared all API keys."); }}>Reset</Button>
         </div>
 
         <section aria-labelledby="parameter-breakdown-heading">

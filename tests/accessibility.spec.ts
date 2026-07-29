@@ -414,6 +414,27 @@ test("Gemini image generation requests its supported output format and size", as
   expect(routeSource).toContain('content?.type === "image" && content.data');
 });
 
+test("AI image provider keys are cached only when session caching is enabled", async ({
+  page,
+}) => {
+  await page.goto("/tools/ai-image-prompt-wizard");
+  const keyField = page.getByRole("textbox", { name: "Google Gemini API key" });
+  const rememberKeys = page.getByRole("switch", {
+    name: "Remember provider API keys for this browser session",
+  });
+
+  await keyField.fill("test-session-key");
+  await rememberKeys.press("Space");
+  await page.reload();
+  await expect(keyField).toHaveValue("test-session-key");
+  await expect(rememberKeys).toBeChecked();
+
+  await rememberKeys.press("Space");
+  await page.reload();
+  await expect(keyField).toHaveValue("");
+  await expect(rememberKeys).not.toBeChecked();
+});
+
 test("AI image prompt wizard does not widen the mobile page", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/tools/ai-image-prompt-wizard");

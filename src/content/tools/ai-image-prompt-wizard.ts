@@ -12,8 +12,8 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
   route: "/tools/ai-image-prompt-wizard",
   contentStatus: "published",
   visibility: "public",
-  operationalStatus: "limited",
-  statusLabel: "Working beta",
+  operationalStatus: "working",
+  statusLabel: "Version 1.0",
   statusNote:
     "The prompt architect and direct OpenAI, Gemini, and Black Forest Labs FLUX generation work with separate provider credentials. Midjourney output is copy-ready because it does not provide a supported direct-generation API.",
   lastVerified: "2026-07-29",
@@ -27,12 +27,22 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
   privacyNotes: [
     "Prompt content remains in the current browser session.",
     "Nothing entered in the tool is persisted.",
-    "Each user-supplied provider API key is masked, isolated from keys entered for other engines, sent only to the MyKMHub server for that provider request, and not saved by the tool.",
+    "Each user-supplied provider API key is masked, isolated from keys entered for other engines, and sent only to the MyKMHub server for that provider request.",
+    "Provider keys are not retained by default. A user may explicitly cache them in sessionStorage so they survive reloads in the current browser session; closing that session discards them.",
     "When generation is intentionally activated, the natural-language prompt is sent to the selected provider; selections and copied engine syntax are not stored.",
   ],
   relatedPortfolioRoutes: ["/case-studies/ai-image-creation-wizard"],
   effortId: "effort-ai-image-prompt-wizard",
   versionNotes: [
+    {
+      version: "1.0",
+      date: "2026-07-29",
+      notes: [
+        "Promoted the accessible engine-aware prompt architect and generator to version 1.0.",
+        "Made Gemini the default and grouped provider, credential, quality, aspect-ratio, and resolution controls at the top.",
+        "Added opt-in, session-only caching for provider API keys.",
+      ],
+    },
     {
       version: "0.3 engine-aware beta",
       date: "2026-07-29",
