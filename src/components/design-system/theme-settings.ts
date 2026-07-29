@@ -87,7 +87,6 @@ export const SECTION_GAPS: Record<SpacingScale, string> = {
 
 export const FOCUS_COLORS = [
   { id: "#1473e6", label: "Spectrum blue" },
-  { id: "#455d73", label: "Muted charcoal blue" },
   { id: "#5258e4", label: "Indigo" },
   { id: "#b130bd", label: "Purple" },
   { id: "#007a63", label: "Deep seafoam" },
@@ -128,7 +127,7 @@ export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft>
     typeScaleRatio: "minor-third",
     eyebrowScale: "prominent",
     bodyLineHeight: 1.65,
-    focusColor: "#455d73",
+    focusColor: "#1473e6",
     focusWidth: 3,
     focusOffset: 3,
     cornerRadius: 10,
@@ -141,8 +140,8 @@ export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft>
     surfaceDark: "#2d2b27",
     borderLight: "#b8b0a2",
     borderDark: "#69645b",
-    accentLight: "#455d73",
-    accentDark: "#a9bfd2",
+    accentLight: "#0b5cab",
+    accentDark: "#8ab4f8",
     secondaryAccentLight: "#7a5638",
     secondaryAccentDark: "#d6b18c",
   },
@@ -210,6 +209,26 @@ export function getThemeAccents(theme: ThemeDraft) {
     accentDark: theme.accentDark ?? "#8ab4f8",
     secondaryAccentLight: theme.secondaryAccentLight ?? "#5b4b7a",
     secondaryAccentDark: theme.secondaryAccentDark ?? "#c9b6e4",
+  };
+}
+
+export function normalizeThemeDraft(theme: ThemeDraft): ThemeDraft {
+  const deprecatedMutedCharcoal = "#455d73";
+  return {
+    ...theme,
+    spectrumBackground: "base",
+    focusColor:
+      theme.focusColor.toLowerCase() === deprecatedMutedCharcoal
+        ? "#1473e6"
+        : theme.focusColor,
+    accentLight:
+      theme.accentLight?.toLowerCase() === deprecatedMutedCharcoal
+        ? "#0b5cab"
+        : theme.accentLight,
+    accentDark:
+      theme.accentDark?.toLowerCase() === "#a9bfd2"
+        ? "#8ab4f8"
+        : theme.accentDark,
   };
 }
 

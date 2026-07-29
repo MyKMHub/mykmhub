@@ -20,10 +20,10 @@ import {
   getThemeAccents,
   getTypeScale,
   isThemeDraft,
+  normalizeThemeDraft,
   type EyebrowScale,
   type HeadingScale,
   type SpacingScale,
-  type SpectrumBackground,
   type ThemeDraft,
   type TypeScaleRatio,
 } from "./theme-settings";
@@ -63,18 +63,41 @@ function contrastRatio(first: string, second: string) {
 export function ThemeLab() {
   const [theme, setTheme] = useState<ThemeDraft>(DEFAULT_THEME);
   const [importValue, setImportValue] = useState("");
-  const [isAppliedToSite, setIsAppliedToSite] = useState<boolean | null>(null);
+  const [activeThemeJson, setActiveThemeJson] = useState<
+    string | null | undefined
+  >(undefined);
   const [status, setStatus] = useState("Theme Lab is using the balanced preview preset.");
 
   useEffect(() => {
     const loadDraft = window.setTimeout(() => {
       const saved = localStorage.getItem(STORAGE_KEY);
-      setIsAppliedToSite(Boolean(localStorage.getItem(ACTIVE_THEME_STORAGE_KEY)));
+      const activeTheme = localStorage.getItem(ACTIVE_THEME_STORAGE_KEY);
+      if (activeTheme) {
+        try {
+          const parsedActive: unknown = JSON.parse(activeTheme);
+          if (isThemeDraft(parsedActive)) {
+            const normalizedActive = normalizeThemeDraft(parsedActive);
+            const normalizedJson = JSON.stringify(normalizedActive, null, 2);
+            localStorage.setItem(ACTIVE_THEME_STORAGE_KEY, normalizedJson);
+            setActiveThemeJson(normalizedJson);
+          } else {
+            localStorage.removeItem(ACTIVE_THEME_STORAGE_KEY);
+            setActiveThemeJson(null);
+          }
+        } catch {
+          localStorage.removeItem(ACTIVE_THEME_STORAGE_KEY);
+          setActiveThemeJson(null);
+        }
+      } else {
+        setActiveThemeJson(null);
+      }
       if (!saved) return;
       try {
         const parsed: unknown = JSON.parse(saved);
         if (isThemeDraft(parsed)) {
-          setTheme(parsed);
+          const normalized = normalizeThemeDraft(parsed);
+          setTheme(normalized);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized, null, 2));
           setStatus("Loaded the saved local theme draft.");
         }
       } catch {
@@ -85,6 +108,9 @@ export function ThemeLab() {
   }, []);
 
   const serialized = useMemo(() => JSON.stringify(theme, null, 2), [theme]);
+  const isAppliedToSite =
+    activeThemeJson !== undefined && activeThemeJson !== null;
+  const isPreviewApplied = activeThemeJson === serialized;
   const lightContrast = contrastRatio(theme.focusColor, theme.canvasLight);
   const darkContrast = contrastRatio(theme.focusColor, theme.canvasDark);
   const lightTextContrast = contrastRatio(theme.textLight, theme.canvasLight);
@@ -124,12 +150,12 @@ export function ThemeLab() {
     "--lab-focus-offset": `${theme.focusOffset}px`,
     "--lab-radius": `${theme.cornerRadius}px`,
     "--lab-section-gap": PREVIEW_GAPS[theme.spacingScale],
-    "--lab-canvas": theme.canvasLight,
-    "--lab-text": theme.textLight,
-    "--lab-surface": theme.surfaceLight,
-    "--lab-border": theme.borderLight,
-    "--lab-accent": accents.accentLight,
-    "--lab-accent-secondary": accents.secondaryAccentLight,
+    "--lab-canvas": `light-dark(${theme.canvasLight}, ${theme.canvasDark})`,
+    "--lab-text": `light-dark(${theme.textLight}, ${theme.textDark})`,
+    "--lab-surface": `light-dark(${theme.surfaceLight}, ${theme.surfaceDark})`,
+    "--lab-border": `light-dark(${theme.borderLight}, ${theme.borderDark})`,
+    "--lab-accent": `light-dark(${accents.accentLight}, ${accents.accentDark})`,
+    "--lab-accent-secondary": `light-dark(${accents.secondaryAccentLight}, ${accents.secondaryAccentDark})`,
   } as CSSProperties;
 
   function update<Key extends keyof ThemeDraft>(key: Key, value: ThemeDraft[Key]) {
@@ -166,14 +192,14 @@ export function ThemeLab() {
     }
     localStorage.setItem(ACTIVE_THEME_STORAGE_KEY, serialized);
     applyThemeToSite(theme);
-    setIsAppliedToSite(true);
+    setActiveThemeJson(serialized);
     setStatus("Applied this theme to MyKMHub and saved it in this browser.");
   }
 
   function restoreSiteDefault() {
     localStorage.removeItem(ACTIVE_THEME_STORAGE_KEY);
     applyThemeToSite(null);
-    setIsAppliedToSite(false);
+    setActiveThemeJson(null);
     setStatus("Restored the MyKMHub site defaults.");
   }
 
@@ -191,7 +217,7 @@ export function ThemeLab() {
     try {
       const parsed: unknown = JSON.parse(importValue);
       if (!isThemeDraft(parsed)) throw new Error();
-      setTheme(parsed);
+      setTheme(normalizeThemeDraft(parsed));
       setStatus("Imported the theme into the preview. Save it to retain the draft.");
     } catch {
       setStatus("The imported JSON is not a valid MyKMHub theme draft.");
@@ -224,19 +250,6 @@ export function ThemeLab() {
           <PickerItem id="spectrum">Spectrum default</PickerItem>
           <PickerItem id="aged-paper">Aged Paper</PickerItem>
           {theme.presetId === "custom" ? <PickerItem id="custom">Modified draft</PickerItem> : null}
-        </Picker>
-
-        <Picker
-          label="Spectrum background level"
-          selectedKey={theme.spectrumBackground}
-          onSelectionChange={(key) =>
-            update("spectrumBackground", String(key) as SpectrumBackground)
-          }
-          description="Native Spectrum semantic surface used by Spectrum components."
-        >
-          <PickerItem id="base">Base</PickerItem>
-          <PickerItem id="layer-1">Layer 1</PickerItem>
-          <PickerItem id="layer-2">Layer 2</PickerItem>
         </Picker>
 
         <Picker
@@ -443,16 +456,23 @@ export function ThemeLab() {
         <div className="theme-application-status">
           <p>
             <strong>Site theme:</strong>{" "}
-            {isAppliedToSite === null
+            {activeThemeJson === undefined
               ? "Loading browser theme"
               : isAppliedToSite
                 ? "Custom browser theme active"
                 : "MyKMHub default"}
           </p>
-          {isAppliedToSite ? <p><strong>Preview foundation:</strong> {theme.presetId === "custom" ? "Modified draft" : theme.presetId}</p> : null}
+          <p>
+            <strong>Preview foundation:</strong>{" "}
+            {theme.presetId === "custom" ? "Modified draft" : theme.presetId}
+          </p>
+          <p>
+            <strong>Preview status:</strong>{" "}
+            {isPreviewApplied ? "Applied to site" : "Preview only"}
+          </p>
           <Button
             variant="secondary"
-            isDisabled={isAppliedToSite === null}
+            isDisabled={activeThemeJson === undefined}
             onPress={restoreSiteDefault}
           >
             Restore site default

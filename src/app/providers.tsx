@@ -13,6 +13,7 @@ import {
   SITE_THEME_EVENT,
   applyThemeToSite,
   isThemeDraft,
+  normalizeThemeDraft,
   type SpectrumBackground,
 } from "@/components/design-system/theme-settings";
 
@@ -41,8 +42,13 @@ export function Providers({
       try {
         const parsed: unknown = JSON.parse(savedTheme);
         if (isThemeDraft(parsed)) {
-          savedSpectrumBackground = parsed.spectrumBackground;
-          applyThemeToSite(parsed);
+          const normalized = normalizeThemeDraft(parsed);
+          savedSpectrumBackground = normalized.spectrumBackground;
+          window.localStorage.setItem(
+            ACTIVE_THEME_STORAGE_KEY,
+            JSON.stringify(normalized),
+          );
+          applyThemeToSite(normalized);
         }
       } catch {
         window.localStorage.removeItem(ACTIVE_THEME_STORAGE_KEY);

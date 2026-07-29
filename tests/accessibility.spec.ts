@@ -111,6 +111,36 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
     "Dark canvas",
   );
   await expect(page.getByText("Passes the 4.5:1 text and link guardrail.")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Spectrum background level" }),
+  ).toHaveCount(0);
+
+  const themePreset = page.getByRole("button", { name: "Theme preset" });
+  await themePreset.click();
+  await page.getByRole("option", { name: "Aged Paper" }).click();
+  await expect(page.getByRole("button", { name: "Focus color" })).toContainText(
+    "Spectrum blue",
+  );
+  await expect(page.locator(".theme-preview")).toHaveCSS(
+    "background-color",
+    "rgb(249, 246, 240)",
+  );
+  await page.getByText("Accessibility", { exact: true }).click();
+  const appearance = page.getByRole("button", { name: "Appearance" });
+  await appearance.click();
+  await page.getByRole("option", { name: "Dark" }).click();
+  await expect(page.locator(".theme-preview")).toHaveCSS(
+    "background-color",
+    "rgb(36, 35, 32)",
+  );
+  await expect(page.locator(".theme-preview")).toHaveCSS(
+    "color",
+    "rgb(243, 238, 228)",
+  );
+  await appearance.click();
+  await page.getByRole("option", { name: "Light" }).click();
+  await themePreset.click();
+  await page.getByRole("option", { name: "Spectrum default" }).click();
 
   const headingScale = page.getByRole("button", { name: "Type scale preset" });
   await headingScale.click();
