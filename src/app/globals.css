@@ -680,7 +680,7 @@ html[data-custom-theme="active"] :is(
   border-color: var(--site-border-color);
 }
 
-html[data-theme-preset="aged-paper"] body {
+html[data-canvas-effect="paper-vignette"] body {
   background-image: radial-gradient(
     ellipse at center,
     transparent 72%,
@@ -689,7 +689,7 @@ html[data-theme-preset="aged-paper"] body {
   background-attachment: fixed;
 }
 
-html[data-theme-preset="aged-paper"] .site-header {
+html[data-canvas-effect="paper-vignette"] .site-header {
   border-block-end-color: color-mix(in srgb, var(--site-text) 20%, transparent);
   box-shadow: 0 1px 0 color-mix(in srgb, var(--site-canvas) 65%, transparent);
 }
@@ -748,6 +748,14 @@ html[data-custom-theme="active"] :is(
 .theme-preview .lab-section {
   background: var(--lab-surface);
   border-color: var(--lab-border);
+}
+
+.theme-preview[data-canvas-effect="paper-vignette"] {
+  background-image: radial-gradient(
+    ellipse at center,
+    transparent 68%,
+    color-mix(in srgb, var(--lab-border) 28%, transparent) 100%
+  );
 }
 
 .theme-preview a {

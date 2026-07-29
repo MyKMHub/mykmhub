@@ -4,6 +4,7 @@ export type EyebrowScale = "quiet" | "balanced" | "prominent";
 export type SpacingScale = "compact" | "comfortable" | "spacious";
 export type ThemePresetId = "spectrum" | "aged-paper" | "custom";
 export type SpectrumBackground = "base" | "layer-1" | "layer-2";
+export type CanvasEffect = "none" | "paper-vignette";
 
 export interface ThemeDraft {
   presetId: ThemePresetId;
@@ -26,6 +27,7 @@ export interface ThemeDraft {
   surfaceDark: string;
   borderLight: string;
   borderDark: string;
+  canvasEffect?: CanvasEffect;
   accentLight?: string;
   accentDark?: string;
   secondaryAccentLight?: string;
@@ -114,6 +116,7 @@ export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft>
     surfaceDark: "#252525",
     borderLight: "#c7c7c7",
     borderDark: "#5a5a5a",
+    canvasEffect: "none",
     accentLight: "#0b5cab",
     accentDark: "#8ab4f8",
     secondaryAccentLight: "#5b4b7a",
@@ -140,6 +143,7 @@ export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft>
     surfaceDark: "#2d2b27",
     borderLight: "#b8b0a2",
     borderDark: "#69645b",
+    canvasEffect: "paper-vignette",
     accentLight: "#0b5cab",
     accentDark: "#8ab4f8",
     secondaryAccentLight: "#7a5638",
@@ -191,6 +195,8 @@ export function isThemeDraft(value: unknown): value is ThemeDraft {
       draft.borderDark,
     ].every((color) => typeof color === "string" && HEX_COLOR.test(color))
     &&
+    (draft.canvasEffect === undefined ||
+      ["none", "paper-vignette"].includes(String(draft.canvasEffect))) &&
     [
       draft.accentLight,
       draft.accentDark,
@@ -212,11 +218,23 @@ export function getThemeAccents(theme: ThemeDraft) {
   };
 }
 
+export function getCanvasEffect(theme: ThemeDraft): CanvasEffect {
+  if (theme.canvasEffect) return theme.canvasEffect;
+  if (
+    theme.presetId === "aged-paper" ||
+    theme.canvasLight.toLowerCase() === "#f9f6f0"
+  ) {
+    return "paper-vignette";
+  }
+  return "none";
+}
+
 export function normalizeThemeDraft(theme: ThemeDraft): ThemeDraft {
   const deprecatedMutedCharcoal = "#455d73";
   return {
     ...theme,
     spectrumBackground: "base",
+    canvasEffect: getCanvasEffect(theme),
     focusColor:
       theme.focusColor.toLowerCase() === deprecatedMutedCharcoal
         ? "#1473e6"
@@ -259,6 +277,7 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
       "--site-accent-secondary",
     ].forEach((property) => root.style.removeProperty(property));
     root.removeAttribute("data-theme-preset");
+    root.removeAttribute("data-canvas-effect");
     window.dispatchEvent(
       new CustomEvent(SITE_THEME_EVENT, { detail: { spectrumBackground: "base" } }),
     );
@@ -267,6 +286,7 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
 
   root.dataset.customTheme = "active";
   root.dataset.themePreset = theme.presetId;
+  root.dataset.canvasEffect = getCanvasEffect(theme);
   const typeScale = getTypeScale(theme);
   root.style.setProperty("--site-h1-size", typeScale.h1);
   root.style.setProperty("--site-h2-size", typeScale.h2);

@@ -18,10 +18,12 @@ import {
   TYPE_SCALE_DEFAULTS,
   applyThemeToSite,
   getThemeAccents,
+  getCanvasEffect,
   getTypeScale,
   isThemeDraft,
   normalizeThemeDraft,
   type EyebrowScale,
+  type CanvasEffect,
   type HeadingScale,
   type SpacingScale,
   type ThemeDraft,
@@ -120,6 +122,7 @@ export function ThemeLab() {
   const themeIsValid = isThemeDraft(theme);
   const typeScale = getTypeScale(theme);
   const accents = getThemeAccents(theme);
+  const canvasEffect = getCanvasEffect(theme);
   const accentLightContrast = contrastRatio(accents.accentLight, theme.canvasLight);
   const accentDarkContrast = contrastRatio(accents.accentDark, theme.canvasDark);
   const secondaryLightContrast = contrastRatio(
@@ -313,21 +316,32 @@ export function ThemeLab() {
           ))}
         </Picker>
 
-        <Accordion>
-          <AccordionItem id="surface-colors">
-            <AccordionItemTitle level={3}>Canvas and surface colors</AccordionItemTitle>
+        <Accordion defaultExpandedKeys={["background-colors"]}>
+          <AccordionItem id="background-colors">
+            <AccordionItemTitle level={3}>Background and surface colors</AccordionItemTitle>
             <AccordionItemPanel>
               <div className="theme-color-grid">
-                <TextField label="Light canvas" value={theme.canvasLight} onChange={(value) => update("canvasLight", value)} />
+                <TextField label="Light page background" value={theme.canvasLight} onChange={(value) => update("canvasLight", value)} />
                 <TextField label="Light text" value={theme.textLight} onChange={(value) => update("textLight", value)} />
                 <TextField label="Light raised surface" value={theme.surfaceLight} onChange={(value) => update("surfaceLight", value)} />
                 <TextField label="Light border" value={theme.borderLight} onChange={(value) => update("borderLight", value)} />
-                <TextField label="Dark canvas" value={theme.canvasDark} onChange={(value) => update("canvasDark", value)} />
+                <TextField label="Dark page background" value={theme.canvasDark} onChange={(value) => update("canvasDark", value)} />
                 <TextField label="Dark text" value={theme.textDark} onChange={(value) => update("textDark", value)} />
                 <TextField label="Dark raised surface" value={theme.surfaceDark} onChange={(value) => update("surfaceDark", value)} />
                 <TextField label="Dark border" value={theme.borderDark} onChange={(value) => update("borderDark", value)} />
               </div>
               <p>Use six-digit hexadecimal colors. Both light and dark appearances are validated.</p>
+              <Picker
+                label="Canvas edge treatment"
+                selectedKey={canvasEffect}
+                onSelectionChange={(key) =>
+                  update("canvasEffect", String(key) as CanvasEffect)
+                }
+                description="A subtle viewport-edge treatment; it does not alter content surfaces."
+              >
+                <PickerItem id="none">None</PickerItem>
+                <PickerItem id="paper-vignette">Soft paper vignette</PickerItem>
+              </Picker>
             </AccordionItemPanel>
           </AccordionItem>
           <AccordionItem id="accent-colors">
@@ -492,6 +506,7 @@ export function ThemeLab() {
       <section
         className="theme-preview"
         style={previewStyle}
+        data-canvas-effect={canvasEffect}
         aria-labelledby="theme-preview-heading"
       >
         <div className="theme-preview-intro">

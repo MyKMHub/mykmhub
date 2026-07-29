@@ -118,6 +118,19 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
   const themePreset = page.getByRole("button", { name: "Theme preset" });
   await themePreset.click();
   await page.getByRole("option", { name: "Aged Paper" }).click();
+  await expect(page.getByRole("textbox", { name: "Light page background" })).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "Dark page background" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Canvas edge treatment" }),
+  ).toContainText("Soft paper vignette");
+  await expect(page.locator(".theme-preview")).toHaveAttribute(
+    "data-canvas-effect",
+    "paper-vignette",
+  );
+  await expect(page.locator(".theme-preview")).toHaveCSS(
+    "background-image",
+    /radial-gradient/,
+  );
   await expect(page.getByRole("button", { name: "Focus color" })).toContainText(
     "Spectrum blue",
   );
@@ -139,6 +152,14 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
   );
   await appearance.click();
   await page.getByRole("option", { name: "Light" }).click();
+  await page
+    .getByRole("textbox", { name: "Light page background" })
+    .fill("#f8f5ef");
+  await expect(themePreset).toContainText("Modified draft");
+  await expect(page.locator(".theme-preview")).toHaveAttribute(
+    "data-canvas-effect",
+    "paper-vignette",
+  );
   await themePreset.click();
   await page.getByRole("option", { name: "Spectrum default" }).click();
 
