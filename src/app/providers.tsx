@@ -10,8 +10,10 @@ import {
 } from "@/components/accessibility/preferences-context";
 import {
   ACTIVE_THEME_STORAGE_KEY,
+  SITE_THEME_EVENT,
   applyThemeToSite,
   isThemeDraft,
+  type SpectrumBackground,
 } from "@/components/design-system/theme-settings";
 
 export function Providers({
@@ -24,18 +26,24 @@ export function Providers({
   const [systemColorScheme, setSystemColorScheme] =
     useState<Exclude<ColorPreference, "system">>("light");
   const [isHydrated, setIsHydrated] = useState(false);
+  const [spectrumBackground, setSpectrumBackground] =
+    useState<SpectrumBackground>("base");
 
   useEffect(() => {
     const colorQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const saved = window.localStorage.getItem("mykmhub-accessibility-preferences");
     const savedTheme = window.localStorage.getItem(ACTIVE_THEME_STORAGE_KEY);
+    let savedSpectrumBackground: SpectrumBackground = "base";
     let isActive = true;
 
     if (savedTheme) {
       try {
         const parsed: unknown = JSON.parse(savedTheme);
-        if (isThemeDraft(parsed)) applyThemeToSite(parsed);
+        if (isThemeDraft(parsed)) {
+          savedSpectrumBackground = parsed.spectrumBackground;
+          applyThemeToSite(parsed);
+        }
       } catch {
         window.localStorage.removeItem(ACTIVE_THEME_STORAGE_KEY);
       }
@@ -47,6 +55,7 @@ export function Providers({
       }
 
       setSystemColorScheme(colorQuery.matches ? "dark" : "light");
+      setSpectrumBackground(savedSpectrumBackground);
 
       if (saved) {
         try {
@@ -74,6 +83,17 @@ export function Providers({
       isActive = false;
       colorQuery.removeEventListener("change", updateColorScheme);
     };
+  }, []);
+
+  useEffect(() => {
+    const updateTheme = (event: Event) => {
+      const detail = (event as CustomEvent<{ spectrumBackground?: SpectrumBackground }>).detail;
+      if (detail?.spectrumBackground) {
+        setSpectrumBackground(detail.spectrumBackground);
+      }
+    };
+    window.addEventListener(SITE_THEME_EVENT, updateTheme);
+    return () => window.removeEventListener(SITE_THEME_EVENT, updateTheme);
   }, []);
 
   useEffect(() => {
@@ -106,7 +126,7 @@ export function Providers({
     <AccessibilityPreferencesContext.Provider
       value={{ preferences, setPreferences }}
     >
-      <Provider locale="en-US" background="base" colorScheme={colorScheme}>
+      <Provider locale="en-US" background={spectrumBackground} colorScheme={colorScheme}>
         {children}
       </Provider>
     </AccessibilityPreferencesContext.Provider>

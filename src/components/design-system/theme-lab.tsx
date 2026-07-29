@@ -15,26 +15,19 @@ import {
   EYEBROW_STYLES,
   FOCUS_COLORS,
   HEADING_SIZES,
+  THEME_PRESETS,
   applyThemeToSite,
   isThemeDraft,
   type EyebrowScale,
   type HeadingScale,
   type SpacingScale,
+  type SpectrumBackground,
   type ThemeDraft,
 } from "./theme-settings";
 
 const STORAGE_KEY = "mykmhub-theme-lab-draft";
 
-const DEFAULT_THEME: ThemeDraft = {
-  headingScale: "balanced",
-  eyebrowScale: "balanced",
-  bodyLineHeight: 1.65,
-  focusColor: "#1473e6",
-  focusWidth: 3,
-  focusOffset: 3,
-  cornerRadius: 12,
-  spacingScale: "comfortable",
-};
+const DEFAULT_THEME: ThemeDraft = THEME_PRESETS.spectrum;
 
 const PREVIEW_GAPS: Record<SpacingScale, string> = {
   compact: "1rem",
@@ -89,9 +82,13 @@ export function ThemeLab() {
   }, []);
 
   const serialized = useMemo(() => JSON.stringify(theme, null, 2), [theme]);
-  const lightContrast = contrastRatio(theme.focusColor, "#ffffff");
-  const darkContrast = contrastRatio(theme.focusColor, "#1d1d1d");
+  const lightContrast = contrastRatio(theme.focusColor, theme.canvasLight);
+  const darkContrast = contrastRatio(theme.focusColor, theme.canvasDark);
+  const lightTextContrast = contrastRatio(theme.textLight, theme.canvasLight);
+  const darkTextContrast = contrastRatio(theme.textDark, theme.canvasDark);
   const focusPasses = lightContrast >= 3 && darkContrast >= 3;
+  const textPasses = lightTextContrast >= 4.5 && darkTextContrast >= 4.5;
+  const themeIsValid = isThemeDraft(theme);
   const previewStyle = {
     "--lab-h1-size": HEADING_SIZES[theme.headingScale],
     "--lab-eyebrow-size": EYEBROW_STYLES[theme.eyebrowScale].size,
@@ -102,11 +99,20 @@ export function ThemeLab() {
     "--lab-focus-offset": `${theme.focusOffset}px`,
     "--lab-radius": `${theme.cornerRadius}px`,
     "--lab-section-gap": PREVIEW_GAPS[theme.spacingScale],
+    "--lab-canvas": theme.canvasLight,
+    "--lab-text": theme.textLight,
+    "--lab-surface": theme.surfaceLight,
+    "--lab-border": theme.borderLight,
   } as CSSProperties;
 
   function update<Key extends keyof ThemeDraft>(key: Key, value: ThemeDraft[Key]) {
-    setTheme((current) => ({ ...current, [key]: value }));
+    setTheme((current) => ({ ...current, [key]: value, presetId: "custom" }));
     setStatus("Preview updated. This draft has not changed the live site.");
+  }
+
+  function selectPreset(id: "spectrum" | "aged-paper") {
+    setTheme({ ...THEME_PRESETS[id] });
+    setStatus(`${id === "aged-paper" ? "Aged Paper" : "Spectrum default"} preset loaded in the preview.`);
   }
 
   function saveDraft() {
@@ -115,8 +121,8 @@ export function ThemeLab() {
   }
 
   function applyToSite() {
-    if (!focusPasses) {
-      setStatus("Resolve the focus contrast warning before applying this theme.");
+    if (!themeIsValid || !focusPasses || !textPasses) {
+      setStatus("Resolve invalid color values or contrast warnings before applying this theme.");
       return;
     }
     localStorage.setItem(ACTIVE_THEME_STORAGE_KEY, serialized);
@@ -164,10 +170,35 @@ export function ThemeLab() {
     <div className="theme-lab-layout">
       <section className="theme-lab-controls" aria-labelledby="theme-controls-heading">
         <div>
-          <p className="eyebrow">Draft controls</p>
-          <h2 id="theme-controls-heading">Validated token adjustments</h2>
-          <p>Controls are constrained to keep experiments reviewable and accessible.</p>
+          <p className="eyebrow">Theme controls</p>
+          <h2 id="theme-controls-heading">Presets and guarded tokens</h2>
+          <p>Select a foundation, then modify it. Changes remain a preview until applied.</p>
         </div>
+
+        <Picker
+          label="Theme preset"
+          selectedKey={theme.presetId}
+          onSelectionChange={(key) => {
+            if (key === "spectrum" || key === "aged-paper") selectPreset(key);
+          }}
+        >
+          <PickerItem id="spectrum">Spectrum default</PickerItem>
+          <PickerItem id="aged-paper">Aged Paper</PickerItem>
+          {theme.presetId === "custom" ? <PickerItem id="custom">Modified draft</PickerItem> : null}
+        </Picker>
+
+        <Picker
+          label="Spectrum background level"
+          selectedKey={theme.spectrumBackground}
+          onSelectionChange={(key) =>
+            update("spectrumBackground", String(key) as SpectrumBackground)
+          }
+          description="Native Spectrum semantic surface used by Spectrum components."
+        >
+          <PickerItem id="base">Base</PickerItem>
+          <PickerItem id="layer-1">Layer 1</PickerItem>
+          <PickerItem id="layer-2">Layer 2</PickerItem>
+        </Picker>
 
         <Picker
           label="Heading scale"
@@ -207,6 +238,25 @@ export function ThemeLab() {
             <PickerItem id={color.id} key={color.id}>{color.label} · {color.id}</PickerItem>
           ))}
         </Picker>
+
+        <Accordion>
+          <AccordionItem id="surface-colors">
+            <AccordionItemTitle level={3}>Canvas and surface colors</AccordionItemTitle>
+            <AccordionItemPanel>
+              <div className="theme-color-grid">
+                <TextField label="Light canvas" value={theme.canvasLight} onChange={(value) => update("canvasLight", value)} />
+                <TextField label="Light text" value={theme.textLight} onChange={(value) => update("textLight", value)} />
+                <TextField label="Light raised surface" value={theme.surfaceLight} onChange={(value) => update("surfaceLight", value)} />
+                <TextField label="Light border" value={theme.borderLight} onChange={(value) => update("borderLight", value)} />
+                <TextField label="Dark canvas" value={theme.canvasDark} onChange={(value) => update("canvasDark", value)} />
+                <TextField label="Dark text" value={theme.textDark} onChange={(value) => update("textDark", value)} />
+                <TextField label="Dark raised surface" value={theme.surfaceDark} onChange={(value) => update("surfaceDark", value)} />
+                <TextField label="Dark border" value={theme.borderDark} onChange={(value) => update("borderDark", value)} />
+              </div>
+              <p>Use six-digit hexadecimal colors. Both light and dark appearances are validated.</p>
+            </AccordionItemPanel>
+          </AccordionItem>
+        </Accordion>
 
         <Slider
           label="Focus width"
@@ -250,6 +300,13 @@ export function ThemeLab() {
           </p>
           <p>{focusPasses ? "Passes the 3:1 preview guardrail." : "Choose another focus color before proposing this theme."}</p>
         </div>
+        <div className={`theme-validation ${textPasses ? "theme-validation-pass" : "theme-validation-fail"}`}>
+          <h3>Text contrast check</h3>
+          <p>
+            Light: {lightTextContrast.toFixed(2)}:1 · Dark: {darkTextContrast.toFixed(2)}:1
+          </p>
+          <p>{textPasses ? "Passes the 4.5:1 normal-text guardrail." : "Adjust canvas or text colors before applying this theme."}</p>
+        </div>
 
         <div className="tool-actions">
           <Button variant="accent" onPress={applyToSite}>Apply to site</Button>
@@ -259,6 +316,7 @@ export function ThemeLab() {
         </div>
         <div className="theme-application-status">
           <p><strong>Site theme:</strong> {isAppliedToSite ? "Custom browser theme active" : "MyKMHub default"}</p>
+          {isAppliedToSite ? <p><strong>Preview foundation:</strong> {theme.presetId === "custom" ? "Modified draft" : theme.presetId}</p> : null}
           <Button variant="secondary" onPress={restoreSiteDefault}>Restore site default</Button>
         </div>
 
@@ -341,6 +399,7 @@ export function ThemeLab() {
               <thead><tr><th scope="col">Token</th><th scope="col">Current preview</th><th scope="col">Status</th></tr></thead>
               <tbody>
                 <tr><th scope="row">Heading scale</th><td>{theme.headingScale}</td><td>Draft</td></tr>
+                <tr><th scope="row">Preset</th><td>{theme.presetId}</td><td>Draft</td></tr>
                 <tr><th scope="row">Focus width</th><td>{theme.focusWidth}px</td><td>{focusPasses ? "Validated" : "Review"}</td></tr>
               </tbody>
             </table>

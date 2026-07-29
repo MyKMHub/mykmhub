@@ -135,7 +135,7 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
     page.evaluate(() => document.documentElement.dataset.customTheme),
   ).toBeUndefined();
 
-  await page.getByRole("button", { name: "Reset" }).click();
+  await page.getByRole("button", { name: "Reset", exact: true }).click();
   await expect(headingScale).toContainText("Balanced · 3.75rem maximum");
 });
 

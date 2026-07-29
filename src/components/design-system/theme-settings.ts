@@ -1,8 +1,12 @@
 export type HeadingScale = "compact" | "balanced" | "display";
 export type EyebrowScale = "quiet" | "balanced" | "prominent";
 export type SpacingScale = "compact" | "comfortable" | "spacious";
+export type ThemePresetId = "spectrum" | "aged-paper" | "custom";
+export type SpectrumBackground = "base" | "layer-1" | "layer-2";
 
 export interface ThemeDraft {
+  presetId: ThemePresetId;
+  spectrumBackground: SpectrumBackground;
   headingScale: HeadingScale;
   eyebrowScale: EyebrowScale;
   bodyLineHeight: number;
@@ -11,9 +15,18 @@ export interface ThemeDraft {
   focusOffset: number;
   cornerRadius: number;
   spacingScale: SpacingScale;
+  canvasLight: string;
+  canvasDark: string;
+  textLight: string;
+  textDark: string;
+  surfaceLight: string;
+  surfaceDark: string;
+  borderLight: string;
+  borderDark: string;
 }
 
 export const ACTIVE_THEME_STORAGE_KEY = "mykmhub-active-site-theme";
+export const SITE_THEME_EVENT = "mykmhub-site-theme-change";
 
 export const HEADING_SIZES: Record<HeadingScale, string> = {
   compact: "clamp(2rem, 4vw, 3rem)",
@@ -38,21 +51,70 @@ export const SECTION_GAPS: Record<SpacingScale, string> = {
 
 export const FOCUS_COLORS = [
   { id: "#1473e6", label: "Spectrum blue" },
+  { id: "#455d73", label: "Muted charcoal blue" },
   { id: "#5258e4", label: "Indigo" },
   { id: "#b130bd", label: "Purple" },
   { id: "#007a63", label: "Deep seafoam" },
 ] as const;
 
+export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft> = {
+  spectrum: {
+    presetId: "spectrum",
+    spectrumBackground: "base",
+    headingScale: "balanced",
+    eyebrowScale: "balanced",
+    bodyLineHeight: 1.65,
+    focusColor: "#1473e6",
+    focusWidth: 3,
+    focusOffset: 3,
+    cornerRadius: 12,
+    spacingScale: "comfortable",
+    canvasLight: "#ffffff",
+    canvasDark: "#1d1d1d",
+    textLight: "#1d1d1d",
+    textDark: "#f5f5f5",
+    surfaceLight: "#ffffff",
+    surfaceDark: "#252525",
+    borderLight: "#c7c7c7",
+    borderDark: "#5a5a5a",
+  },
+  "aged-paper": {
+    presetId: "aged-paper",
+    spectrumBackground: "base",
+    headingScale: "compact",
+    eyebrowScale: "prominent",
+    bodyLineHeight: 1.65,
+    focusColor: "#455d73",
+    focusWidth: 3,
+    focusOffset: 3,
+    cornerRadius: 10,
+    spacingScale: "compact",
+    canvasLight: "#f9f6f0",
+    canvasDark: "#242320",
+    textLight: "#252523",
+    textDark: "#f3eee4",
+    surfaceLight: "#fdfbf7",
+    surfaceDark: "#2d2b27",
+    borderLight: "#b8b0a2",
+    borderDark: "#69645b",
+  },
+};
+
+const HEX_COLOR = /^#[0-9a-f]{6}$/i;
+
 export function isThemeDraft(value: unknown): value is ThemeDraft {
   if (!value || typeof value !== "object") return false;
   const draft = value as Partial<ThemeDraft>;
   return (
+    ["spectrum", "aged-paper", "custom"].includes(String(draft.presetId)) &&
+    ["base", "layer-1", "layer-2"].includes(String(draft.spectrumBackground)) &&
     ["compact", "balanced", "display"].includes(String(draft.headingScale)) &&
     ["quiet", "balanced", "prominent"].includes(String(draft.eyebrowScale)) &&
     typeof draft.bodyLineHeight === "number" &&
     draft.bodyLineHeight >= 1.5 &&
     draft.bodyLineHeight <= 1.8 &&
-    FOCUS_COLORS.some((color) => color.id === draft.focusColor) &&
+    typeof draft.focusColor === "string" &&
+    HEX_COLOR.test(draft.focusColor) &&
     typeof draft.focusWidth === "number" &&
     draft.focusWidth >= 2 &&
     draft.focusWidth <= 4 &&
@@ -62,7 +124,17 @@ export function isThemeDraft(value: unknown): value is ThemeDraft {
     typeof draft.cornerRadius === "number" &&
     draft.cornerRadius >= 4 &&
     draft.cornerRadius <= 20 &&
-    ["compact", "comfortable", "spacious"].includes(String(draft.spacingScale))
+    ["compact", "comfortable", "spacious"].includes(String(draft.spacingScale)) &&
+    [
+      draft.canvasLight,
+      draft.canvasDark,
+      draft.textLight,
+      draft.textDark,
+      draft.surfaceLight,
+      draft.surfaceDark,
+      draft.borderLight,
+      draft.borderDark,
+    ].every((color) => typeof color === "string" && HEX_COLOR.test(color))
   );
 }
 
@@ -80,11 +152,20 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
       "--site-focus-offset",
       "--site-radius",
       "--site-content-gap",
+      "--site-canvas",
+      "--site-text",
+      "--site-surface",
+      "--site-border-color",
     ].forEach((property) => root.style.removeProperty(property));
+    root.removeAttribute("data-theme-preset");
+    window.dispatchEvent(
+      new CustomEvent(SITE_THEME_EVENT, { detail: { spectrumBackground: "base" } }),
+    );
     return;
   }
 
   root.dataset.customTheme = "active";
+  root.dataset.themePreset = theme.presetId;
   root.style.setProperty("--site-h1-size", HEADING_SIZES[theme.headingScale]);
   root.style.setProperty(
     "--site-eyebrow-size",
@@ -100,4 +181,25 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
   root.style.setProperty("--site-focus-offset", `${theme.focusOffset}px`);
   root.style.setProperty("--site-radius", `${theme.cornerRadius}px`);
   root.style.setProperty("--site-content-gap", SECTION_GAPS[theme.spacingScale]);
+  root.style.setProperty(
+    "--site-canvas",
+    `light-dark(${theme.canvasLight}, ${theme.canvasDark})`,
+  );
+  root.style.setProperty(
+    "--site-text",
+    `light-dark(${theme.textLight}, ${theme.textDark})`,
+  );
+  root.style.setProperty(
+    "--site-surface",
+    `light-dark(${theme.surfaceLight}, ${theme.surfaceDark})`,
+  );
+  root.style.setProperty(
+    "--site-border-color",
+    `light-dark(${theme.borderLight}, ${theme.borderDark})`,
+  );
+  window.dispatchEvent(
+    new CustomEvent(SITE_THEME_EVENT, {
+      detail: { spectrumBackground: theme.spectrumBackground },
+    }),
+  );
 }

@@ -16,6 +16,10 @@
   --site-focus-offset: 3px;
   --site-radius: 0.75rem;
   --site-content-gap: clamp(2rem, 5vw, 4rem);
+  --site-canvas: Canvas;
+  --site-text: CanvasText;
+  --site-surface: Canvas;
+  --site-border-color: color-mix(in srgb, currentColor 18%, transparent);
 }
 
 html {
@@ -40,8 +44,8 @@ body {
   min-width: 20rem;
   min-height: 100vh;
   font-family: var(--reading-font);
-  color: CanvasText;
-  background: Canvas;
+  color: var(--site-text);
+  background: var(--site-canvas);
   line-height: var(--site-body-line-height);
 }
 
@@ -77,7 +81,12 @@ html[data-links="underlined"] a {
 }
 
 .site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--site-canvas) 88%, transparent);
   border-block-end: 1px solid var(--surface-border);
+  backdrop-filter: blur(8px);
 }
 
 .header-inner,
@@ -617,6 +626,47 @@ html[data-custom-theme="active"] .main-content :is(p, li, dd) {
   line-height: var(--site-body-line-height);
 }
 
+html[data-custom-theme="active"] {
+  --surface-border: var(--site-border-color);
+  --surface-subtle: color-mix(in srgb, var(--site-text) 5%, transparent);
+}
+
+html[data-custom-theme="active"] body {
+  color: var(--site-text);
+  background-color: var(--site-canvas);
+}
+
+html[data-custom-theme="active"] :is(
+  .preferences-panel,
+  .status-note,
+  .privacy-notice,
+  .portfolio-card,
+  .tool-card,
+  .provider-setup,
+  .design-system-card,
+  .theme-lab-controls,
+  .theme-preview,
+  .lab-section,
+  .not-found-panel
+) {
+  background-color: var(--site-surface);
+  border-color: var(--site-border-color);
+}
+
+html[data-theme-preset="aged-paper"] body {
+  background-image: radial-gradient(
+    ellipse at center,
+    transparent 72%,
+    color-mix(in srgb, var(--site-border-color) 22%, transparent) 100%
+  );
+  background-attachment: fixed;
+}
+
+html[data-theme-preset="aged-paper"] .site-header {
+  border-block-end-color: color-mix(in srgb, var(--site-text) 20%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--site-canvas) 65%, transparent);
+}
+
 html[data-custom-theme="active"] :focus-visible {
   outline: var(--site-focus-width) solid var(--site-focus-color) !important;
   outline-offset: var(--site-focus-offset) !important;
@@ -648,10 +698,35 @@ html[data-custom-theme="active"] :is(
   --lab-focus-offset: 3px;
   --lab-radius: 12px;
   --lab-section-gap: 1.5rem;
+  --lab-canvas: #ffffff;
+  --lab-text: #1d1d1d;
+  --lab-surface: #ffffff;
+  --lab-border: #c7c7c7;
   display: grid;
   gap: var(--lab-section-gap);
   padding: clamp(1rem, 3vw, 2rem);
   border-radius: var(--lab-radius);
+  color: var(--lab-text);
+  background: var(--lab-canvas);
+  border-color: var(--lab-border);
+}
+
+.theme-preview .lab-section {
+  background: var(--lab-surface);
+  border-color: var(--lab-border);
+}
+
+.theme-color-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header {
+    background: var(--site-canvas);
+    backdrop-filter: none;
+  }
 }
 
 .theme-preview :focus-visible {
