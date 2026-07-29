@@ -215,6 +215,11 @@ export function AccessibleFormGenerator() {
     required,
     characterLimit,
   });
+  const generatedJavaScript = buildGeneratedJavaScript({
+    component,
+    fieldId,
+    characterLimit,
+  });
   const instructions = buildInstructions({
     component,
     definition,
@@ -430,6 +435,24 @@ export function AccessibleFormGenerator() {
               Copy HTML
             </Button>
           </section>
+
+          <section className="generator-step" aria-labelledby="generator-js-heading">
+            <div>
+              <p className="eyebrow">Step 6</p>
+              <h2 id="generator-js-heading">Generated component JavaScript</h2>
+            </div>
+            <TextArea
+              label="Generated JavaScript"
+              value={generatedJavaScript}
+              onChange={() => undefined}
+            />
+            <Button
+              variant="secondary"
+              onPress={() => copy(generatedJavaScript, "JavaScript")}
+            >
+              Copy JavaScript
+            </Button>
+          </section>
         </>
       )}
     </div>
@@ -641,7 +664,8 @@ function buildGeneratedHtml(options: GenerationOptions) {
 
   let control = "";
   if (options.component === "textarea") {
-    control = `<label for="${options.fieldId}">${visibleLabel}</label>\n<textarea id="${options.fieldId}" name="${options.fieldId}" maxlength="${Number(options.characterLimit) || 500}"${required}${describedBy}></textarea>`;
+    const limit = Number(options.characterLimit) || 500;
+    control = `<label for="${options.fieldId}">${visibleLabel}</label>\n<textarea id="${options.fieldId}" name="${options.fieldId}" maxlength="${limit}"${required}${describedBy}></textarea>\n<p id="${options.fieldId}-counter" role="status" aria-live="polite">${limit} characters remaining</p>`;
   } else if (options.component === "radio" || options.component === "checkboxes") {
     control = `<fieldset>\n  <legend>${visibleLabel}</legend>\n${options.options
       .map(
@@ -651,6 +675,14 @@ function buildGeneratedHtml(options: GenerationOptions) {
       .join("\n")}\n</fieldset>`;
   } else if (options.component === "select") {
     control = `<label for="${options.fieldId}">${visibleLabel}</label>\n<select id="${options.fieldId}" name="${options.fieldId}"${required}${describedBy}>\n  <option value="">Choose an option</option>\n${options.options.map((option) => `  <option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join("\n")}\n</select>`;
+  } else if (options.component === "combobox") {
+    control = `<label for="${options.fieldId}">${visibleLabel}</label>\n<input id="${options.fieldId}" name="${options.fieldId}" type="text" list="${options.fieldId}-options"${options.placeholder ? ` placeholder="${escapeHtml(options.placeholder)}"` : ""}${required}${describedBy}>\n<datalist id="${options.fieldId}-options">\n${options.options.map((option) => `  <option value="${escapeHtml(option)}"></option>`).join("\n")}\n</datalist>`;
+  } else if (options.component === "password") {
+    control = `<label for="${options.fieldId}">${visibleLabel}</label>\n<input id="${options.fieldId}" name="${options.fieldId}" type="password" autocomplete="new-password"${required}${describedBy}>\n<label for="${options.fieldId}-confirm">Confirm ${escapeHtml(options.label)}</label>\n<input id="${options.fieldId}-confirm" name="${options.fieldId}-confirm" type="password" autocomplete="new-password"${required}>`;
+  } else if (options.component === "range") {
+    control = `<label for="${options.fieldId}">${visibleLabel}</label>\n<input id="${options.fieldId}" name="${options.fieldId}" type="range" min="0" max="100" value="50"${describedBy}>\n<output id="${options.fieldId}-output" for="${options.fieldId}">50</output>`;
+  } else if (options.component === "file") {
+    control = `<label for="${options.fieldId}">${visibleLabel}</label>\n<input id="${options.fieldId}" name="${options.fieldId}" type="file"${required}${describedBy}>`;
   } else if (options.component === "switch") {
     control = `<button id="${options.fieldId}" type="button" role="switch" aria-checked="false">${escapeHtml(options.label)}: Off</button>`;
   } else if (options.component === "consent") {
@@ -659,6 +691,69 @@ function buildGeneratedHtml(options: GenerationOptions) {
     control = `<label for="${options.fieldId}">${visibleLabel}</label>\n<input id="${options.fieldId}" name="${options.fieldId}" type="${componentInputType(options.component)}"${options.placeholder ? ` placeholder="${escapeHtml(options.placeholder)}"` : ""}${required}${describedBy}>`;
   }
   return `${control}${hint}${info}`;
+}
+
+function buildGeneratedJavaScript({
+  component,
+  fieldId,
+  characterLimit,
+}: {
+  component: ComponentType;
+  fieldId: string;
+  characterLimit: string;
+}) {
+  if (component === "switch") {
+    return `const control = document.getElementById("${fieldId}");
+
+control.addEventListener("click", () => {
+  const nextState = control.getAttribute("aria-checked") !== "true";
+  control.setAttribute("aria-checked", String(nextState));
+  control.textContent = nextState ? "On" : "Off";
+});`;
+  }
+
+  if (component === "textarea") {
+    const limit = Number(characterLimit) || 500;
+    return `const field = document.getElementById("${fieldId}");
+const counter = document.getElementById("${fieldId}-counter");
+const characterLimit = ${limit};
+
+function updateCharacterCount() {
+  const remaining = characterLimit - field.value.length;
+  counter.textContent = \`\${remaining} characters remaining\`;
+}
+
+field.addEventListener("input", updateCharacterCount);
+updateCharacterCount();`;
+  }
+
+  if (component === "range") {
+    return `const field = document.getElementById("${fieldId}");
+const output = document.getElementById("${fieldId}-output");
+
+field.addEventListener("input", () => {
+  output.value = field.value;
+});`;
+  }
+
+  if (component === "password") {
+    return `const password = document.getElementById("${fieldId}");
+const confirmation = document.getElementById("${fieldId}-confirm");
+
+function validatePasswordConfirmation() {
+  confirmation.setCustomValidity(
+    confirmation.value && confirmation.value !== password.value
+      ? "Passwords must match."
+      : ""
+  );
+}
+
+password.addEventListener("input", validatePasswordConfirmation);
+confirmation.addEventListener("input", validatePasswordConfirmation);`;
+  }
+
+  return `// No component-specific JavaScript is required.
+// This pattern uses native HTML behavior.`;
 }
 
 function buildInstructions({
@@ -692,7 +787,7 @@ ${hasInfo ? "5. Keep additional instructions optional and user-controlled." : ""
 
 Accessibility requirements
 1. Bind the visible label to its control using for and id, or use fieldset and legend for a group.
-2. Expose the required state programmatically; keep the visible asterisk out of the accessible name.
+2. ${required ? "Expose the required state programmatically; keep the visible asterisk out of the accessible name." : "Do not add required, aria-required, or a required indicator unless the field is actually required."}
 3. Associate hint and error text with aria-describedby.
 4. Set aria-invalid when an error is present.
 5. Move focus to the first invalid field only after submit.

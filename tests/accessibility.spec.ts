@@ -173,6 +173,61 @@ test("accessible form generator creates a preview and semantic output", async ({
   expect(results.violations).toEqual([]);
 });
 
+test("form generator omits required markup and wording when Required is off", async ({
+  page,
+}) => {
+  await page.goto("/tools/accessible-form-requirements-generator");
+  await page.getByRole("switch", { name: "Required" }).press("Space");
+  await page.getByRole("button", { name: "Generate pattern" }).click();
+
+  const instructions = page.getByRole("textbox", {
+    name: "Generated instruction set",
+  });
+  const html = page.getByRole("textbox", { name: "Generated HTML" });
+  await expect(instructions).toContainText(
+    "Do not add required, aria-required, or a required indicator",
+  );
+  await expect(instructions).not.toContainText("(required)");
+  await expect(html).not.toContainText(" required");
+});
+
+test("form generator populates combobox suggestions in preview and copied HTML", async ({
+  page,
+}) => {
+  await page.goto("/tools/accessible-form-requirements-generator");
+  await page
+    .getByRole("button", { name: "Text input Form component" })
+    .click();
+  await page
+    .getByRole("option", { name: "Combobox or autocomplete" })
+    .click();
+  await page.getByRole("button", { name: "Generate pattern" }).click();
+
+  await expect(page.locator("datalist option")).toHaveCount(3);
+  const html = page.getByRole("textbox", { name: "Generated HTML" });
+  await expect(html).toContainText('list="generated-combobox-options"');
+  await expect(html).toContainText('<option value="Email"></option>');
+});
+
+test("form generator exports JavaScript that matches an interactive switch", async ({
+  page,
+}) => {
+  await page.goto("/tools/accessible-form-requirements-generator");
+  await page
+    .getByRole("button", { name: "Text input Form component" })
+    .click();
+  await page.getByRole("option", { name: "Switch or toggle" }).click();
+  await page.getByRole("button", { name: "Generate pattern" }).click();
+
+  const javascript = page.getByRole("textbox", {
+    name: "Generated JavaScript",
+  });
+  await expect(javascript).toContainText('setAttribute("aria-checked"');
+  await expect(javascript).toContainText(
+    'control.textContent = nextState ? "On" : "Off"',
+  );
+});
+
 test("portfolio project facts use a compact label and value layout", async ({
   page,
 }) => {

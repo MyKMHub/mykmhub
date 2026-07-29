@@ -15,7 +15,7 @@ export const ACCESSIBLE_FORM_GENERATOR_TOOL = {
   operationalStatus: "limited",
   statusLabel: "Working beta",
   statusNote:
-    "The core generator and 17 component patterns work. Generated guidance still requires product-specific review, and advanced scripted behaviors are not yet exported.",
+    "The core generator and 17 component patterns work. Generated guidance still requires product-specific review; styling and design-token export remain future work.",
   lastVerified: "2026-07-28",
   accessibilityNotes: [
     "Spectrum 2 controls are used for generator configuration.",
@@ -39,6 +39,7 @@ export const ACCESSIBLE_FORM_GENERATOR_TOOL = {
         "Ported the supplied prototype into React and Spectrum 2.",
         "Added 17 configurable form-component patterns.",
         "Added live semantic previews and HTML generation.",
+        "Added matching component-specific JavaScript for interactive preview behavior.",
         "Added normalized UX, accessibility, development, and test guidance.",
       ],
     },
