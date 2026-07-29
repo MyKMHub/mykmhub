@@ -131,6 +131,21 @@ test("portfolio lists both perspectives on the Navy modernization effort", async
   ).toBeVisible();
 });
 
+test("portfolio orders case studies from newest to oldest", async ({ page }) => {
+  await page.goto("/portfolio");
+  const titles = await page.locator(".portfolio-card h2").allTextContents();
+  expect(titles).toEqual([
+    "AI Image Creation Wizard",
+    "Navy KPI Dashboard",
+    "Accessible Form Component & UX Requirements Generator",
+    "Scaling Automated HCD in Navy HR Modernization",
+    "Scaling HCD Through AI: Transforming Research Synthesis into Strategic Decision Support",
+    "DOJ Application Redesign for Accessibility and Usability",
+    "March for Science Site Redesign",
+    "RAVeN Personal Knowledge Management System",
+  ]);
+});
+
 test("DOJ redesign case study preserves its three original comparison figures", async ({
   page,
 }) => {

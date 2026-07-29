@@ -60,6 +60,15 @@ const PORTFOLIO_ITEMS = [
   },
 ] as const;
 
+function mostRecentYear(year: string) {
+  const years = year.match(/\d{4}/g)?.map(Number) ?? [0];
+  return Math.max(...years);
+}
+
+const SORTED_PORTFOLIO_ITEMS = [...PORTFOLIO_ITEMS].sort(
+  (a, b) => mostRecentYear(b.study.year) - mostRecentYear(a.study.year),
+);
+
 export default function PortfolioPage() {
   return (
     <article className="content-page">
@@ -74,7 +83,7 @@ export default function PortfolioPage() {
       </header>
 
       <div className="portfolio-list">
-        {PORTFOLIO_ITEMS.map(({ study, href, cover }) => (
+        {SORTED_PORTFOLIO_ITEMS.map(({ study, href, cover }) => (
           <section
             className={`portfolio-card${cover ? "" : " portfolio-card-text"}`}
             aria-labelledby={`${study.slug}-title`}
