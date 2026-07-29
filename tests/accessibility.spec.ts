@@ -103,6 +103,14 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
     name: "Preview hierarchy without changing the site",
   })).toBeVisible();
   await expect(page.getByText("Passes the 3:1 preview guardrail.")).toBeVisible();
+  await expect(page.getByText("Persistent focus preview", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("Persistent focus style preview")).toContainText(
+    "Light canvas",
+  );
+  await expect(page.getByLabel("Persistent focus style preview")).toContainText(
+    "Dark canvas",
+  );
+  await expect(page.getByText("Passes the 4.5:1 text and link guardrail.")).toBeVisible();
 
   const headingScale = page.getByRole("button", { name: "Type scale preset" });
   await headingScale.click();

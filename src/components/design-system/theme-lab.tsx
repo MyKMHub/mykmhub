@@ -17,6 +17,7 @@ import {
   THEME_PRESETS,
   TYPE_SCALE_DEFAULTS,
   applyThemeToSite,
+  getThemeAccents,
   getTypeScale,
   isThemeDraft,
   type EyebrowScale,
@@ -62,7 +63,7 @@ function contrastRatio(first: string, second: string) {
 export function ThemeLab() {
   const [theme, setTheme] = useState<ThemeDraft>(DEFAULT_THEME);
   const [importValue, setImportValue] = useState("");
-  const [isAppliedToSite, setIsAppliedToSite] = useState(false);
+  const [isAppliedToSite, setIsAppliedToSite] = useState<boolean | null>(null);
   const [status, setStatus] = useState("Theme Lab is using the balanced preview preset.");
 
   useEffect(() => {
@@ -92,6 +93,22 @@ export function ThemeLab() {
   const textPasses = lightTextContrast >= 4.5 && darkTextContrast >= 4.5;
   const themeIsValid = isThemeDraft(theme);
   const typeScale = getTypeScale(theme);
+  const accents = getThemeAccents(theme);
+  const accentLightContrast = contrastRatio(accents.accentLight, theme.canvasLight);
+  const accentDarkContrast = contrastRatio(accents.accentDark, theme.canvasDark);
+  const secondaryLightContrast = contrastRatio(
+    accents.secondaryAccentLight,
+    theme.canvasLight,
+  );
+  const secondaryDarkContrast = contrastRatio(
+    accents.secondaryAccentDark,
+    theme.canvasDark,
+  );
+  const accentPasses =
+    accentLightContrast >= 4.5 &&
+    accentDarkContrast >= 4.5 &&
+    secondaryLightContrast >= 4.5 &&
+    secondaryDarkContrast >= 4.5;
   const previewStyle = {
     "--lab-h1-size": typeScale.h1,
     "--lab-h2-size": typeScale.h2,
@@ -111,6 +128,8 @@ export function ThemeLab() {
     "--lab-text": theme.textLight,
     "--lab-surface": theme.surfaceLight,
     "--lab-border": theme.borderLight,
+    "--lab-accent": accents.accentLight,
+    "--lab-accent-secondary": accents.secondaryAccentLight,
   } as CSSProperties;
 
   function update<Key extends keyof ThemeDraft>(key: Key, value: ThemeDraft[Key]) {
@@ -141,7 +160,7 @@ export function ThemeLab() {
   }
 
   function applyToSite() {
-    if (!themeIsValid || !focusPasses || !textPasses) {
+    if (!themeIsValid || !focusPasses || !textPasses || !accentPasses) {
       setStatus("Resolve invalid color values or contrast warnings before applying this theme.");
       return;
     }
@@ -298,6 +317,18 @@ export function ThemeLab() {
               <p>Use six-digit hexadecimal colors. Both light and dark appearances are validated.</p>
             </AccordionItemPanel>
           </AccordionItem>
+          <AccordionItem id="accent-colors">
+            <AccordionItemTitle level={3}>Accent colors</AccordionItemTitle>
+            <AccordionItemPanel>
+              <div className="theme-color-grid">
+                <TextField label="Light primary accent" value={accents.accentLight} onChange={(value) => update("accentLight", value)} />
+                <TextField label="Dark primary accent" value={accents.accentDark} onChange={(value) => update("accentDark", value)} />
+                <TextField label="Light secondary accent" value={accents.secondaryAccentLight} onChange={(value) => update("secondaryAccentLight", value)} />
+                <TextField label="Dark secondary accent" value={accents.secondaryAccentDark} onChange={(value) => update("secondaryAccentDark", value)} />
+              </div>
+              <p>Primary accents style content links. Secondary accents support restrained labels and highlights. Spectrum component colors remain Spectrum-managed.</p>
+            </AccordionItemPanel>
+          </AccordionItem>
         </Accordion>
 
         <Slider
@@ -316,6 +347,49 @@ export function ThemeLab() {
           value={theme.focusOffset}
           onChange={(value) => update("focusOffset", value)}
         />
+
+        <div
+          className="persistent-focus-preview"
+          style={{
+            "--focus-preview-color": theme.focusColor,
+            "--focus-preview-width": `${theme.focusWidth}px`,
+            "--focus-preview-offset": `${theme.focusOffset}px`,
+            "--focus-preview-light": theme.canvasLight,
+            "--focus-preview-light-text": theme.textLight,
+            "--focus-preview-dark": theme.canvasDark,
+            "--focus-preview-dark-text": theme.textDark,
+          } as CSSProperties}
+          aria-label="Persistent focus style preview"
+        >
+          <div>
+            <h3>Persistent focus preview</h3>
+            <p>Remains visible while focus controls change; it does not move keyboard focus.</p>
+          </div>
+          <div className="focus-surface-pair">
+            <div className="focus-surface focus-surface-light">
+              <span className="focus-specimen">Focused control</span>
+              <small>Light canvas</small>
+            </div>
+            <div className="focus-surface focus-surface-dark">
+              <span className="focus-specimen">Focused control</span>
+              <small>Dark canvas</small>
+            </div>
+          </div>
+          <div className="focus-width-comparison" aria-label="Focus width comparison">
+            {[2, 3, 4].map((width) => (
+              <div key={width}>
+                <span
+                  className={`focus-width-sample ${theme.focusWidth === width ? "focus-width-selected" : ""}`}
+                  style={{ "--comparison-width": `${width}px` } as CSSProperties}
+                >
+                  {width}px
+                </span>
+                {theme.focusWidth === width ? <small>Selected</small> : null}
+              </div>
+            ))}
+          </div>
+        </div>
+
         <Slider
           label="Corner radius"
           minValue={4}
@@ -349,6 +423,16 @@ export function ThemeLab() {
           </p>
           <p>{textPasses ? "Passes the 4.5:1 normal-text guardrail." : "Adjust canvas or text colors before applying this theme."}</p>
         </div>
+        <div className={`theme-validation ${accentPasses ? "theme-validation-pass" : "theme-validation-fail"}`}>
+          <h3>Accent contrast check</h3>
+          <p>
+            Primary: {accentLightContrast.toFixed(2)}:1 light · {accentDarkContrast.toFixed(2)}:1 dark
+          </p>
+          <p>
+            Secondary: {secondaryLightContrast.toFixed(2)}:1 light · {secondaryDarkContrast.toFixed(2)}:1 dark
+          </p>
+          <p>{accentPasses ? "Passes the 4.5:1 text and link guardrail." : "Adjust accent colors before applying this theme."}</p>
+        </div>
 
         <div className="tool-actions">
           <Button variant="accent" onPress={applyToSite}>Apply to site</Button>
@@ -357,9 +441,22 @@ export function ThemeLab() {
           <Button variant="negative" fillStyle="outline" onPress={resetTheme}>Reset</Button>
         </div>
         <div className="theme-application-status">
-          <p><strong>Site theme:</strong> {isAppliedToSite ? "Custom browser theme active" : "MyKMHub default"}</p>
+          <p>
+            <strong>Site theme:</strong>{" "}
+            {isAppliedToSite === null
+              ? "Loading browser theme"
+              : isAppliedToSite
+                ? "Custom browser theme active"
+                : "MyKMHub default"}
+          </p>
           {isAppliedToSite ? <p><strong>Preview foundation:</strong> {theme.presetId === "custom" ? "Modified draft" : theme.presetId}</p> : null}
-          <Button variant="secondary" onPress={restoreSiteDefault}>Restore site default</Button>
+          <Button
+            variant="secondary"
+            isDisabled={isAppliedToSite === null}
+            onPress={restoreSiteDefault}
+          >
+            Restore site default
+          </Button>
         </div>
 
         <TextArea

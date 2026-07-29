@@ -26,6 +26,10 @@ export interface ThemeDraft {
   surfaceDark: string;
   borderLight: string;
   borderDark: string;
+  accentLight?: string;
+  accentDark?: string;
+  secondaryAccentLight?: string;
+  secondaryAccentDark?: string;
 }
 
 export const ACTIVE_THEME_STORAGE_KEY = "mykmhub-active-site-theme";
@@ -111,6 +115,10 @@ export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft>
     surfaceDark: "#252525",
     borderLight: "#c7c7c7",
     borderDark: "#5a5a5a",
+    accentLight: "#0b5cab",
+    accentDark: "#8ab4f8",
+    secondaryAccentLight: "#5b4b7a",
+    secondaryAccentDark: "#c9b6e4",
   },
   "aged-paper": {
     presetId: "aged-paper",
@@ -133,6 +141,10 @@ export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft>
     surfaceDark: "#2d2b27",
     borderLight: "#b8b0a2",
     borderDark: "#69645b",
+    accentLight: "#455d73",
+    accentDark: "#a9bfd2",
+    secondaryAccentLight: "#7a5638",
+    secondaryAccentDark: "#d6b18c",
   },
 };
 
@@ -179,7 +191,26 @@ export function isThemeDraft(value: unknown): value is ThemeDraft {
       draft.borderLight,
       draft.borderDark,
     ].every((color) => typeof color === "string" && HEX_COLOR.test(color))
+    &&
+    [
+      draft.accentLight,
+      draft.accentDark,
+      draft.secondaryAccentLight,
+      draft.secondaryAccentDark,
+    ].every(
+      (color) =>
+        color === undefined || (typeof color === "string" && HEX_COLOR.test(color)),
+    )
   );
+}
+
+export function getThemeAccents(theme: ThemeDraft) {
+  return {
+    accentLight: theme.accentLight ?? "#0b5cab",
+    accentDark: theme.accentDark ?? "#8ab4f8",
+    secondaryAccentLight: theme.secondaryAccentLight ?? "#5b4b7a",
+    secondaryAccentDark: theme.secondaryAccentDark ?? "#c9b6e4",
+  };
 }
 
 export function applyThemeToSite(theme: ThemeDraft | null) {
@@ -205,6 +236,8 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
       "--site-text",
       "--site-surface",
       "--site-border-color",
+      "--site-accent",
+      "--site-accent-secondary",
     ].forEach((property) => root.style.removeProperty(property));
     root.removeAttribute("data-theme-preset");
     window.dispatchEvent(
@@ -251,6 +284,15 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
   root.style.setProperty(
     "--site-border-color",
     `light-dark(${theme.borderLight}, ${theme.borderDark})`,
+  );
+  const accents = getThemeAccents(theme);
+  root.style.setProperty(
+    "--site-accent",
+    `light-dark(${accents.accentLight}, ${accents.accentDark})`,
+  );
+  root.style.setProperty(
+    "--site-accent-secondary",
+    `light-dark(${accents.secondaryAccentLight}, ${accents.secondaryAccentDark})`,
   );
   window.dispatchEvent(
     new CustomEvent(SITE_THEME_EVENT, {
