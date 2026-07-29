@@ -358,6 +358,9 @@ test("AI image prompt architect translates selections and supports manual overri
   await expect(
     page.getByRole("heading", { name: "Parameter breakdown" }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("textbox", { name: "OpenAI API key for image generation" }),
+  ).toHaveAttribute("type", "password");
 
   await preview.fill("A manually refined image prompt");
   await expect(
@@ -372,7 +375,7 @@ test("AI image prompt architect translates selections and supports manual overri
   expect(results.violations).toEqual([]);
 });
 
-test("image generation endpoint is safely disabled without server configuration", async ({
+test("image generation endpoint requests a key when none is supplied or configured", async ({
   request,
 }) => {
   const response = await request.post("/api/tools/ai-image/generate", {
@@ -382,9 +385,9 @@ test("image generation endpoint is safely disabled without server configuration"
       quality: "low",
     },
   });
-  expect(response.status()).toBe(503);
+  expect(response.status()).toBe(401);
   await expect(response.json()).resolves.toMatchObject({
-    error: expect.stringContaining("not configured"),
+    error: expect.stringContaining("Add an OpenAI API key"),
   });
 });
 

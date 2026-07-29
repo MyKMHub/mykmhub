@@ -10,19 +10,6 @@ const RATIOS: Record<string, string> = {
 const QUALITIES = new Set(["low", "medium", "high"]);
 
 export async function POST(request: Request) {
-  if (
-    process.env.IMAGE_GENERATION_ENABLED !== "true" ||
-    !process.env.OPENAI_API_KEY
-  ) {
-    return Response.json(
-      {
-        error:
-          "Image generation is not configured. The prompt architect and copyable engine output remain available.",
-      },
-      { status: 503 },
-    );
-  }
-
   let body: unknown;
   try {
     body = await request.json();
@@ -34,11 +21,15 @@ export async function POST(request: Request) {
     prompt?: unknown;
     aspectRatio?: unknown;
     quality?: unknown;
+    apiKey?: unknown;
   };
   const prompt = typeof input.prompt === "string" ? input.prompt.trim() : "";
   const aspectRatio =
     typeof input.aspectRatio === "string" ? input.aspectRatio : "1:1";
   const quality = typeof input.quality === "string" ? input.quality : "low";
+  const suppliedApiKey =
+    typeof input.apiKey === "string" ? input.apiKey.trim() : "";
+  const apiKey = suppliedApiKey || process.env.OPENAI_API_KEY?.trim() || "";
 
   if (!prompt || prompt.length > 4000) {
     return Response.json(
@@ -49,11 +40,23 @@ export async function POST(request: Request) {
   if (!RATIOS[aspectRatio] || !QUALITIES.has(quality)) {
     return Response.json({ error: "Unsupported image parameters." }, { status: 400 });
   }
+  if (!apiKey) {
+    return Response.json(
+      {
+        error:
+          "Add an OpenAI API key in Technical engine parameters to generate an image.",
+      },
+      { status: 401 },
+    );
+  }
+  if (apiKey.length > 512 || /[\r\n]/.test(apiKey)) {
+    return Response.json({ error: "The supplied API key is invalid." }, { status: 400 });
+  }
 
   const response = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -82,7 +85,8 @@ export async function POST(request: Request) {
     return Response.json({ error: "The image provider returned no image." }, { status: 502 });
   }
 
-  return Response.json({
-    image: `data:image/png;base64,${encoded}`,
-  });
+  return Response.json(
+    { image: `data:image/png;base64,${encoded}` },
+    { headers: { "Cache-Control": "no-store" } },
+  );
 }

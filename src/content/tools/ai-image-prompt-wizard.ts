@@ -15,7 +15,7 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
   operationalStatus: "limited",
   statusLabel: "Working beta",
   statusNote:
-    "The four-zone prompt architect, engine translation, manual override, copying, and parameter breakdown work. Preview generation requires a server API key plus an explicit feature flag and should remain disabled publicly until authentication and cost controls are in place.",
+    "The four-zone prompt architect, engine translation, manual override, copying, parameter breakdown, and GPT Image preview generation work. A user can supply an OpenAI API key for the current request, or MyKMHub can use a server key.",
   lastVerified: "2026-07-29",
   accessibilityNotes: [
     "Spectrum 2 controls provide visible labels, keyboard operation, focus treatment, and accessible states.",
@@ -27,7 +27,8 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
   privacyNotes: [
     "Prompt content remains in the current browser session.",
     "Nothing entered in the tool is persisted.",
-    "When preview generation is enabled and intentionally activated, the natural-language prompt is sent to the configured OpenAI image endpoint; selections and copied external-engine syntax are not stored.",
+    "A user-supplied OpenAI API key is masked, sent only to the MyKMHub server for the current generation request, and is not saved by the tool.",
+    "When generation is intentionally activated, the natural-language prompt is sent to OpenAI; selections and copied external-engine syntax are not stored.",
   ],
   relatedPortfolioRoutes: ["/case-studies/ai-image-creation-wizard"],
   effortId: "effort-ai-image-prompt-wizard",
@@ -39,7 +40,7 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
         "Expanded the workflow into four progressive-disclosure zones.",
         "Added OpenAI, Gemini, Midjourney, and Stable Diffusion/FLUX translation.",
         "Added editable compiled output and a structured parameter breakdown.",
-        "Added gated server-side GPT Image 2 preview generation.",
+        "Added GPT Image 2 preview generation using either a one-request user key or an optional server key.",
       ],
     },
     {

@@ -85,10 +85,12 @@ accessibility decisions, and outcomes without duplicating the application.
 
 The AI Image Prompt Architect & Generator follows the same hybrid pattern. Its
 working four-zone prompt builder translates visual intent for OpenAI, Gemini,
-Midjourney, and Stable Diffusion/FLUX. Optional GPT Image preview generation is
-server-gated and remains off until credentials, authentication, and cost
-controls are configured. Portfolio documents the original product problem and
-future Visual Intent Compiler concept.
+Midjourney, and Stable Diffusion/FLUX. GPT Image preview generation accepts a
+user-supplied OpenAI API key for the current request or an optional server
+credential. User keys are not persisted. Public use of a shared server
+credential still requires authentication, rate limiting, and cost controls.
+Portfolio documents the original product problem and future Visual Intent
+Compiler concept.
 
 The DOJ application redesign case study preserves the original navigation,
 advanced-search, and workflow evidence while documenting the accessibility-led
