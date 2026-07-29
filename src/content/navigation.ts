@@ -7,6 +7,7 @@ export interface NavigationItem {
 
 const NAVIGATION_LABELS: Readonly<Record<string, string>> = {
   home: "Home",
+  tools: "Tools",
 };
 
 export const PRIMARY_NAVIGATION: readonly NavigationItem[] = PUBLISHED_CONTENT.flatMap(

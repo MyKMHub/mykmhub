@@ -54,4 +54,13 @@ Atkinson Hyperlegible Next is the initial reading and interface font. The archit
 
 ## Current scope
 
-Phase 1 establishes the accessible Spectrum 2 shell and scalable content architecture. Authentication, private workspaces, multi-tenancy, billing, and other future platform capabilities are intentionally out of scope.
+Phase 1 established the accessible Spectrum 2 shell and scalable content architecture.
+
+The first Phase 2 vertical slice now connects:
+
+- the Tools Library;
+- a browser-local Evidence Traceability Matrix Builder;
+- the Evidence-first Synthesis method;
+- the Scaling HCD Through Evidence-Traceable Automation case study.
+
+Authentication, private workspaces, multi-tenancy, billing, server-side research processing, and other future platform capabilities remain intentionally out of scope.

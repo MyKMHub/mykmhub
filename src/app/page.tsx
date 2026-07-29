@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { PUBLISHED_CONTENT } from "@/content/registry";
 
 export const metadata: Metadata = {
@@ -63,12 +64,14 @@ export default function Home() {
       </section>
 
       <aside className="status-note" aria-labelledby="status-heading">
-        <h2 id="status-heading">The foundation is being built</h2>
+        <h2 id="status-heading">Start with evidence you can trace</h2>
         <p>
-          This first release establishes the accessible site shell and scalable
-          content architecture. New areas will appear only when they contain
-          something useful.
+          Map sanitized research findings to process steps, document confidence,
+          and export an auditable synthesis matrix.
         </p>
+        <Link className="primary-link" href="/tools/evidence-traceability-matrix-builder">
+          Open the first live tool
+        </Link>
       </aside>
     </article>
   );
