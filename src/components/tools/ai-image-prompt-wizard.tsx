@@ -42,8 +42,33 @@ const ENGINES: Array<{ id: Engine; label: string }> = [
   { id: "openai", label: "OpenAI GPT Image" },
   { id: "gemini", label: "Google Gemini" },
   { id: "midjourney", label: "Midjourney v6 / v7" },
-  { id: "stable-diffusion", label: "Stable Diffusion / FLUX" },
+  { id: "stable-diffusion", label: "Black Forest Labs FLUX" },
 ];
+
+const CREDENTIALS: Record<Exclude<Engine, "midjourney">, {
+  label: string;
+  description: string;
+}> = {
+  openai: {
+    label: "OpenAI API key",
+    description: "Used only for this OpenAI generation request. Optional when MyKMHub has an OpenAI server key.",
+  },
+  gemini: {
+    label: "Google Gemini API key",
+    description: "Used only for this Gemini generation request. Optional when MyKMHub has a Gemini server key.",
+  },
+  "stable-diffusion": {
+    label: "Black Forest Labs API key",
+    description: "Used only for this FLUX generation request. Optional when MyKMHub has a BFL server key.",
+  },
+};
+
+const EMPTY_API_KEYS: Record<Engine, string> = {
+  openai: "",
+  gemini: "",
+  midjourney: "",
+  "stable-diffusion": "",
+};
 
 const ASPECTS = [
   { id: "1:1", label: "1:1 square" },
@@ -207,7 +232,7 @@ export function AiImagePromptWizard() {
   const [status, setStatus] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [image, setImage] = useState("");
-  const [apiKey, setApiKey] = useState("");
+  const [apiKeys, setApiKeys] = useState<Record<Engine, string>>(EMPTY_API_KEYS);
   const compiled = useMemo(() => compilePrompt(form), [form]);
   const previewPrompt = useMemo(() => compileNatural(form), [form]);
   const output = isManual ? manualPrompt : compiled;
@@ -236,6 +261,11 @@ export function AiImagePromptWizard() {
       setStatus("Add a primary subject before generating.");
       return;
     }
+    if (form.engine === "midjourney") {
+      await copyPrompt();
+      setStatus("Copied the Midjourney prompt. Midjourney does not provide a supported direct-generation API for this integration.");
+      return;
+    }
     setIsGenerating(true);
     setImage("");
     setStatus("Generating an image. This may take a minute.");
@@ -247,7 +277,8 @@ export function AiImagePromptWizard() {
           prompt: isManual ? manualPrompt : previewPrompt,
           aspectRatio: form.aspect,
           quality: form.quality,
-          apiKey,
+          engine: form.engine,
+          apiKey: apiKeys[form.engine],
         }),
       });
       const result = (await response.json()) as { image?: string; error?: string };
@@ -338,14 +369,23 @@ export function AiImagePromptWizard() {
                   {ASPECTS.map((option) => <PickerItem id={option.id} key={option.id}>{option.label}</PickerItem>)}
                 </Picker>
                 <FieldPicker label="Preview quality" value={form.quality} values={["low", "medium", "high"]} onChange={(value) => update("quality", value as Quality)} />
-                <TextField
-                  label="OpenAI API key for image generation"
-                  type="password"
-                  value={apiKey}
-                  onChange={setApiKey}
-                  autoComplete="off"
-                  description="Optional when MyKMHub has a server key. Your key is sent only for this generation request and is not saved by this tool."
-                />
+                {form.engine === "midjourney" ? (
+                  <p className="field-description">
+                    Midjourney does not provide a supported direct-generation API. MyKMHub will copy the compiled prompt for use in Midjourney and will not request a credential.
+                  </p>
+                ) : (
+                  <TextField
+                    label={CREDENTIALS[form.engine].label}
+                    type="password"
+                    value={apiKeys[form.engine]}
+                    onChange={(value) => setApiKeys((current) => ({
+                      ...current,
+                      [form.engine]: value,
+                    }))}
+                    autoComplete="off"
+                    description={`${CREDENTIALS[form.engine].description} The key is not saved by this tool.`}
+                  />
+                )}
                 <MultiOptions label="Common exclusions" value={form.negatives} values={OPTIONS.negatives} onChange={(value) => update("negatives", value)} />
                 <TextArea label="Other exclusions" value={form.customNegative} onChange={(value) => update("customNegative", value)} />
                 {form.engine === "stable-diffusion" ? (
@@ -387,8 +427,10 @@ export function AiImagePromptWizard() {
         {isManual && <Button variant="secondary" onPress={() => { setIsManual(false); setManualPrompt(""); setStatus("Restored the prompt generated from selections."); }}>Restore generated prompt</Button>}
         <div className="tool-actions">
           <Button variant="secondary" onPress={copyPrompt}>Copy prompt</Button>
-          <Button variant="accent" onPress={generateImage} isPending={isGenerating}>Generate preview</Button>
-          <Button variant="negative" fillStyle="outline" onPress={() => { setForm(INITIAL); setManualPrompt(""); setIsManual(false); setImage(""); setApiKey(""); setStatus("Reset the image workspace and cleared the API key."); }}>Reset</Button>
+          <Button variant="accent" onPress={generateImage} isPending={isGenerating}>
+            {form.engine === "midjourney" ? "Copy for Midjourney" : `Generate with ${ENGINES.find((item) => item.id === form.engine)?.label}`}
+          </Button>
+          <Button variant="negative" fillStyle="outline" onPress={() => { setForm(INITIAL); setManualPrompt(""); setIsManual(false); setImage(""); setApiKeys(EMPTY_API_KEYS); setStatus("Reset the image workspace and cleared all API keys."); }}>Reset</Button>
         </div>
 
         <section aria-labelledby="parameter-breakdown-heading">
@@ -411,7 +453,7 @@ export function AiImagePromptWizard() {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={image} alt="AI-generated preview based on the current prompt. Review the image visually before creating descriptive alternative text." />
           ) : (
-            <p>No image generated yet. Add your OpenAI API key in Technical engine parameters, or use the configured MyKMHub provider. Generation may incur OpenAI usage costs.</p>
+            <p>No image generated yet. Select an API-supported engine and add its key in Technical engine parameters, or use a configured MyKMHub provider. Generation may incur provider usage costs.</p>
           )}
         </section>
         <p className="sr-status" aria-live="polite">{status}</p>

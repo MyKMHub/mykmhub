@@ -7,7 +7,7 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
   briefDescription:
     "Build engine-aware image prompts through four progressive-disclosure zones and generate an optional configured preview.",
   description:
-    "A guided workspace for translating visual intent into OpenAI, Gemini, Midjourney, or Stable Diffusion/FLUX prompt syntax, with structured parameters and optional server-side preview generation.",
+    "A guided workspace for translating visual intent into OpenAI, Gemini, Midjourney, or FLUX prompt syntax, with structured parameters and provider-specific preview generation where an official API is available.",
   context: "AI image prompt architecture, translation, and generation",
   route: "/tools/ai-image-prompt-wizard",
   contentStatus: "published",
@@ -15,7 +15,7 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
   operationalStatus: "limited",
   statusLabel: "Working beta",
   statusNote:
-    "The four-zone prompt architect, engine translation, manual override, copying, parameter breakdown, and GPT Image preview generation work. A user can supply an OpenAI API key for the current request, or MyKMHub can use a server key.",
+    "The prompt architect and direct OpenAI, Gemini, and Black Forest Labs FLUX generation work with separate provider credentials. Midjourney output is copy-ready because it does not provide a supported direct-generation API.",
   lastVerified: "2026-07-29",
   accessibilityNotes: [
     "Spectrum 2 controls provide visible labels, keyboard operation, focus treatment, and accessible states.",
@@ -27,8 +27,8 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
   privacyNotes: [
     "Prompt content remains in the current browser session.",
     "Nothing entered in the tool is persisted.",
-    "A user-supplied OpenAI API key is masked, sent only to the MyKMHub server for the current generation request, and is not saved by the tool.",
-    "When generation is intentionally activated, the natural-language prompt is sent to OpenAI; selections and copied external-engine syntax are not stored.",
+    "Each user-supplied provider API key is masked, isolated from keys entered for other engines, sent only to the MyKMHub server for that provider request, and not saved by the tool.",
+    "When generation is intentionally activated, the natural-language prompt is sent to the selected provider; selections and copied engine syntax are not stored.",
   ],
   relatedPortfolioRoutes: ["/case-studies/ai-image-creation-wizard"],
   effortId: "effort-ai-image-prompt-wizard",
@@ -40,7 +40,8 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
         "Expanded the workflow into four progressive-disclosure zones.",
         "Added OpenAI, Gemini, Midjourney, and Stable Diffusion/FLUX translation.",
         "Added editable compiled output and a structured parameter breakdown.",
-        "Added GPT Image 2 preview generation using either a one-request user key or an optional server key.",
+        "Added provider-specific OpenAI, Gemini, and Black Forest Labs FLUX credentials and direct generation.",
+        "Kept Midjourney as a copy-ready prompt workflow without collecting a credential for an unsupported API.",
       ],
     },
     {

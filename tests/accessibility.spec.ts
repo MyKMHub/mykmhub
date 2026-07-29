@@ -359,8 +359,15 @@ test("AI image prompt architect translates selections and supports manual overri
     page.getByRole("heading", { name: "Parameter breakdown" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("textbox", { name: "OpenAI API key for image generation" }),
+    page.getByRole("textbox", { name: "OpenAI API key" }),
   ).toHaveAttribute("type", "password");
+
+  await page.getByRole("button", { name: "Target engine" }).click();
+  await page.getByRole("option", { name: "Google Gemini" }).click();
+  await expect(
+    page.getByRole("textbox", { name: "Google Gemini API key" }),
+  ).toHaveAttribute("type", "password");
+  await expect(page.getByRole("textbox", { name: "OpenAI API key" })).toHaveCount(0);
 
   await preview.fill("A manually refined image prompt");
   await expect(
@@ -387,7 +394,7 @@ test("image generation endpoint requests a key when none is supplied or configur
   });
   expect(response.status()).toBe(401);
   await expect(response.json()).resolves.toMatchObject({
-    error: expect.stringContaining("Add an OpenAI API key"),
+    error: expect.stringContaining("selected provider"),
   });
 });
 
