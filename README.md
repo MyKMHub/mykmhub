@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MyKMHub
 
-## Getting Started
+MyKMHub is a public-facing HCD Director toolkit and knowledge hub. It will provide practical tools, methods, frameworks, patterns, governance approaches, resources, and live applications for leading accessible human-centered work.
 
-First, run the development server:
+The authoritative working specification is [docs/MYKMHUB-PROJECT-SPEC.md](docs/MYKMHUB-PROJECT-SPEC.md).
 
-```bash
+## Technology
+
+- Next.js 16 App Router
+- React 19 and TypeScript
+- Adobe Spectrum 2 through `@react-spectrum/s2`
+- WCAG 2.2 AA accessibility baseline
+- Playwright and axe-core for automated accessibility checks
+
+## Local development
+
+Install dependencies and start the development server:
+
+```powershell
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```powershell
+npm run lint
+npm run build
+npm run test:a11y
+```
 
-## Learn More
+The automated accessibility check is a baseline, not a substitute for keyboard, screen-reader, zoom, reflow, contrast, and usability testing.
 
-To learn more about Next.js, take a look at the following resources:
+## Architecture
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The App Router in `src/app` owns routes and layouts. Shared shell and accessibility components live in `src/components`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Content is maintained independently in `src/content`:
 
-## Deploy on Vercel
+- `types.ts` defines reusable content metadata.
+- `entries/` contains canonical content objects.
+- `registry.ts` exposes published public content.
+- `navigation.ts` derives navigation only from published routes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A route does not appear merely because it is planned. Future MVP areas become public only when they contain useful content.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Accessibility and typography
+
+The shell provides semantic landmarks, skip navigation, responsive behavior, visible focus treatment, and locally persisted preferences for text size, appearance, contrast, reduced motion, and link underlining.
+
+Atkinson Hyperlegible Next is the initial reading and interface font. The architecture uses a shared font token so later validated reading-font preferences can apply consistently to site content and Spectrum controls.
+
+## Current scope
+
+Phase 1 establishes the accessible Spectrum 2 shell and scalable content architecture. Authentication, private workspaces, multi-tenancy, billing, and other future platform capabilities are intentionally out of scope.
