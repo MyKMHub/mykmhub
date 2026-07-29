@@ -7,6 +7,15 @@
   --s2-font-family-sans: var(--reading-font);
   --surface-border: color-mix(in srgb, currentColor 18%, transparent);
   --surface-subtle: color-mix(in srgb, currentColor 5%, transparent);
+  --site-h1-size: clamp(2.5rem, 7vw, 5.25rem);
+  --site-eyebrow-size: 0.875rem;
+  --site-eyebrow-spacing: 0.08em;
+  --site-body-line-height: 1.65;
+  --site-focus-color: #1473e6;
+  --site-focus-width: 3px;
+  --site-focus-offset: 3px;
+  --site-radius: 0.75rem;
+  --site-content-gap: clamp(2rem, 5vw, 4rem);
 }
 
 html {
@@ -33,6 +42,7 @@ body {
   font-family: var(--reading-font);
   color: CanvasText;
   background: Canvas;
+  line-height: var(--site-body-line-height);
 }
 
 a {
@@ -180,9 +190,9 @@ html[data-links="underlined"] a {
 
 .eyebrow {
   margin-block: 0 0.75rem;
-  font-size: 0.875rem;
+  font-size: var(--site-eyebrow-size);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--site-eyebrow-spacing);
   text-transform: uppercase;
 }
 
@@ -196,7 +206,7 @@ p {
 h1 {
   margin: 0;
   max-width: 17ch;
-  font-size: clamp(2.5rem, 7vw, 5.25rem);
+  font-size: var(--site-h1-size);
   line-height: 1.04;
   letter-spacing: -0.04em;
 }
@@ -274,7 +284,7 @@ h3 {
 
 .content-page {
   display: grid;
-  gap: clamp(2rem, 5vw, 4rem);
+  gap: var(--site-content-gap);
 }
 
 .content-page > * {
@@ -593,6 +603,39 @@ h3 {
 
 .theme-validation-fail {
   color: light-dark(#b52632, #ff9a9f);
+}
+
+.theme-application-status {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--surface-subtle);
+  border-radius: 0.5rem;
+}
+
+html[data-custom-theme="active"] .main-content :is(p, li, dd) {
+  line-height: var(--site-body-line-height);
+}
+
+html[data-custom-theme="active"] :focus-visible {
+  outline: var(--site-focus-width) solid var(--site-focus-color) !important;
+  outline-offset: var(--site-focus-offset) !important;
+}
+
+html[data-custom-theme="active"] :is(
+  .status-note,
+  .privacy-notice,
+  .effort-context,
+  .portfolio-card,
+  .tool-card,
+  .provider-setup,
+  .design-system-card,
+  .theme-lab-callout,
+  .theme-lab-controls,
+  .theme-preview,
+  .lab-section
+) {
+  border-radius: var(--site-radius);
 }
 
 .theme-preview {

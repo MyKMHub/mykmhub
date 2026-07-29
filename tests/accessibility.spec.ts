@@ -96,7 +96,9 @@ test("working tool pages use the compact shared header", async ({ page }) => {
 
 test("Theme Lab previews and persists a guarded local draft", async ({ page }) => {
   await page.goto("/design-system/theme-lab");
-  await expect(page.getByText("Preview canvas only")).toBeVisible();
+  await expect(page.getByText(
+    "Live preview and optional site application",
+  )).toBeVisible();
   await expect(page.getByRole("heading", {
     name: "Preview hierarchy without changing the site",
   })).toBeVisible();
@@ -108,6 +110,30 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
   await page.getByRole("button", { name: "Save local draft" }).click();
   await page.reload();
   await expect(headingScale).toContainText("Compact · 3rem maximum");
+
+  await page.getByRole("button", { name: "Apply to site" }).click();
+  await expect(page.getByText("Custom browser theme active")).toBeVisible();
+  await expect.poll(() =>
+    page.evaluate(() => ({
+      state: document.documentElement.dataset.customTheme,
+      h1: document.documentElement.style.getPropertyValue("--site-h1-size"),
+    })),
+  ).toEqual({
+    state: "active",
+    h1: "clamp(2rem, 4vw, 3rem)",
+  });
+
+  await page.goto("/portfolio");
+  await expect.poll(() =>
+    page.evaluate(() => document.documentElement.dataset.customTheme),
+  ).toBe("active");
+
+  await page.goto("/design-system/theme-lab");
+  await page.getByRole("button", { name: "Restore site default" }).click();
+  await expect(page.getByText("MyKMHub default")).toBeVisible();
+  await expect.poll(() =>
+    page.evaluate(() => document.documentElement.dataset.customTheme),
+  ).toBeUndefined();
 
   await page.getByRole("button", { name: "Reset" }).click();
   await expect(headingScale).toContainText("Balanced · 3.75rem maximum");

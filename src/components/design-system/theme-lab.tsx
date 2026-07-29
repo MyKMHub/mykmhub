@@ -10,21 +10,18 @@ import { Switch } from "@react-spectrum/s2/Switch";
 import { TextArea } from "@react-spectrum/s2/TextArea";
 import { TextField } from "@react-spectrum/s2/TextField";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
-
-type HeadingScale = "compact" | "balanced" | "display";
-type EyebrowScale = "quiet" | "balanced" | "prominent";
-type SpacingScale = "compact" | "comfortable" | "spacious";
-
-interface ThemeDraft {
-  headingScale: HeadingScale;
-  eyebrowScale: EyebrowScale;
-  bodyLineHeight: number;
-  focusColor: string;
-  focusWidth: number;
-  focusOffset: number;
-  cornerRadius: number;
-  spacingScale: SpacingScale;
-}
+import {
+  ACTIVE_THEME_STORAGE_KEY,
+  EYEBROW_STYLES,
+  FOCUS_COLORS,
+  HEADING_SIZES,
+  applyThemeToSite,
+  isThemeDraft,
+  type EyebrowScale,
+  type HeadingScale,
+  type SpacingScale,
+  type ThemeDraft,
+} from "./theme-settings";
 
 const STORAGE_KEY = "mykmhub-theme-lab-draft";
 
@@ -39,30 +36,11 @@ const DEFAULT_THEME: ThemeDraft = {
   spacingScale: "comfortable",
 };
 
-const HEADING_SIZES: Record<HeadingScale, string> = {
-  compact: "clamp(2rem, 4vw, 3rem)",
-  balanced: "clamp(2.25rem, 5vw, 3.75rem)",
-  display: "clamp(2.5rem, 7vw, 5.25rem)",
-};
-
-const EYEBROW_STYLES: Record<EyebrowScale, { size: string; spacing: string }> = {
-  quiet: { size: "0.8125rem", spacing: "0.08em" },
-  balanced: { size: "0.9375rem", spacing: "0.06em" },
-  prominent: { size: "1rem", spacing: "0.04em" },
-};
-
-const SECTION_GAPS: Record<SpacingScale, string> = {
+const PREVIEW_GAPS: Record<SpacingScale, string> = {
   compact: "1rem",
   comfortable: "1.5rem",
   spacious: "2.25rem",
 };
-
-const FOCUS_COLORS = [
-  { id: "#1473e6", label: "Spectrum blue" },
-  { id: "#5258e4", label: "Indigo" },
-  { id: "#b130bd", label: "Purple" },
-  { id: "#007a63", label: "Deep seafoam" },
-] as const;
 
 function relativeLuminance(hex: string) {
   const channels = hex
@@ -86,29 +64,16 @@ function contrastRatio(first: string, second: string) {
   );
 }
 
-function isThemeDraft(value: unknown): value is ThemeDraft {
-  if (!value || typeof value !== "object") return false;
-  const draft = value as Partial<ThemeDraft>;
-  return (
-    ["compact", "balanced", "display"].includes(String(draft.headingScale)) &&
-    ["quiet", "balanced", "prominent"].includes(String(draft.eyebrowScale)) &&
-    typeof draft.bodyLineHeight === "number" &&
-    FOCUS_COLORS.some((color) => color.id === draft.focusColor) &&
-    typeof draft.focusWidth === "number" &&
-    typeof draft.focusOffset === "number" &&
-    typeof draft.cornerRadius === "number" &&
-    ["compact", "comfortable", "spacious"].includes(String(draft.spacingScale))
-  );
-}
-
 export function ThemeLab() {
   const [theme, setTheme] = useState<ThemeDraft>(DEFAULT_THEME);
   const [importValue, setImportValue] = useState("");
+  const [isAppliedToSite, setIsAppliedToSite] = useState(false);
   const [status, setStatus] = useState("Theme Lab is using the balanced preview preset.");
 
   useEffect(() => {
     const loadDraft = window.setTimeout(() => {
       const saved = localStorage.getItem(STORAGE_KEY);
+      setIsAppliedToSite(Boolean(localStorage.getItem(ACTIVE_THEME_STORAGE_KEY)));
       if (!saved) return;
       try {
         const parsed: unknown = JSON.parse(saved);
@@ -136,7 +101,7 @@ export function ThemeLab() {
     "--lab-focus-width": `${theme.focusWidth}px`,
     "--lab-focus-offset": `${theme.focusOffset}px`,
     "--lab-radius": `${theme.cornerRadius}px`,
-    "--lab-section-gap": SECTION_GAPS[theme.spacingScale],
+    "--lab-section-gap": PREVIEW_GAPS[theme.spacingScale],
   } as CSSProperties;
 
   function update<Key extends keyof ThemeDraft>(key: Key, value: ThemeDraft[Key]) {
@@ -147,6 +112,24 @@ export function ThemeLab() {
   function saveDraft() {
     localStorage.setItem(STORAGE_KEY, serialized);
     setStatus("Saved the theme draft in this browser.");
+  }
+
+  function applyToSite() {
+    if (!focusPasses) {
+      setStatus("Resolve the focus contrast warning before applying this theme.");
+      return;
+    }
+    localStorage.setItem(ACTIVE_THEME_STORAGE_KEY, serialized);
+    applyThemeToSite(theme);
+    setIsAppliedToSite(true);
+    setStatus("Applied this theme to MyKMHub and saved it in this browser.");
+  }
+
+  function restoreSiteDefault() {
+    localStorage.removeItem(ACTIVE_THEME_STORAGE_KEY);
+    applyThemeToSite(null);
+    setIsAppliedToSite(false);
+    setStatus("Restored the MyKMHub site defaults.");
   }
 
   async function copyTheme() {
@@ -269,16 +252,21 @@ export function ThemeLab() {
         </div>
 
         <div className="tool-actions">
+          <Button variant="accent" onPress={applyToSite}>Apply to site</Button>
           <Button variant="accent" onPress={saveDraft}>Save local draft</Button>
           <Button variant="secondary" onPress={copyTheme}>Copy theme JSON</Button>
           <Button variant="negative" fillStyle="outline" onPress={resetTheme}>Reset</Button>
+        </div>
+        <div className="theme-application-status">
+          <p><strong>Site theme:</strong> {isAppliedToSite ? "Custom browser theme active" : "MyKMHub default"}</p>
+          <Button variant="secondary" onPress={restoreSiteDefault}>Restore site default</Button>
         </div>
 
         <TextArea
           label="Import theme JSON"
           value={importValue}
           onChange={setImportValue}
-          description="Paste a MyKMHub theme draft. Import affects only this preview."
+          description="Paste a MyKMHub theme draft. Review it in the preview, then apply it to the site when ready."
         />
         <Button variant="secondary" onPress={importTheme}>Apply imported draft</Button>
         <p className="sr-status" aria-live="polite">{status}</p>

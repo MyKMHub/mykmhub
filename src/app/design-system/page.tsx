@@ -64,7 +64,8 @@ export default function DesignSystemPage() {
           <h2 id="theme-lab-heading">Theme Lab</h2>
           <p>
             Adjust guarded typography, focus, spacing, and shape tokens against
-            representative components. Experiments affect only the preview.
+            representative components, then optionally apply a validated draft
+            across MyKMHub in this browser.
           </p>
         </div>
         <Link className="primary-link" href="/design-system/theme-lab">

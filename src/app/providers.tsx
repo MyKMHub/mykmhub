@@ -8,6 +8,11 @@ import {
   type AccessibilityPreferences,
   type ColorPreference,
 } from "@/components/accessibility/preferences-context";
+import {
+  ACTIVE_THEME_STORAGE_KEY,
+  applyThemeToSite,
+  isThemeDraft,
+} from "@/components/design-system/theme-settings";
 
 export function Providers({
   children,
@@ -24,7 +29,17 @@ export function Providers({
     const colorQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const saved = window.localStorage.getItem("mykmhub-accessibility-preferences");
+    const savedTheme = window.localStorage.getItem(ACTIVE_THEME_STORAGE_KEY);
     let isActive = true;
+
+    if (savedTheme) {
+      try {
+        const parsed: unknown = JSON.parse(savedTheme);
+        if (isThemeDraft(parsed)) applyThemeToSite(parsed);
+      } catch {
+        window.localStorage.removeItem(ACTIVE_THEME_STORAGE_KEY);
+      }
+    }
 
     queueMicrotask(() => {
       if (!isActive) {

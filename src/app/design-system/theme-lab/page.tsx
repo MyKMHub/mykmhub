@@ -16,12 +16,12 @@ export default function ThemeLabPage() {
         <h1>Theme Lab</h1>
         <div className="compact-tool-meta">
           <p><strong>Status:</strong> Experimental workspace</p>
-          <p><strong>Scope:</strong> Preview canvas only</p>
+          <p><strong>Scope:</strong> Live preview and optional site application</p>
         </div>
         <p>
           <strong>Instructions:</strong> Adjust guarded tokens, inspect the
           component gallery, validate focus contrast, and save or export a
-          draft. Experiments do not change the live MyKMHub theme.
+          draft. Apply a validated draft to use it across MyKMHub in this browser.
         </p>
         <p><Link href="/design-system">Return to the Design System</Link></p>
       </header>
