@@ -169,3 +169,29 @@ Evaluate:
 Priority: backlog. The current shared portfolio template should continue using
 the quieter inline project-facts treatment and restrained effort-context
 styling established during the first normalization pass.
+
+## DOJ career-archive contribution inventory
+
+Capture the broader body of Department of Justice work that is not represented
+by the current accessibility and usability redesign case study.
+
+When the Career Archive or its GPT export becomes available:
+
+1. Inventory each contribution before deciding whether it is a case study,
+   project perspective, deliverable, lesson learned, or career evidence item.
+2. Connect related records to the shared DOJ application-modernization effort
+   without forcing distinct projects into one narrative.
+3. Preserve useful text-only contributions. Missing historical screenshots
+   must not prevent publication when the work can be supported by an accurate
+   description and other evidence.
+4. Track the source, date range, role, collaborators, outcomes, sensitivity,
+   and confidence of each extracted claim.
+5. Sanitize operational, personal, and controlled information before any
+   content becomes public.
+6. Where a visual would materially improve understanding, create a concept
+   reconstruction only after the underlying contribution is validated.
+   Clearly label generated visuals as illustrative reconstructions, not
+   historical screenshots or evidence of the delivered interface.
+
+Priority: backlog pending access to the Career Archive/GPT and review of the
+additional DOJ contribution inventory.

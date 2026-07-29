@@ -142,32 +142,35 @@ export function PortfolioCaseStudy({
               <h2 id="effort-heading">{effort.title}</h2>
               <p>{effort.summary}</p>
             </div>
-            <div className="related-links" aria-label="Related effort content">
-              {study.effortId === "effort-navy-hr-modernization" && (
-                <>
-                  {study.id === "case-study-hcd-velocity-engine" ? (
-                    <Link href="/case-studies/scaling-automated-hcd-in-navy-hr-modernization">
-                      Read the broader modernization perspective
+            {(study.effortId === "effort-navy-hr-modernization" ||
+              study.application) && (
+              <nav className="related-links" aria-label="Related effort content">
+                {study.effortId === "effort-navy-hr-modernization" && (
+                  <>
+                    {study.id === "case-study-hcd-velocity-engine" ? (
+                      <Link href="/case-studies/scaling-automated-hcd-in-navy-hr-modernization">
+                        Read the broader modernization perspective
+                      </Link>
+                    ) : (
+                      <Link href="/case-studies/scaling-hcd-through-ai">
+                        Read the strategic-impact perspective
+                      </Link>
+                    )}
+                    <Link href="/methods/evidence-first-synthesis">
+                      Read the synthesis method
                     </Link>
-                  ) : (
-                    <Link href="/case-studies/scaling-hcd-through-ai">
-                      Read the strategic-impact perspective
+                    <Link href="/tools/evidence-traceability-matrix-builder">
+                      Explore the evidence-log concept
                     </Link>
-                  )}
-                  <Link href="/methods/evidence-first-synthesis">
-                    Read the synthesis method
+                  </>
+                )}
+                {study.application && (
+                  <Link href={study.application.href}>
+                    {study.application.label}
                   </Link>
-                  <Link href="/tools/evidence-traceability-matrix-builder">
-                    Explore the evidence-log concept
-                  </Link>
-                </>
-              )}
-              {study.application && (
-                <Link href={study.application.href}>
-                  {study.application.label}
-                </Link>
-              )}
-            </div>
+                )}
+              </nav>
+            )}
           </aside>
         )}
       </header>

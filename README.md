@@ -88,4 +88,9 @@ model-independent prompt planner is listed in Tools, while Portfolio documents
 the original product problem, six-stage workflow, accessibility decisions, and
 future Visual Intent Compiler concept.
 
+The DOJ application redesign case study preserves the original navigation,
+advanced-search, and workflow evidence while documenting the accessibility-led
+research and phased modernization approach. Additional DOJ contributions remain
+in the roadmap for later Career Archive ingestion.
+
 Authentication, private workspaces, multi-tenancy, billing, server-side research processing, and other future platform capabilities remain intentionally out of scope.

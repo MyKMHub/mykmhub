@@ -12,6 +12,7 @@ const PUBLIC_ROUTES = [
   "/case-studies/scaling-automated-hcd-in-navy-hr-modernization",
   "/case-studies/accessible-form-component-and-ux-requirements-generator",
   "/case-studies/ai-image-creation-wizard",
+  "/case-studies/doj-site-redesign-accessibility-usability",
   "/methods/evidence-first-synthesis",
 ] as const;
 
@@ -125,6 +126,26 @@ test("portfolio lists both perspectives on the Navy modernization effort", async
       name: "Scaling HCD Through AI: Transforming Research Synthesis into Strategic Decision Support",
     }),
   ).toBeVisible();
+});
+
+test("DOJ redesign case study preserves its three original comparison figures", async ({
+  page,
+}) => {
+  await page.goto("/case-studies/doj-site-redesign-accessibility-usability");
+  await expect(
+    page.getByRole("heading", {
+      name: "DOJ Application Redesign for Accessibility and Usability",
+    }),
+  ).toBeVisible();
+  await expect(page.locator("figure")).toHaveCount(3);
+
+  const brokenImages = await page.evaluate(
+    () =>
+      Array.from(document.images).filter(
+        (image) => image.complete && image.naturalWidth === 0,
+      ).length,
+  );
+  expect(brokenImages).toBe(0);
 });
 
 test("Navy modernization case study contains its media and contained data table", async ({

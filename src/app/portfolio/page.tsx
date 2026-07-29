@@ -5,6 +5,7 @@ import { SCALING_AUTOMATED_HCD_NAVY_HR } from "@/content/portfolio/scaling-autom
 import { SCALING_HCD_THROUGH_AI } from "@/content/portfolio/scaling-hcd-through-ai";
 import { ACCESSIBLE_FORM_GENERATOR_CASE_STUDY } from "@/content/portfolio/accessible-form-generator";
 import { AI_IMAGE_PROMPT_WIZARD_CASE_STUDY } from "@/content/portfolio/ai-image-prompt-wizard";
+import { DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY } from "@/content/portfolio/doj-accessibility-redesign";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -13,6 +14,11 @@ export const metadata: Metadata = {
 };
 
 const PORTFOLIO_ITEMS = [
+  {
+    study: DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY,
+    href: "/case-studies/doj-site-redesign-accessibility-usability",
+    cover: DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY.figures[1],
+  },
   {
     study: AI_IMAGE_PROMPT_WIZARD_CASE_STUDY,
     href: "/case-studies/ai-image-creation-wizard",
