@@ -10,6 +10,7 @@ const NAVIGATION_LABELS: Readonly<Record<string, string>> = {
   tools: "Tools",
   portfolio: "Portfolio",
   "design-system": "Design System",
+  knowledge: "Knowledge",
 };
 
 export const PRIMARY_NAVIGATION: readonly NavigationItem[] = PUBLISHED_CONTENT.flatMap(

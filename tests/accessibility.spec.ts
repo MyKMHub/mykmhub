@@ -6,6 +6,8 @@ const PUBLIC_ROUTES = [
   "/portfolio",
   "/design-system",
   "/design-system/theme-lab",
+  "/knowledge",
+  "/knowledge/building-mykmhub-ai-assisted-development",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -215,6 +217,19 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
 test("Theme Lab remains contained on a mobile viewport", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/design-system/theme-lab");
+  const dimensions = await page.evaluate(() => ({
+    pageWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
+});
+
+test("Knowledge remains contained with its published navigation item", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/knowledge/building-mykmhub-ai-assisted-development");
+  await expect(page.getByRole("link", { name: "Knowledge", exact: true })).toBeVisible();
   const dimensions = await page.evaluate(() => ({
     pageWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,

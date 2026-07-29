@@ -14,6 +14,8 @@ import { MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY_ENTRY } from "./entries/march-for
 import { NAVY_KPI_DASHBOARD_CASE_STUDY_ENTRY } from "./entries/navy-kpi-dashboard-case-study";
 import { PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY_ENTRY } from "./entries/personal-knowledge-system-case-study";
 import { DESIGN_SYSTEM_ENTRY } from "./entries/design-system";
+import { KNOWLEDGE_ENTRY } from "./entries/knowledge";
+import { AI_ASSISTED_MYKMHUB_DEVELOPMENT_ENTRY } from "./entries/ai-assisted-mykmhub-development";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -21,6 +23,8 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   PORTFOLIO_ENTRY,
   TOOLS_ENTRY,
   DESIGN_SYSTEM_ENTRY,
+  KNOWLEDGE_ENTRY,
+  AI_ASSISTED_MYKMHUB_DEVELOPMENT_ENTRY,
   EVIDENCE_MATRIX_TOOL_ENTRY,
   HCD_VELOCITY_CASE_STUDY_ENTRY,
   NAVY_HR_AUTOMATED_HCD_CASE_STUDY_ENTRY,

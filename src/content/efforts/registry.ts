@@ -5,6 +5,7 @@ import { DOJ_APPLICATION_MODERNIZATION_EFFORT } from "./doj-application-moderniz
 import { MARCH_FOR_SCIENCE_REDESIGN_EFFORT } from "./march-for-science-redesign";
 import { NAVY_KPI_DASHBOARD_EFFORT } from "./navy-kpi-dashboard";
 import { PERSONAL_KNOWLEDGE_SYSTEM_EFFORT } from "./personal-knowledge-system";
+import { MYKMHUB_PLATFORM_EFFORT } from "./mykmhub-platform";
 
 export const EFFORT_REGISTRY = [
   NAVY_HR_MODERNIZATION_EFFORT,
@@ -14,6 +15,7 @@ export const EFFORT_REGISTRY = [
   MARCH_FOR_SCIENCE_REDESIGN_EFFORT,
   NAVY_KPI_DASHBOARD_EFFORT,
   PERSONAL_KNOWLEDGE_SYSTEM_EFFORT,
+  MYKMHUB_PLATFORM_EFFORT,
 ] as const;
 
 export function getEffortById(id: string) {

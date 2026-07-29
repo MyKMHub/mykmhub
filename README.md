@@ -59,6 +59,11 @@ Content is maintained independently in `src/content`:
 
 A route does not appear merely because it is planned. Future MVP areas become public only when they contain useful content.
 
+The Knowledge area now contains a published practice note on building MyKMHub
+through specification-led AI-assisted development. It is maintained as guidance
+rather than a blog post or case study and is connected to the MyKMHub platform
+effort, Design System, and Tools.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

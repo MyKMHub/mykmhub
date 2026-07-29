@@ -679,9 +679,12 @@ Do not automatically create it as an isolated silo.
 
 ---
 
-# 20. Vibe Coding / AI-Assisted Development - **Future Content**
+# 20. Vibe Coding / AI-Assisted Development - **Published Foundation**
 
-Potential future reference/playbook based on lessons learned developing MyKMHub:
+The first public practice note based on lessons learned developing MyKMHub is
+published at `/knowledge/building-mykmhub-ai-assisted-development`.
+
+It covers:
 
 - AI-assisted coding;
 - requirements;
@@ -693,9 +696,10 @@ Potential future reference/playbook based on lessons learned developing MyKMHub:
 - lessons learned;
 - where human judgment remains necessary.
 
-This could become both content and portfolio evidence.
-
-Not a v1 dependency.
+The practice is maintained as Knowledge guidance and connected to the MyKMHub
+platform effort, Design System, and Tools. A distinct portfolio perspective may
+later present the product, KM, accessibility, and delivery evidence without
+duplicating this operational guidance.
 
 ---
 

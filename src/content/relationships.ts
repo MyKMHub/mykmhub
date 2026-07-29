@@ -2,6 +2,18 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "guidance-ai-assisted-mykmhub-development",
+    toEntryId: "landing-design-system",
+    type: "explains",
+    label: "Design-system and accessibility implementation context",
+  },
+  {
+    fromEntryId: "guidance-ai-assisted-mykmhub-development",
+    toEntryId: "landing-tools",
+    type: "related",
+    label: "Working applications produced through this development practice",
+  },
+  {
     fromEntryId: "tool-ai-image-prompt-wizard",
     toEntryId: "case-study-ai-image-prompt-wizard",
     type: "implements",
