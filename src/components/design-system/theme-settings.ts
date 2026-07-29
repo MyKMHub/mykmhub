@@ -35,7 +35,6 @@ export interface ThemeDraft {
 }
 
 export const ACTIVE_THEME_STORAGE_KEY = "mykmhub-active-site-theme";
-export const SITE_THEME_EVENT = "mykmhub-site-theme-change";
 
 export const TYPE_SCALE_RATIOS: Record<TypeScaleRatio, number> = {
   "minor-third": 1.2,
@@ -278,9 +277,6 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
     ].forEach((property) => root.style.removeProperty(property));
     root.removeAttribute("data-theme-preset");
     root.removeAttribute("data-canvas-effect");
-    window.dispatchEvent(
-      new CustomEvent(SITE_THEME_EVENT, { detail: { spectrumBackground: "base" } }),
-    );
     return;
   }
 
@@ -332,10 +328,5 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
   root.style.setProperty(
     "--site-accent-secondary",
     `light-dark(${accents.secondaryAccentLight}, ${accents.secondaryAccentDark})`,
-  );
-  window.dispatchEvent(
-    new CustomEvent(SITE_THEME_EVENT, {
-      detail: { spectrumBackground: theme.spectrumBackground },
-    }),
   );
 }
