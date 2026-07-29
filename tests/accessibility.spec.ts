@@ -9,6 +9,7 @@ const PUBLIC_ROUTES = [
   "/knowledge",
   "/knowledge/building-mykmhub-ai-assisted-development",
   "/toolkit",
+  "/about",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -251,6 +252,23 @@ test("Toolkit exposes connected leadership pathways", async ({ page }) => {
   await expect(
     page.getByRole("link", { name: "Open the accessible form generator" }),
   ).toHaveAttribute("href", "/tools/accessible-form-requirements-generator");
+});
+
+test("About explains the public site and its future boundary", async ({
+  page,
+}) => {
+  await page.goto("/about");
+  await expect(
+    page.getByRole("heading", { name: "A working resource, not just a portfolio" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Public foundation, deliberately evolving",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Use the HCD Director Toolkit" }),
+  ).toHaveAttribute("href", "/toolkit");
 });
 
 test("tool directory exposes status and verification context", async ({

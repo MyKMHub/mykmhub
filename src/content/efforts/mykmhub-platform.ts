@@ -15,6 +15,7 @@ export const MYKMHUB_PLATFORM_EFFORT = {
   ],
   contentEntryIds: [
     "guidance-ai-assisted-mykmhub-development",
+    "landing-about",
     "landing-design-system",
     "landing-tools",
   ],

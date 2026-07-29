@@ -17,6 +17,7 @@ import { DESIGN_SYSTEM_ENTRY } from "./entries/design-system";
 import { KNOWLEDGE_ENTRY } from "./entries/knowledge";
 import { AI_ASSISTED_MYKMHUB_DEVELOPMENT_ENTRY } from "./entries/ai-assisted-mykmhub-development";
 import { HCD_DIRECTOR_TOOLKIT_ENTRY } from "./entries/hcd-director-toolkit";
+import { ABOUT_ENTRY } from "./entries/about";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -26,6 +27,7 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   DESIGN_SYSTEM_ENTRY,
   KNOWLEDGE_ENTRY,
   HCD_DIRECTOR_TOOLKIT_ENTRY,
+  ABOUT_ENTRY,
   AI_ASSISTED_MYKMHUB_DEVELOPMENT_ENTRY,
   EVIDENCE_MATRIX_TOOL_ENTRY,
   HCD_VELOCITY_CASE_STUDY_ENTRY,

@@ -68,6 +68,10 @@ The HCD Director Toolkit is a contextual leadership view over existing methods,
 tools, guidance, and portfolio evidence. It organizes useful pathways without
 duplicating the underlying content records.
 
+The About page explains Nathan Byrnes's connected HCD, accessibility, knowledge
+management, and responsible-automation practice. It also makes the boundary
+between the current public site and future authenticated capabilities explicit.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

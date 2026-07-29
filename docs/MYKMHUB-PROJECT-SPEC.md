@@ -787,6 +787,11 @@ a contextual view over existing methods, tools, guidance, and portfolio
 evidence. It does not duplicate the underlying records or create placeholder
 pages for unpopulated toolkit areas.
 
+The About page is now published at `/about`. It identifies Nathan Byrnes,
+explains the connected practice behind MyKMHub, and distinguishes the current
+public foundation from future private, Career Archive, and administrative
+capabilities without representing those future concepts as available.
+
 ### Phase 3 - Content and capability expansion
 
 Populate high-value Director resources and begin connecting:

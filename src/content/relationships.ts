@@ -2,6 +2,18 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "landing-about",
+    toEntryId: "landing-hcd-director-toolkit",
+    type: "explains",
+    label: "Public leadership toolkit and practice",
+  },
+  {
+    fromEntryId: "landing-about",
+    toEntryId: "guidance-ai-assisted-mykmhub-development",
+    type: "explains",
+    label: "MyKMHub development practice",
+  },
+  {
     fromEntryId: "landing-hcd-director-toolkit",
     toEntryId: "method-evidence-first-synthesis",
     type: "related",
