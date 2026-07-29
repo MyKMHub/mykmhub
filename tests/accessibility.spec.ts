@@ -60,3 +60,43 @@ test("draft evidence log is clearly identified", async ({ page }) => {
     page.getByRole("heading", { name: "This is a proof of concept" }),
   ).toBeVisible();
 });
+
+test("404 page is readable and accessible in explicit dark mode", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.evaluate(() => {
+    window.localStorage.setItem(
+      "mykmhub-accessibility-preferences",
+      JSON.stringify({
+        colorScheme: "dark",
+        textSize: "default",
+        increasedContrast: false,
+        reducedMotion: false,
+        underlinedLinks: false,
+      }),
+    );
+  });
+
+  const response = await page.goto("/this-page-does-not-exist");
+  expect(response?.status()).toBe(404);
+  await expect(
+    page.getByRole("heading", { name: "This page could not be found" }),
+  ).toBeVisible();
+
+  const colors = await page.locator("body").evaluate((body) => {
+    const style = window.getComputedStyle(body);
+    return {
+      background: style.backgroundColor,
+      text: style.color,
+      colorScheme: style.colorScheme,
+    };
+  });
+  expect(colors.colorScheme).toContain("dark");
+  expect(colors.background).not.toBe(colors.text);
+
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  expect(results.violations).toEqual([]);
+});
