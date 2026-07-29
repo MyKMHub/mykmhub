@@ -19,8 +19,10 @@ export default function AiImagePromptWizardPage() {
         description={tool.briefDescription}
         expandedDescription={tool.description}
         instructions="Define the subject, then select styling, composition, and output options. Review the compiled prompt, add the selected provider key, and generate or copy."
-        relatedHref="/case-studies/ai-image-creation-wizard"
-        relatedLabel="Read the related portfolio case study"
+        relatedLinks={[{
+          href: "/case-studies/ai-image-creation-wizard",
+          label: "Read the related portfolio case study",
+        }]}
       />
 
       <AiImagePromptWizard />

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ToolPageHeader } from "@/components/tool-page-header";
 import { AccessibleFormGenerator } from "@/components/tools/accessible-form-generator";
 import { ACCESSIBLE_FORM_GENERATOR_TOOL as tool } from "@/content/tools/accessible-form-generator";
 
@@ -11,38 +11,19 @@ export const metadata: Metadata = {
 export default function AccessibleFormGeneratorPage() {
   return (
     <article className="content-page tool-page">
-      <header className="page-header">
-        <p className="eyebrow">{tool.statusLabel}</p>
-        <h1>{tool.title}</h1>
-        <p className="hero-summary">
-          {tool.description} See the{" "}
-          <Link href="/case-studies/accessible-form-component-and-ux-requirements-generator">
-            related portfolio case study
-          </Link>{" "}
-          for the design context and outcomes.
-        </p>
-        <dl className="tool-facts">
-          <div>
-            <dt>Status</dt>
-            <dd>{tool.statusLabel}</dd>
-          </div>
-          <div>
-            <dt>Context</dt>
-            <dd>{tool.context}</dd>
-          </div>
-          <div>
-            <dt>Last verified</dt>
-            <dd>
-              <time dateTime={tool.lastVerified}>July 28, 2026</time>
-            </dd>
-          </div>
-        </dl>
-      </header>
-
-      <aside className="status-note" aria-labelledby="beta-heading">
-        <h2 id="beta-heading">Beta scope</h2>
-        <p>{tool.statusNote}</p>
-      </aside>
+      <ToolPageHeader
+        title={tool.title}
+        status={tool.statusLabel}
+        lastVerified={tool.lastVerified}
+        lastVerifiedLabel="July 28, 2026"
+        description={tool.briefDescription}
+        expandedDescription={tool.description}
+        instructions="Choose a form component, configure its content and behavior, then generate and review the live pattern, semantic code, requirements, and test guidance."
+        relatedLinks={[{
+          href: "/case-studies/accessible-form-component-and-ux-requirements-generator",
+          label: "Read the related portfolio case study",
+        }]}
+      />
 
       <AccessibleFormGenerator />
 

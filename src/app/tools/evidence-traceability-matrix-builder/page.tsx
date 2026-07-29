@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ToolPageHeader } from "@/components/tool-page-header";
 import { EvidenceMatrixBuilder } from "@/components/tools/evidence-matrix-builder";
 import { EVIDENCE_TRACEABILITY_MATRIX_TOOL as tool } from "@/content/tools/evidence-traceability-matrix";
 
@@ -12,22 +12,25 @@ export const metadata: Metadata = {
 export default function EvidenceMatrixToolPage() {
   return (
     <article className="content-page tool-page">
-      <header className="page-header">
-        <p className="eyebrow">{tool.statusLabel} · Low priority</p>
-        <h1>{tool.title}</h1>
-        <p className="hero-summary">{tool.description}</p>
-        <div className="related-links" aria-label="Related content">
-          <Link href="/methods/evidence-first-synthesis">Read the method</Link>
-          <Link href="/case-studies/scaling-hcd-through-ai">
-            View the related portfolio case study
-          </Link>
-        </div>
-      </header>
-
-      <aside className="status-note" aria-labelledby="draft-heading">
-        <h2 id="draft-heading">This is a proof of concept</h2>
-        <p>{tool.statusNote}</p>
-      </aside>
+      <ToolPageHeader
+        title={tool.title}
+        status={`${tool.statusLabel} · Low priority`}
+        lastVerified={tool.lastVerified}
+        lastVerifiedLabel="July 28, 2026"
+        description={tool.briefDescription}
+        expandedDescription={tool.description}
+        instructions="Use sanitized information only. Add an evidence item, record its source and confidence, assign a point of contact, then review or export the shared log."
+        relatedLinks={[
+          {
+            href: "/methods/evidence-first-synthesis",
+            label: "Read the evidence-first synthesis method",
+          },
+          {
+            href: "/case-studies/scaling-hcd-through-ai",
+            label: "View the related portfolio case study",
+          },
+        ]}
+      />
 
       <aside className="privacy-notice" aria-labelledby="privacy-heading">
         <h2 id="privacy-heading">Use sanitized information only</h2>

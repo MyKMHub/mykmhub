@@ -65,13 +65,31 @@ test("accessibility preferences are keyboard reachable and persistent", async ({
 
 test("draft evidence log is clearly identified", async ({ page }) => {
   await page.goto("/tools/evidence-traceability-matrix-builder");
-  await expect(
-    page.getByRole("heading", { name: "This is a proof of concept" }),
-  ).toBeVisible();
+  await expect(page.getByText(
+    "Status: Working proof of concept · Low priority",
+  )).toBeVisible();
+  await expect(page.getByRole("heading", {
+    name: "Use sanitized information only",
+  })).toBeVisible();
   await expect(page.locator("details.version-notes")).not.toHaveAttribute(
     "open",
     "",
   );
+});
+
+test("working tool pages use the compact shared header", async ({ page }) => {
+  for (const route of [
+    "/tools/accessible-form-requirements-generator",
+    "/tools/ai-image-prompt-wizard",
+    "/tools/evidence-traceability-matrix-builder",
+  ]) {
+    await page.goto(route);
+    await expect(page.getByRole("button", { name: "More description" })).toBeVisible();
+    await expect(page.getByText("Instructions:", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Current scope" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Beta scope" })).toHaveCount(0);
+    await expect(page.getByText("Context", { exact: true })).toHaveCount(0);
+  }
 });
 
 test("tool directory exposes status and verification context", async ({

@@ -14,8 +14,7 @@ interface ToolPageHeaderProps {
   description: string;
   expandedDescription: string;
   instructions: string;
-  relatedHref?: string;
-  relatedLabel?: string;
+  relatedLinks?: Array<{ href: string; label: string }>;
 }
 
 export function ToolPageHeader({
@@ -26,8 +25,7 @@ export function ToolPageHeader({
   description,
   expandedDescription,
   instructions,
-  relatedHref,
-  relatedLabel,
+  relatedLinks = [],
 }: ToolPageHeaderProps) {
   return (
     <header className="page-header compact-tool-header">
@@ -46,9 +44,9 @@ export function ToolPageHeader({
         <DisclosureTitle level={2}>More description</DisclosureTitle>
         <DisclosurePanel>
           <p>{expandedDescription}</p>
-          {relatedHref && relatedLabel && (
-            <p><a href={relatedHref}>{relatedLabel}</a></p>
-          )}
+          {relatedLinks.map((link) => (
+            <p key={link.href}><a href={link.href}>{link.label}</a></p>
+          ))}
         </DisclosurePanel>
       </Disclosure>
       <p><strong>Instructions:</strong> {instructions}</p>
