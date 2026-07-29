@@ -102,3 +102,50 @@ Implementation sequence:
 Priority: backlog. Revisit after the normalized content model, Knowledge area,
 contextual help, feedback, authentication, and content-permission foundations
 are stable.
+
+## HCD synthesis GPT tool family modernization
+
+The two Navy HCD automation portfolio perspectives are also associated with an
+existing GPT-based synthesis tool family:
+
+- a simplified single-GPT version;
+- a higher-performing workflow using three or four purpose-specific GPTs.
+
+Treat these as variants of one tool family connected to the shared Navy HR
+modernization effort. Do not publish tool records or make capability claims
+until the existing GPTs, instructions, knowledge sources, and representative
+outputs are provided and evaluated.
+
+When the GPTs are available:
+
+1. Inventory each GPT's purpose, instructions, inputs, outputs, knowledge
+   sources, model assumptions, and handoff points.
+2. Document the single-GPT and specialized multi-GPT workflow without exposing
+   sensitive prompts, data, or client information.
+3. Build a sanitized evaluation set representing common and difficult HCD
+   synthesis tasks.
+4. Compare the variants for evidence fidelity, traceability, unsupported
+   claims, consistency, accessibility of outputs, latency, operating cost, and
+   reviewer effort.
+5. Identify which year-old instructions or orchestration patterns should be
+   modernized for current models and APIs.
+6. Preserve the strongest specialized roles while simplifying handoffs and
+   removing duplicated instructions.
+7. Require human review for interpretation, prioritization, policy conclusions,
+   and changes to research findings.
+8. Decide whether the modern implementation should remain GPT-based, become a
+   MyKMHub workflow, or use a hybrid approach.
+
+The eventual tool-family record should support:
+
+- parent tool and variant identifiers;
+- variant status and last-verified date;
+- model and knowledge-source versioning;
+- expected input and output contracts;
+- orchestration order and failure recovery;
+- privacy, retention, and authorization requirements;
+- accessibility notes;
+- related portfolio, method, knowledge, and effort records;
+- evaluation evidence and known limitations.
+
+Priority: backlog pending access to the existing GPTs and sanitized examples.
