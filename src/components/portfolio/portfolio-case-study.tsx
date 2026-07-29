@@ -143,21 +143,30 @@ export function PortfolioCaseStudy({
               <p>{effort.summary}</p>
             </div>
             <div className="related-links" aria-label="Related effort content">
-              {study.id === "case-study-hcd-velocity-engine" ? (
-                <Link href="/case-studies/scaling-automated-hcd-in-navy-hr-modernization">
-                  Read the broader modernization perspective
-                </Link>
-              ) : (
-                <Link href="/case-studies/scaling-hcd-through-ai">
-                  Read the strategic-impact perspective
+              {study.effortId === "effort-navy-hr-modernization" && (
+                <>
+                  {study.id === "case-study-hcd-velocity-engine" ? (
+                    <Link href="/case-studies/scaling-automated-hcd-in-navy-hr-modernization">
+                      Read the broader modernization perspective
+                    </Link>
+                  ) : (
+                    <Link href="/case-studies/scaling-hcd-through-ai">
+                      Read the strategic-impact perspective
+                    </Link>
+                  )}
+                  <Link href="/methods/evidence-first-synthesis">
+                    Read the synthesis method
+                  </Link>
+                  <Link href="/tools/evidence-traceability-matrix-builder">
+                    Explore the evidence-log concept
+                  </Link>
+                </>
+              )}
+              {study.application && (
+                <Link href={study.application.href}>
+                  {study.application.label}
                 </Link>
               )}
-              <Link href="/methods/evidence-first-synthesis">
-                Read the synthesis method
-              </Link>
-              <Link href="/tools/evidence-traceability-matrix-builder">
-                Explore the evidence-log concept
-              </Link>
             </div>
           </aside>
         )}

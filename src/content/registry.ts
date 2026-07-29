@@ -5,6 +5,8 @@ import { HCD_VELOCITY_CASE_STUDY_ENTRY } from "./entries/hcd-velocity-case-study
 import { EVIDENCE_FIRST_SYNTHESIS_ENTRY } from "./entries/evidence-first-synthesis";
 import { PORTFOLIO_ENTRY } from "./entries/portfolio";
 import { NAVY_HR_AUTOMATED_HCD_CASE_STUDY_ENTRY } from "./entries/navy-hr-automated-hcd-case-study";
+import { ACCESSIBLE_FORM_GENERATOR_CASE_STUDY_ENTRY } from "./entries/accessible-form-generator-case-study";
+import { ACCESSIBLE_FORM_GENERATOR_TOOL_ENTRY } from "./entries/accessible-form-generator-tool";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -14,6 +16,8 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   EVIDENCE_MATRIX_TOOL_ENTRY,
   HCD_VELOCITY_CASE_STUDY_ENTRY,
   NAVY_HR_AUTOMATED_HCD_CASE_STUDY_ENTRY,
+  ACCESSIBLE_FORM_GENERATOR_CASE_STUDY_ENTRY,
+  ACCESSIBLE_FORM_GENERATOR_TOOL_ENTRY,
   EVIDENCE_FIRST_SYNTHESIS_ENTRY,
 ];
 

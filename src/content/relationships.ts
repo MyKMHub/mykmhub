@@ -2,6 +2,12 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "tool-accessible-form-generator",
+    toEntryId: "case-study-accessible-form-generator",
+    type: "implements",
+    label: "Design context and outcomes",
+  },
+  {
     fromEntryId: "case-study-hcd-velocity-engine",
     toEntryId: "case-study-navy-hr-automated-hcd",
     type: "same-effort",

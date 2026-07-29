@@ -75,8 +75,13 @@ the shared Navy HR modernization effort:
 - the broader operational-design case study on scaling automated HCD across
   Recruit Training Command and Quota Management.
 
-The Evidence Traceability Matrix Builder remains a private, low-priority draft
-concept for a future centralized team evidence log.
+The Evidence Traceability Matrix Builder remains a publicly explorable,
+low-priority working draft for a future centralized team evidence log.
+
+The Accessible Form Component & UX Requirements Generator is the first hybrid
+Tool and Portfolio entry. Its canonical working application lives in Tools,
+while its normalized Portfolio record documents the design context,
+accessibility decisions, and outcomes without duplicating the application.
 
 
 Authentication, private workspaces, multi-tenancy, billing, server-side research processing, and other future platform capabilities remain intentionally out of scope.

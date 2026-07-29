@@ -149,3 +149,23 @@ The eventual tool-family record should support:
 - evaluation evidence and known limitations.
 
 Priority: backlog pending access to the existing GPTs and sanitized examples.
+
+## Layout density and reading controls
+
+Continue refining page density so portfolio and knowledge layouts feel focused
+rather than overly spacious or visually noisy.
+
+Evaluate:
+
+- compact, comfortable, and spacious density preferences;
+- smaller validated text-scale options alongside enlargement controls;
+- section spacing, line length, heading scale, and table density as coordinated
+  settings rather than isolated font-size changes;
+- preservation of minimum touch targets, readable line height, reflow, and
+  Spectrum component behavior at every density;
+- user testing to ensure compact layouts do not create crowding for people with
+  cognitive, motor, or low-vision access needs.
+
+Priority: backlog. The current shared portfolio template should continue using
+the quieter inline project-facts treatment and restrained effort-context
+styling established during the first normalization pass.

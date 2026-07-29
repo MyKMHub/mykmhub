@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SCALING_AUTOMATED_HCD_NAVY_HR } from "@/content/portfolio/scaling-automated-hcd-navy-hr";
 import { SCALING_HCD_THROUGH_AI } from "@/content/portfolio/scaling-hcd-through-ai";
+import { ACCESSIBLE_FORM_GENERATOR_CASE_STUDY } from "@/content/portfolio/accessible-form-generator";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -11,6 +12,12 @@ export const metadata: Metadata = {
 };
 
 const PORTFOLIO_ITEMS = [
+  {
+    study: ACCESSIBLE_FORM_GENERATOR_CASE_STUDY,
+    href:
+      "/case-studies/accessible-form-component-and-ux-requirements-generator",
+    cover: ACCESSIBLE_FORM_GENERATOR_CASE_STUDY.figures[0],
+  },
   {
     study: SCALING_AUTOMATED_HCD_NAVY_HR,
     href: "/case-studies/scaling-automated-hcd-in-navy-hr-modernization",

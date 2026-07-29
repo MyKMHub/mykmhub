@@ -6,8 +6,10 @@ const PUBLIC_ROUTES = [
   "/portfolio",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
+  "/tools/accessible-form-requirements-generator",
   "/case-studies/scaling-hcd-through-ai",
   "/case-studies/scaling-automated-hcd-in-navy-hr-modernization",
+  "/case-studies/accessible-form-component-and-ux-requirements-generator",
   "/methods/evidence-first-synthesis",
 ] as const;
 
@@ -150,6 +152,44 @@ test("Navy modernization case study contains its media and contained data table"
   expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
   expect(dimensions.regionScrollWidth).toBeGreaterThan(dimensions.regionWidth);
   expect(dimensions.brokenImages).toBe(0);
+});
+
+test("accessible form generator creates a preview and semantic output", async ({
+  page,
+}) => {
+  await page.goto("/tools/accessible-form-requirements-generator");
+  await page.getByRole("button", { name: "Generate pattern" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Live component preview" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("textbox", { name: "Generated HTML" }),
+  ).toContainText('label for="generated-text"');
+
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+    .analyze();
+  expect(results.violations).toEqual([]);
+});
+
+test("portfolio project facts use a compact label and value layout", async ({
+  page,
+}) => {
+  await page.goto(
+    "/case-studies/scaling-automated-hcd-in-navy-hr-modernization",
+  );
+  const facts = page.locator(".project-facts");
+  await expect(facts).toContainText(
+    "ClientU.S. Navy N16 — Personnel and Training",
+  );
+
+  const layout = await facts.locator("div").first().evaluate((item) => ({
+    display: window.getComputedStyle(item).display,
+    padding: window.getComputedStyle(item).padding,
+  }));
+  expect(layout.display).toBe("flex");
+  expect(layout.padding).toBe("0px");
 });
 
 test("404 page is readable and accessible in explicit dark mode", async ({

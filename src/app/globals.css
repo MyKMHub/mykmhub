@@ -161,7 +161,7 @@ html[data-links="underlined"] a {
 .main-content {
   width: min(100%, var(--page-max));
   margin-inline: auto;
-  padding: clamp(3rem, 8vw, 7rem) var(--page-gutter);
+  padding: clamp(2rem, 5vw, 4.5rem) var(--page-gutter);
   flex: 1;
 }
 
@@ -274,7 +274,7 @@ h3 {
 
 .content-page {
   display: grid;
-  gap: clamp(3rem, 7vw, 6rem);
+  gap: clamp(2rem, 5vw, 4rem);
 }
 
 .content-page > * {
@@ -444,6 +444,147 @@ h3 {
   border-block-start: 1px solid var(--surface-border);
 }
 
+.tool-facts {
+  display: grid;
+  gap: 0.5rem;
+  margin-block: 1.5rem 0;
+}
+
+.tool-facts div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tool-facts dt {
+  font-weight: 700;
+}
+
+.tool-facts dt::after {
+  content: ":";
+}
+
+.tool-facts dd {
+  margin: 0;
+}
+
+.form-generator {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+
+.generator-step {
+  display: grid;
+  min-width: 0;
+  gap: 1.25rem;
+  padding-block-start: 2rem;
+  border-block-start: 1px solid var(--surface-border);
+}
+
+.generator-step h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.generator-fields,
+.generator-switches {
+  display: grid;
+  max-width: 48rem;
+  gap: 1rem;
+}
+
+.generator-tips {
+  max-width: 48rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface-subtle);
+  border-inline-start: 0.25rem solid var(--surface-border);
+}
+
+.generator-tips p {
+  margin-block-start: 0;
+}
+
+.generator-tips li,
+.generated-preview p,
+.preview-field p {
+  line-height: 1.6;
+}
+
+.generated-preview {
+  display: grid;
+  max-width: 48rem;
+  gap: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--surface-subtle);
+  border: 1px solid var(--surface-border);
+}
+
+.preview-field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.preview-field label,
+.preview-field legend {
+  font-weight: 700;
+}
+
+.preview-field fieldset {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--surface-border);
+}
+
+.preview-field fieldset label {
+  font-weight: 400;
+}
+
+.preview-field input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.preview-field select,
+.preview-field textarea {
+  width: min(100%, 40rem);
+  min-height: 2.75rem;
+  padding: 0.65rem 0.75rem;
+  color: CanvasText;
+  background: Canvas;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.25rem;
+  font: inherit;
+}
+
+.preview-field textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.preview-field button[role="switch"] {
+  width: fit-content;
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+  color: CanvasText;
+  background: Canvas;
+  border: 1px solid var(--surface-border);
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+}
+
+.preview-field details {
+  margin-block-start: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--surface-border);
+}
+
+.preview-field summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.field-description {
+  margin: 0;
+}
+
 .tool-support li,
 .version-notes p {
   line-height: 1.6;
@@ -468,11 +609,11 @@ h3 {
   display: grid;
   grid-template-columns: minmax(0, 1.3fr) minmax(15rem, 0.7fr);
   gap: clamp(1.5rem, 4vw, 2.5rem);
-  margin-block-start: 2rem;
-  padding: clamp(1.25rem, 3vw, 2rem);
+  margin-block-start: 1.5rem;
+  padding: 0 0 0 clamp(1rem, 2vw, 1.5rem);
   color: CanvasText;
-  background: var(--surface-subtle);
-  border: 1px solid var(--surface-border);
+  background: transparent;
+  border-inline-start: 0.25rem solid var(--surface-border);
 }
 
 .effort-context h2 {
@@ -663,6 +804,14 @@ h3 {
   border: 1px solid var(--surface-border);
 }
 
+.project-facts {
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  max-width: 52rem;
+  background: transparent;
+  border: 0;
+}
+
 .project-facts div,
 .impact-list div {
   padding: 1.25rem;
@@ -670,11 +819,32 @@ h3 {
   color: CanvasText;
 }
 
+.project-facts div {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0;
+  background: transparent;
+}
+
 .project-facts dt {
   font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+.project-facts dt {
+  flex: 0 0 auto;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.project-facts dt::after {
+  content: ":";
+}
+
+.project-facts dd {
+  margin: 0;
 }
 
 .project-facts dd,
@@ -713,7 +883,7 @@ h3 {
 
 .prose {
   display: grid;
-  gap: clamp(3rem, 7vw, 5rem);
+  gap: clamp(2.25rem, 5vw, 3.75rem);
   max-width: 48rem;
 }
 
