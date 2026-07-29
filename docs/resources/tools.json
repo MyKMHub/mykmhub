@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "lastVerified": "2026-07-29",
+  "publicRepositorySafe": true,
+  "tools": [
+    {
+      "id": "codex",
+      "name": "Codex",
+      "category": "development-interface",
+      "location": "hybrid",
+      "currentRole": "primary",
+      "required": false,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Repository-aware implementation",
+        "Testing and diagnostics",
+        "Git commits and publishing",
+        "Maintaining project continuity documentation"
+      ],
+      "limitations": [
+        "Does not replace GitHub remote history",
+        "Does not deploy changes that have not been pushed",
+        "Should not edit the same file concurrently with another editor"
+      ],
+      "alternatives": ["cursor", "manual-editor"],
+      "relatedResources": [
+        "local-workspace",
+        "git-local",
+        "github-repository"
+      ]
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "category": "development-interface",
+      "location": "local-with-cloud-ai",
+      "currentRole": "optional-alternative",
+      "required": false,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Manual code browsing and editing",
+        "Integrated terminal and source-control views",
+        "Alternative AI-assisted implementation"
+      ],
+      "limitations": [
+        "Does not need to remain open while Codex works",
+        "Unsaved buffers can become stale when another tool edits a file",
+        "AI conversation state is not the project source of truth"
+      ],
+      "alternatives": ["codex", "manual-editor"],
+      "relatedResources": ["local-workspace", "git-local"]
+    },
+    {
+      "id": "manual-editor",
+      "name": "Manual text or code editor",
+      "category": "development-interface",
+      "location": "local",
+      "currentRole": "fallback",
+      "required": false,
+      "verifiedInWorkflow": false,
+      "bestFor": [
+        "Emergency file inspection",
+        "Small manual changes when AI tooling is unavailable"
+      ],
+      "limitations": [
+        "Does not provide project-aware AI assistance by default",
+        "Still requires separate validation and Git operations"
+      ],
+      "alternatives": ["codex", "cursor"],
+      "relatedResources": ["local-workspace"]
+    },
+    {
+      "id": "powershell",
+      "name": "PowerShell",
+      "category": "command-interface",
+      "location": "local",
+      "currentRole": "primary-command-interface",
+      "required": false,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Starting and diagnosing local services",
+        "Running npm, Git, and validation commands",
+        "Inspecting Windows processes and files"
+      ],
+      "limitations": [
+        "Commands can alter or remove files and processes",
+        "Process identifiers must be verified before termination"
+      ],
+      "alternatives": ["cursor-terminal", "graphical-git-client"],
+      "relatedResources": ["local-workspace", "local-development"]
+    },
+    {
+      "id": "cursor-terminal",
+      "name": "Cursor integrated terminal",
+      "category": "command-interface",
+      "location": "local",
+      "currentRole": "optional-alternative",
+      "required": false,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Running the same PowerShell commands while viewing code"
+      ],
+      "limitations": [
+        "Closing Cursor can also close or interrupt its terminal sessions"
+      ],
+      "alternatives": ["powershell"],
+      "relatedResources": ["local-workspace", "local-development"]
+    },
+    {
+      "id": "git",
+      "name": "Git",
+      "category": "version-control",
+      "location": "local",
+      "currentRole": "required-foundation",
+      "required": true,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Local version history",
+        "Reviewable commits and branches",
+        "Synchronizing source with GitHub"
+      ],
+      "limitations": [
+        "Local commits do not update GitHub automatically",
+        "Does not back up secrets, external databases, or cloud configuration"
+      ],
+      "alternatives": [],
+      "interfaces": ["powershell", "codex", "cursor", "graphical-git-client"],
+      "relatedResources": ["git-local", "github-repository"]
+    },
+    {
+      "id": "graphical-git-client",
+      "name": "Graphical Git client",
+      "category": "version-control-interface",
+      "location": "local",
+      "currentRole": "optional-unverified",
+      "required": false,
+      "verifiedInWorkflow": false,
+      "examples": ["GitHub Desktop", "Cursor Source Control"],
+      "bestFor": [
+        "Visual review of changed files",
+        "Graphical commit, branch, fetch, and push operations"
+      ],
+      "limitations": [
+        "A client is only an interface over Git",
+        "The exact installed client and configuration should be verified before relying on it"
+      ],
+      "alternatives": ["powershell", "codex", "cursor"],
+      "relatedResources": ["git-local", "github-repository"]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "category": "remote-version-control",
+      "location": "cloud",
+      "currentRole": "required-publishing-source",
+      "required": true,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Durable remote source history",
+        "Repository access from another device",
+        "Supplying the production branch to Vercel"
+      ],
+      "limitations": [
+        "The current repository is public",
+        "Secrets and private continuity details must not be committed",
+        "A remote repository is not a complete application-data backup"
+      ],
+      "alternatives": ["another-git-remote"],
+      "relatedResources": ["github-organization", "github-repository"]
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "category": "deployment-hosting",
+      "location": "cloud",
+      "currentRole": "required-current-host",
+      "required": true,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Building the Next.js application from GitHub",
+        "Production and preview deployments",
+        "Build logs, deployment history, and domain assignment"
+      ],
+      "limitations": [
+        "Cannot deploy local commits it has not received through GitHub",
+        "Successful local validation does not prove a production deployment",
+        "Account, environment, and domain recovery require separate continuity planning"
+      ],
+      "alternatives": ["another-nextjs-host", "local-production-build"],
+      "relatedResources": [
+        "vercel-project",
+        "vercel-domains",
+        "production-site"
+      ]
+    },
+    {
+      "id": "npm",
+      "name": "npm",
+      "category": "package-and-script-runner",
+      "location": "local-with-cloud-registry",
+      "currentRole": "required-foundation",
+      "required": true,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Installing project dependencies",
+        "Running development, build, lint, and test scripts"
+      ],
+      "limitations": [
+        "Dependency installation may require network access",
+        "The lockfile must remain synchronized with declared dependencies"
+      ],
+      "alternatives": [],
+      "relatedResources": ["local-workspace", "local-development"]
+    },
+    {
+      "id": "nextjs",
+      "name": "Next.js",
+      "category": "application-framework",
+      "location": "project-and-runtime",
+      "currentRole": "required-foundation",
+      "required": true,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Routing, rendering, server endpoints, and production builds"
+      ],
+      "limitations": [
+        "The installed version has breaking changes and its bundled documentation must be consulted before implementation"
+      ],
+      "alternatives": [],
+      "relatedResources": ["local-workspace", "local-development", "production-site"]
+    },
+    {
+      "id": "playwright-axe",
+      "name": "Playwright and axe-core",
+      "category": "validation",
+      "location": "local-and-ci-capable",
+      "currentRole": "required-validation",
+      "required": true,
+      "verifiedInWorkflow": true,
+      "bestFor": [
+        "Browser workflow regression tests",
+        "Automated WCAG A and AA issue detection",
+        "Mobile containment and persistence checks"
+      ],
+      "limitations": [
+        "Automated checks do not replace keyboard, screen-reader, zoom, reflow, contrast, and usability testing"
+      ],
+      "alternatives": ["manual-accessibility-testing"],
+      "relatedResources": ["local-workspace", "local-development", "production-site"]
+    }
+  ]
+}

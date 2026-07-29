@@ -156,6 +156,22 @@
       "purpose": "Shared metadata, contextual views, and knowledge/action boundaries.",
       "verify": "Test proposed facets against real records before extending them.",
       "related": ["project-specification", "operations-guide"]
+    },
+    {
+      "id": "tooling-guide",
+      "name": "Tooling and alternative workflows",
+      "type": "document",
+      "environment": "repository",
+      "access": "public",
+      "location": "docs/TOOLING.md",
+      "purpose": "Compare local, cloud, and hybrid tools and document fallback workflows.",
+      "verify": "Review when the preferred development, Git, or hosting workflow changes.",
+      "related": [
+        "operations-guide",
+        "local-workspace",
+        "github-repository",
+        "vercel-project"
+      ]
     }
   ]
 }

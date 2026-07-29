@@ -120,3 +120,6 @@ Later:
 The [resource registry](resources/environments.json) is the first small
 implementation of this model. The [operations guide](OPERATIONS.md) is a
 human-readable contextual view over those resources and related procedures.
+The [tool catalog](resources/tools.json) and
+[tooling guide](TOOLING.md) apply the same model to overlapping local, cloud,
+and hybrid development capabilities.

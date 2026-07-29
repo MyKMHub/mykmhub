@@ -7,7 +7,9 @@ The authoritative working specification is [docs/MYKMHUB-PROJECT-SPEC.md](docs/M
 To resume, run, publish, or troubleshoot the project, use the
 [operations and continuity guide](docs/OPERATIONS.md). The
 [context-driven KM model](docs/KM-CONTEXT-MODEL.md) documents how reusable
-records, metadata, and contextual views should evolve.
+records, metadata, and contextual views should evolve. The
+[tooling guide](docs/TOOLING.md) compares the current workflow with available
+alternate methods.
 
 ## Technology
 

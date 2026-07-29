@@ -6,6 +6,9 @@ Last verified: July 29, 2026
 This guide explains how to resume, run, validate, publish, and verify MyKMHub.
 The machine-readable [environment and resource registry](resources/environments.json)
 is the canonical directory of locations and relationships.
+The [tool catalog](resources/tools.json) and
+[tooling comparison guide](TOOLING.md) document preferred and alternate ways
+to operate those resources.
 
 This repository is public. Do not add passwords, API keys, access tokens,
 recovery codes, private contacts, billing details, or secret environment values.
@@ -215,6 +218,8 @@ contain the secret value.
 - [Roadmap](ROADMAP.md)
 - [Context-driven KM model](KM-CONTEXT-MODEL.md)
 - [Environment and resource registry](resources/environments.json)
+- [Tooling and alternative workflows](TOOLING.md)
+- [Machine-readable tool catalog](resources/tools.json)
 
 Future public content can derive an AI-assisted-development practice note from
 this runbook without exposing private operational or recovery information.
