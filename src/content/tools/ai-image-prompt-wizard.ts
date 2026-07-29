@@ -3,33 +3,45 @@ import type { ToolRecord } from "./types";
 export const AI_IMAGE_PROMPT_WIZARD_TOOL = {
   id: "tool-ai-image-prompt-wizard",
   slug: "ai-image-prompt-wizard",
-  title: "AI Image Prompt Wizard",
+  title: "AI Image Prompt Architect & Generator",
   briefDescription:
-    "Build a structured, model-independent image prompt through six guided stages.",
+    "Build engine-aware image prompts through four progressive-disclosure zones and generate an optional configured preview.",
   description:
-    "A guided workspace for turning visual intent into a reusable image prompt without requiring advanced prompting or composition knowledge.",
-  context: "AI image prompt planning and iteration",
+    "A guided workspace for translating visual intent into OpenAI, Gemini, Midjourney, or Stable Diffusion/FLUX prompt syntax, with structured parameters and optional server-side preview generation.",
+  context: "AI image prompt architecture, translation, and generation",
   route: "/tools/ai-image-prompt-wizard",
   contentStatus: "published",
   visibility: "public",
   operationalStatus: "limited",
-  statusLabel: "Working prompt helper",
+  statusLabel: "Working beta",
   statusNote:
-    "Prompt planning, preview, copying, and iteration notes work in the browser. This tool does not generate images or connect to an AI model.",
-  lastVerified: "2026-07-28",
+    "The four-zone prompt architect, engine translation, manual override, copying, and parameter breakdown work. Preview generation requires a server API key plus an explicit feature flag and should remain disabled publicly until authentication and cost controls are in place.",
+  lastVerified: "2026-07-29",
   accessibilityNotes: [
     "Spectrum 2 controls provide visible labels, keyboard operation, focus treatment, and accessible states.",
-    "The workflow is divided into six named steps to reduce cognitive load.",
-    "Status messages announce copying, navigation, and reset results without moving focus.",
-    "The compiled prompt remains visible for review while source fields are edited.",
+    "Four Spectrum 2 accordion zones use progressive disclosure to reduce cognitive load.",
+    "Option groups are capped and every control has a visible label and keyboard behavior.",
+    "Status messages announce copying, generation, manual override, and reset results without moving focus.",
+    "Engine output and the structured parameter breakdown remain visible for review.",
   ],
   privacyNotes: [
     "Prompt content remains in the current browser session.",
-    "Nothing entered in the tool is persisted or sent to a server or AI model.",
+    "Nothing entered in the tool is persisted.",
+    "When preview generation is enabled and intentionally activated, the natural-language prompt is sent to the configured OpenAI image endpoint; selections and copied external-engine syntax are not stored.",
   ],
   relatedPortfolioRoutes: ["/case-studies/ai-image-creation-wizard"],
   effortId: "effort-ai-image-prompt-wizard",
   versionNotes: [
+    {
+      version: "0.3 engine-aware beta",
+      date: "2026-07-29",
+      notes: [
+        "Expanded the workflow into four progressive-disclosure zones.",
+        "Added OpenAI, Gemini, Midjourney, and Stable Diffusion/FLUX translation.",
+        "Added editable compiled output and a structured parameter breakdown.",
+        "Added gated server-side GPT Image 2 preview generation.",
+      ],
+    },
     {
       version: "0.2 MyKMHub modernization",
       date: "2026-07-28",

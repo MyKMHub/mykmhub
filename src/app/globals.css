@@ -471,34 +471,22 @@ h3 {
   margin: 0;
 }
 
-.image-prompt-wizard {
+.image-architect {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
   gap: clamp(1.5rem, 4vw, 3rem);
   align-items: start;
 }
 
-.prompt-builder,
-.prompt-preview,
-.prompt-fields {
+.architect-controls,
+.architect-output,
+.architect-fields {
   display: grid;
   gap: 1.25rem;
   min-width: 0;
 }
 
-.prompt-step {
-  display: grid;
-  gap: 1rem;
-  padding-block-start: 1.5rem;
-  border-block-start: 1px solid var(--surface-border);
-}
-
-.prompt-step h3,
-.iteration-notes h3 {
-  font-size: clamp(1.25rem, 2vw, 1.6rem);
-}
-
-.prompt-preview {
+.architect-output {
   position: sticky;
   inset-block-start: 6rem;
   padding: clamp(1.25rem, 3vw, 2rem);
@@ -507,23 +495,50 @@ h3 {
   border-radius: 0.75rem;
 }
 
-.negative-shortcuts {
-  display: grid;
-  gap: 0.75rem;
-  min-width: 0;
-  margin: 0;
-  padding: 1rem;
-  border: 1px solid var(--surface-border);
+.architect-output h3 {
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
 }
 
-.negative-shortcuts legend {
-  padding-inline: 0.25rem;
+.parameter-breakdown {
+  display: grid;
+  gap: 0;
+  margin-block: 1rem 0;
+}
+
+.parameter-breakdown div {
+  display: grid;
+  grid-template-columns: minmax(6rem, 0.35fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  padding-block: 0.6rem;
+  border-block-start: 1px solid var(--surface-border);
+}
+
+.parameter-breakdown dt {
   font-weight: 700;
 }
 
-.iteration-notes {
+.parameter-breakdown dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.generation-result {
+  display: grid;
+  gap: 0.75rem;
   padding-block-start: 1rem;
   border-block-start: 1px solid var(--surface-border);
+}
+
+.generation-result img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--surface-border);
+}
+
+.architect-controls [role="group"] {
+  min-width: 0;
 }
 
 .form-generator {
@@ -1106,11 +1121,11 @@ html[data-motion="reduced"] *::after {
     grid-template-columns: 1fr;
   }
 
-  .image-prompt-wizard {
+  .image-architect {
     grid-template-columns: 1fr;
   }
 
-  .prompt-preview {
+  .architect-output {
     position: static;
   }
 

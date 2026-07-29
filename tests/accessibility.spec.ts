@@ -336,32 +336,56 @@ test("form generator exports JavaScript that matches an interactive switch", asy
   );
 });
 
-test("AI image prompt wizard compiles source fields and supports guided navigation", async ({
+test("AI image prompt architect translates selections and supports manual override", async ({
   page,
 }) => {
   await page.goto("/tools/ai-image-prompt-wizard");
   await page.getByRole("textbox", { name: "Primary subject" }).fill(
     "An accessibility researcher",
   );
-  await page.getByRole("textbox", { name: "Action or expression" }).fill(
-    "reviewing a journey map",
-  );
 
-  const preview = page.getByRole("textbox", { name: "Image prompt" });
+  const preview = page.getByRole("textbox", { name: "Engine-ready prompt" });
   await expect(preview).toContainText("An accessibility researcher");
-  await expect(preview).toContainText("reviewing a journey map");
-  await expect(preview).toContainText("Photograph");
-  await expect(preview).toContainText("Avoid:");
+  await expect(preview).toContainText("Photography");
+  await expect(preview).toContainText("Avoid");
 
-  await page.getByRole("button", { name: "Next step" }).click();
+  await page
+    .getByRole("button", { name: "4. Technical engine parameters" })
+    .click();
   await expect(
-    page.getByRole("heading", { name: "Setting and mood" }),
+    page.getByRole("button", { name: "1. Subject and environment" }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Parameter breakdown" }),
+  ).toBeVisible();
+
+  await preview.fill("A manually refined image prompt");
+  await expect(
+    page.getByRole("button", { name: "Restore generated prompt" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Restore generated prompt" }).click();
+  await expect(preview).toContainText("An accessibility researcher");
 
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
     .analyze();
   expect(results.violations).toEqual([]);
+});
+
+test("image generation endpoint is safely disabled without server configuration", async ({
+  request,
+}) => {
+  const response = await request.post("/api/tools/ai-image/generate", {
+    data: {
+      prompt: "A clear accessible diagram",
+      aspectRatio: "1:1",
+      quality: "low",
+    },
+  });
+  expect(response.status()).toBe(503);
+  await expect(response.json()).resolves.toMatchObject({
+    error: expect.stringContaining("not configured"),
+  });
 });
 
 test("AI image prompt wizard does not widen the mobile page", async ({ page }) => {

@@ -32,7 +32,7 @@ export default function AiImagePromptWizardPage() {
           </div>
           <div>
             <dt>Last verified</dt>
-            <dd><time dateTime={tool.lastVerified}>July 28, 2026</time></dd>
+            <dd><time dateTime={tool.lastVerified}>July 29, 2026</time></dd>
           </div>
         </dl>
       </header>

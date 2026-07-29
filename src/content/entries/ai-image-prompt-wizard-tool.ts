@@ -3,12 +3,12 @@ import type { ContentEntry } from "../types";
 export const AI_IMAGE_PROMPT_WIZARD_TOOL_ENTRY = {
   id: "tool-ai-image-prompt-wizard",
   slug: "ai-image-prompt-wizard",
-  title: "AI Image Prompt Wizard",
+  title: "AI Image Prompt Architect & Generator",
   summary:
-    "Build and copy a structured image prompt through a guided, accessible workflow.",
+    "Build, translate, copy, and optionally preview an engine-aware image prompt through a guided accessible workflow.",
   type: "tool",
   domains: ["artificial-intelligence", "human-centered-design", "accessibility"],
-  tags: ["image-prompting", "working-tool", "model-independent"],
+  tags: ["image-prompting", "working-beta", "engine-translation"],
   status: "published",
   visibility: "public",
   route: "/tools/ai-image-prompt-wizard",
