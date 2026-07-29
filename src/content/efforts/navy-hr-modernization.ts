@@ -10,6 +10,7 @@ export const NAVY_HR_MODERNIZATION_EFFORT = {
   governance: ["OPNAVINST 1500.47D", "Section 508"],
   contentEntryIds: [
     "case-study-hcd-velocity-engine",
+    "case-study-navy-hr-automated-hcd",
     "method-evidence-first-synthesis",
     "tool-evidence-traceability-matrix",
   ],

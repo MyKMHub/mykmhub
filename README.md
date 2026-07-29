@@ -66,11 +66,14 @@ Atkinson Hyperlegible Next is the initial reading and interface font. The archit
 
 Phase 1 established the accessible Spectrum 2 shell and scalable content architecture.
 
-The first Phase 2 portfolio slice includes:
+The Phase 2 portfolio foundation now includes two normalized perspectives on
+the shared Navy HR modernization effort:
 
 - the Tools Library;
 - the Evidence-first Synthesis method;
-- the Scaling HCD Through Evidence-Traceable Automation case study.
+- the strategic-impact case study on evidence-traceable automation;
+- the broader operational-design case study on scaling automated HCD across
+  Recruit Training Command and Quota Management.
 
 The Evidence Traceability Matrix Builder remains a private, low-priority draft
 concept for a future centralized team evidence log.

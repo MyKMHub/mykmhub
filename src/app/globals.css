@@ -379,6 +379,20 @@ h3 {
   border: 1px solid var(--surface-border);
 }
 
+.portfolio-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.portfolio-data-table table {
+  min-width: 76rem;
+}
+
+.portfolio-data-table {
+  width: 100%;
+  min-width: 0;
+}
+
 .portfolio-card img {
   display: block;
   width: 100%;
@@ -704,6 +718,7 @@ h3 {
 }
 
 .prose section {
+  min-width: 0;
   scroll-margin-top: 2rem;
 }
 

@@ -7,6 +7,7 @@ const PUBLIC_ROUTES = [
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/case-studies/scaling-hcd-through-ai",
+  "/case-studies/scaling-automated-hcd-in-navy-hr-modernization",
   "/methods/evidence-first-synthesis",
 ] as const;
 
@@ -104,6 +105,51 @@ test("case study identifies its shared effort", async ({ page }) => {
       name: "Navy HR modernization through human-centered design",
     }),
   ).toBeVisible();
+});
+
+test("portfolio lists both perspectives on the Navy modernization effort", async ({
+  page,
+}) => {
+  await page.goto("/portfolio");
+  await expect(
+    page.getByRole("heading", {
+      name: "Scaling Automated HCD in Navy HR Modernization",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Scaling HCD Through AI: Transforming Research Synthesis into Strategic Decision Support",
+    }),
+  ).toBeVisible();
+});
+
+test("Navy modernization case study contains its media and contained data table", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(
+    "/case-studies/scaling-automated-hcd-in-navy-hr-modernization",
+  );
+
+  await expect(page.locator("figure")).toHaveCount(6);
+  const dimensions = await page.evaluate(() => {
+    const region = document.querySelector<HTMLElement>(
+      ".portfolio-data-table",
+    );
+    return {
+      pageWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+      regionWidth: region?.clientWidth ?? 0,
+      regionScrollWidth: region?.scrollWidth ?? 0,
+      brokenImages: Array.from(document.images).filter(
+        (image) => image.complete && image.naturalWidth === 0,
+      ).length,
+    };
+  });
+
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
+  expect(dimensions.regionScrollWidth).toBeGreaterThan(dimensions.regionWidth);
+  expect(dimensions.brokenImages).toBe(0);
 });
 
 test("404 page is readable and accessible in explicit dark mode", async ({

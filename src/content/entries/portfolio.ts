@@ -12,5 +12,8 @@ export const PORTFOLIO_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/portfolio",
-  relatedEntryIds: ["case-study-hcd-velocity-engine"],
+  relatedEntryIds: [
+    "case-study-navy-hr-automated-hcd",
+    "case-study-hcd-velocity-engine",
+  ],
 } satisfies ContentEntry;

@@ -43,6 +43,45 @@ function ContentBlock({
     );
   }
 
+  if (block.type === "table") {
+    return (
+      <div
+        className="table-scroll portfolio-data-table"
+        tabIndex={0}
+        role="region"
+        aria-label={block.caption}
+      >
+        <table>
+          <caption>{block.caption}</caption>
+          <thead>
+            <tr>
+              {block.columns.map((column) => (
+                <th scope="col" key={column}>
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {block.rows.map((row, rowIndex) => (
+              <tr key={`${row[0]}-${rowIndex}`}>
+                {row.map((cell, cellIndex) =>
+                  cellIndex === 0 ? (
+                    <th scope="row" key={`${cell}-${cellIndex}`}>
+                      {cell}
+                    </th>
+                  ) : (
+                    <td key={`${cell}-${cellIndex}`}>{cell}</td>
+                  ),
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   const figure = study.figures.find((item) => item.id === block.figureId);
   if (!figure) return null;
 
@@ -104,6 +143,15 @@ export function PortfolioCaseStudy({
               <p>{effort.summary}</p>
             </div>
             <div className="related-links" aria-label="Related effort content">
+              {study.id === "case-study-hcd-velocity-engine" ? (
+                <Link href="/case-studies/scaling-automated-hcd-in-navy-hr-modernization">
+                  Read the broader modernization perspective
+                </Link>
+              ) : (
+                <Link href="/case-studies/scaling-hcd-through-ai">
+                  Read the strategic-impact perspective
+                </Link>
+              )}
               <Link href="/methods/evidence-first-synthesis">
                 Read the synthesis method
               </Link>

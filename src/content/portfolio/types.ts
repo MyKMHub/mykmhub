@@ -16,6 +16,12 @@ export type PortfolioBlock =
   | { type: "list"; items: Array<{ label?: string; text: string }> }
   | { type: "figure"; figureId: string }
   | {
+      type: "table";
+      caption: string;
+      columns: string[];
+      rows: string[][];
+    }
+  | {
       type: "metrics";
       items: Array<{ value: string; description: string }>;
     };
