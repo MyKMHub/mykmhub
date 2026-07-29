@@ -10,7 +10,7 @@ export const EVIDENCE_MATRIX_TOOL_ENTRY = {
   domains: ["human-centered-design", "research", "process-improvement"],
   tags: ["synthesis", "traceability", "evidence", "concept", "low-priority"],
   status: "draft",
-  visibility: "private",
+  visibility: "public",
   route: "/tools/evidence-traceability-matrix-builder",
   relatedEntryIds: [
     "case-study-hcd-velocity-engine",

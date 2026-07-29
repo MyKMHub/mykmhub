@@ -4,6 +4,8 @@ import { expect, test } from "@playwright/test";
 const PUBLIC_ROUTES = [
   "/",
   "/portfolio",
+  "/tools",
+  "/tools/evidence-traceability-matrix-builder",
   "/case-studies/scaling-hcd-through-ai",
   "/methods/evidence-first-synthesis",
 ] as const;
@@ -52,12 +54,9 @@ test("accessibility preferences are keyboard reachable and persistent", async ({
   ).toBeChecked();
 });
 
-test("draft evidence-log routes are not publicly available", async ({ page }) => {
-  const toolResponse = await page.goto(
-    "/tools/evidence-traceability-matrix-builder",
-  );
-  expect(toolResponse?.status()).toBe(404);
-
-  const libraryResponse = await page.goto("/tools");
-  expect(libraryResponse?.status()).toBe(404);
+test("draft evidence log is clearly identified", async ({ page }) => {
+  await page.goto("/tools/evidence-traceability-matrix-builder");
+  await expect(
+    page.getByRole("heading", { name: "This is a proof of concept" }),
+  ).toBeVisible();
 });

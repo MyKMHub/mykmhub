@@ -15,6 +15,7 @@ interface EvidenceRow {
   processStep: string;
   evidence: string;
   source: string;
+  pointOfContact: string;
   painPoint: string;
   priority: Priority;
   confidence: Confidence;
@@ -30,6 +31,7 @@ const SAMPLE_ROWS: EvidenceRow[] = [
     evidence:
       "Participants described checking three separate systems before a request could be approved.",
     source: "Interview 02, 14:20",
+    pointOfContact: "Research lead",
     painPoint: "Reviewers cannot see complete request context in one place.",
     priority: "High",
     confidence: "Explicit",
@@ -40,6 +42,7 @@ const SAMPLE_ROWS: EvidenceRow[] = [
     processStep: "Notify requester",
     evidence: "",
     source: "",
+    pointOfContact: "Process owner",
     painPoint: "No supported finding recorded.",
     priority: "Low",
     confidence: "None identified",
@@ -51,6 +54,7 @@ const EMPTY_FORM = {
   processStep: "",
   evidence: "",
   source: "",
+  pointOfContact: "",
   painPoint: "",
   priority: "Medium" as Priority,
   confidence: "Explicit" as Confidence,
@@ -137,6 +141,7 @@ export function EvidenceMatrixBuilder() {
       "Process step",
       "Evidence",
       "Source",
+      "Evidence owner or point of contact",
       "Pain point",
       "Priority",
       "Source confidence",
@@ -149,6 +154,7 @@ export function EvidenceMatrixBuilder() {
           row.processStep,
           row.evidence,
           row.source,
+          row.pointOfContact ?? "",
           row.painPoint,
           row.priority,
           row.confidence,
@@ -213,6 +219,12 @@ export function EvidenceMatrixBuilder() {
               value={form.source}
               onChange={(value) => updateForm("source", value)}
               description="For example: Interview 02, 14:20."
+            />
+            <TextField
+              label="Evidence owner or point of contact"
+              value={form.pointOfContact}
+              onChange={(value) => updateForm("pointOfContact", value)}
+              description="Who can clarify, validate, or follow up on this entry?"
             />
             <TextArea
               label="Pain point or finding"
@@ -316,6 +328,9 @@ export function EvidenceMatrixBuilder() {
                       <strong>{row.painPoint}</strong>
                       {row.evidence && <span>{row.evidence}</span>}
                       {row.source && <small>Source: {row.source}</small>}
+                      {row.pointOfContact && (
+                        <small>Point of contact: {row.pointOfContact}</small>
+                      )}
                     </td>
                     <td>
                       <span>Priority: {row.priority}</span>
