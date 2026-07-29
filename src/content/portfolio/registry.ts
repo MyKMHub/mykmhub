@@ -83,3 +83,15 @@ export function getPortfolioItems() {
 export function getPortfolioItemByRoute(route: string) {
   return PORTFOLIO_REGISTRY.find((item) => item.route === route);
 }
+
+export function getPortfolioItemBySlug(slug: string) {
+  return PORTFOLIO_REGISTRY.find(
+    (item) => item.route.split("/").at(-1) === slug,
+  );
+}
+
+export function getPortfolioRouteParams() {
+  return PORTFOLIO_REGISTRY.map((item) => ({
+    slug: item.route.split("/").at(-1)!,
+  }));
+}
