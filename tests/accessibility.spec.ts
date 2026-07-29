@@ -4,6 +4,8 @@ import { expect, test } from "@playwright/test";
 const PUBLIC_ROUTES = [
   "/",
   "/portfolio",
+  "/design-system",
+  "/design-system/theme-lab",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -90,6 +92,35 @@ test("working tool pages use the compact shared header", async ({ page }) => {
     await expect(page.getByRole("heading", { name: "Beta scope" })).toHaveCount(0);
     await expect(page.getByText("Context", { exact: true })).toHaveCount(0);
   }
+});
+
+test("Theme Lab previews and persists a guarded local draft", async ({ page }) => {
+  await page.goto("/design-system/theme-lab");
+  await expect(page.getByText("Preview canvas only")).toBeVisible();
+  await expect(page.getByRole("heading", {
+    name: "Preview hierarchy without changing the site",
+  })).toBeVisible();
+  await expect(page.getByText("Passes the 3:1 preview guardrail.")).toBeVisible();
+
+  const headingScale = page.getByRole("button", { name: "Heading scale" });
+  await headingScale.click();
+  await page.getByRole("option", { name: "Compact · 3rem maximum" }).click();
+  await page.getByRole("button", { name: "Save local draft" }).click();
+  await page.reload();
+  await expect(headingScale).toContainText("Compact · 3rem maximum");
+
+  await page.getByRole("button", { name: "Reset" }).click();
+  await expect(headingScale).toContainText("Balanced · 3.75rem maximum");
+});
+
+test("Theme Lab remains contained on a mobile viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/design-system/theme-lab");
+  const dimensions = await page.evaluate(() => ({
+    pageWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
 });
 
 test("tool directory exposes status and verification context", async ({

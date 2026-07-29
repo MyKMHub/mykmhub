@@ -13,12 +13,14 @@ import { DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY_ENTRY } from "./entries/doj-acces
 import { MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY_ENTRY } from "./entries/march-for-science-redesign-case-study";
 import { NAVY_KPI_DASHBOARD_CASE_STUDY_ENTRY } from "./entries/navy-kpi-dashboard-case-study";
 import { PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY_ENTRY } from "./entries/personal-knowledge-system-case-study";
+import { DESIGN_SYSTEM_ENTRY } from "./entries/design-system";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   HOME_ENTRY,
   PORTFOLIO_ENTRY,
   TOOLS_ENTRY,
+  DESIGN_SYSTEM_ENTRY,
   EVIDENCE_MATRIX_TOOL_ENTRY,
   HCD_VELOCITY_CASE_STUDY_ENTRY,
   NAVY_HR_AUTOMATED_HCD_CASE_STUDY_ENTRY,
