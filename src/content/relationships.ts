@@ -2,6 +2,24 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "method-evidence-first-synthesis",
+    toEntryId: "template-hcd-decision-evidence-record",
+    type: "implements",
+    label: "Decision-level evidence and rationale record",
+  },
+  {
+    fromEntryId: "pattern-hcd-engagement-intake-triage",
+    toEntryId: "template-hcd-decision-evidence-record",
+    type: "related",
+    label: "Decision continuity after intake and routing",
+  },
+  {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "template-hcd-decision-evidence-record",
+    type: "implements",
+    label: "Decision-rights and organizational-memory artifact",
+  },
+  {
     fromEntryId: "framework-hcd-operating-model-baseline",
     toEntryId: "pattern-hcd-engagement-intake-triage",
     type: "implements",

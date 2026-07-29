@@ -80,6 +80,10 @@ The HCD engagement intake and triage pattern turns the operating model's demand
 and prioritization capability into a reusable process with a minimum intake
 record, transparent assessment dimensions, and explicit routing outcomes.
 
+The HCD decision and evidence record adds a copy-ready template for preserving
+the evidence, rationale, authority, tradeoffs, actions, and review conditions
+behind consequential decisions.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

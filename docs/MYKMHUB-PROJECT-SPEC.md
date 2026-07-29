@@ -811,6 +811,13 @@ transparent priority dimensions, explicit routing outcomes, and operating
 checks. It remains a reusable content pattern rather than prematurely becoming
 a workflow application.
 
+The HCD decision and evidence record is published at
+`/templates/hcd-decision-evidence-record`. It provides a copy-ready Markdown
+template connecting decisions to governed evidence, implications, authority,
+actions, and review triggers. It implements the operating model's decision
+rights and organizational-memory requirements while linking intake,
+evidence-first synthesis, and later delivery review.
+
 ### Phase 4+
 
 Evaluate:

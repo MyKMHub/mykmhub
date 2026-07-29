@@ -20,6 +20,7 @@ import { HCD_DIRECTOR_TOOLKIT_ENTRY } from "./entries/hcd-director-toolkit";
 import { ABOUT_ENTRY } from "./entries/about";
 import { HCD_OPERATING_MODEL_BASELINE_ENTRY } from "./entries/hcd-operating-model-baseline";
 import { HCD_ENGAGEMENT_INTAKE_TRIAGE_ENTRY } from "./entries/hcd-engagement-intake-triage";
+import { HCD_DECISION_EVIDENCE_RECORD_ENTRY } from "./entries/hcd-decision-evidence-record";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -32,6 +33,7 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   ABOUT_ENTRY,
   HCD_OPERATING_MODEL_BASELINE_ENTRY,
   HCD_ENGAGEMENT_INTAKE_TRIAGE_ENTRY,
+  HCD_DECISION_EVIDENCE_RECORD_ENTRY,
   AI_ASSISTED_MYKMHUB_DEVELOPMENT_ENTRY,
   EVIDENCE_MATRIX_TOOL_ENTRY,
   HCD_VELOCITY_CASE_STUDY_ENTRY,

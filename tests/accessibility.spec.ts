@@ -12,6 +12,7 @@ const PUBLIC_ROUTES = [
   "/about",
   "/frameworks/hcd-operating-model-baseline",
   "/patterns/hcd-engagement-intake-triage",
+  "/templates/hcd-decision-evidence-record",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -309,6 +310,26 @@ test("HCD intake pattern provides transparent triage and routing", async ({
   await expect(
     page.getByRole("link", { name: "Review the operating model baseline" }),
   ).toHaveAttribute("href", "/frameworks/hcd-operating-model-baseline");
+});
+
+test("HCD decision record exposes a reusable accessible template", async ({
+  page,
+}) => {
+  await page.goto("/templates/hcd-decision-evidence-record");
+  await expect(
+    page.getByRole("heading", { name: "Record six connected parts" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Copy Markdown template" }),
+  ).toBeVisible();
+  await expect(page.locator(".template-code")).toContainText(
+    "## Decision and rationale",
+  );
+  await expect(
+    page.getByRole("heading", {
+      name: "Quality checks before closing the record",
+    }),
+  ).toBeVisible();
 });
 
 test("tool directory exposes status and verification context", async ({

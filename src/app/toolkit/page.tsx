@@ -44,6 +44,10 @@ const pathways = [
         label: "See evidence-traceable automation in practice",
         href: "/case-studies/scaling-hcd-through-ai",
       },
+      {
+        label: "Copy the HCD decision and evidence record",
+        href: "/templates/hcd-decision-evidence-record",
+      },
     ],
   },
   {
