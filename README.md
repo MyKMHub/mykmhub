@@ -84,6 +84,10 @@ The HCD decision and evidence record adds a copy-ready template for preserving
 the evidence, rationale, authority, tradeoffs, actions, and review conditions
 behind consequential decisions.
 
+The HCD outcome measurement and learning plan adds a balanced, copy-ready
+structure for connecting HCD work to experience, accessibility, behavior,
+delivery, risk, organizational capability, and decisions.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

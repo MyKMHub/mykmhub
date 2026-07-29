@@ -72,6 +72,10 @@ const pathways = [
     links: [
       { label: "Browse portfolio evidence", href: "/portfolio" },
       { label: "Read connected practice notes", href: "/knowledge" },
+      {
+        label: "Plan outcome measurement and learning",
+        href: "/templates/hcd-outcome-measurement-plan",
+      },
     ],
   },
 ] as const;

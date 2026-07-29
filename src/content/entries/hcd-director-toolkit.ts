@@ -16,6 +16,7 @@ export const HCD_DIRECTOR_TOOLKIT_ENTRY = {
     "framework-hcd-operating-model-baseline",
     "pattern-hcd-engagement-intake-triage",
     "template-hcd-decision-evidence-record",
+    "template-hcd-outcome-measurement-plan",
     "method-evidence-first-synthesis",
     "tool-accessible-form-generator",
     "guidance-ai-assisted-mykmhub-development",

@@ -2,14 +2,21 @@
 
 import { Button } from "@react-spectrum/s2/Button";
 import { useState } from "react";
-import { HCD_DECISION_RECORD_MARKDOWN } from "@/content/templates/hcd-decision-evidence-record";
 
-export function CopyDecisionRecord() {
+interface CopyTemplateButtonProps {
+  text: string;
+  label?: string;
+}
+
+export function CopyTemplateButton({
+  text,
+  label = "Copy Markdown template",
+}: CopyTemplateButtonProps) {
   const [status, setStatus] = useState("");
 
   async function copyTemplate() {
     try {
-      await navigator.clipboard.writeText(HCD_DECISION_RECORD_MARKDOWN);
+      await navigator.clipboard.writeText(text);
       setStatus("Template copied to the clipboard.");
     } catch {
       setStatus("The template could not be copied. Select the text below instead.");
@@ -19,7 +26,7 @@ export function CopyDecisionRecord() {
   return (
     <div className="copy-template-action">
       <Button variant="primary" onPress={copyTemplate}>
-        Copy Markdown template
+        {label}
       </Button>
       <p aria-live="polite">{status}</p>
     </div>

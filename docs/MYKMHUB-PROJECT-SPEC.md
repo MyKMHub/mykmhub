@@ -818,6 +818,13 @@ actions, and review triggers. It implements the operating model's decision
 rights and organizational-memory requirements while linking intake,
 evidence-first synthesis, and later delivery review.
 
+The HCD outcome measurement and learning plan is published at
+`/templates/hcd-outcome-measurement-plan`. It provides a copy-ready structure
+for outcome chains, balanced evidence dimensions, operationally defined
+measures, interpretation, and learning actions. It explicitly separates
+activity and output counts from validated outcomes and connects to the KPI
+dashboard concept without treating illustrative values as performance claims.
+
 ### Phase 4+
 
 Evaluate:

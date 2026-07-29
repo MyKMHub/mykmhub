@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CopyDecisionRecord } from "@/components/templates/copy-decision-record";
+import { CopyTemplateButton } from "@/components/templates/copy-template-button";
 import {
   HCD_DECISION_RECORD_MARKDOWN,
   HCD_DECISION_RECORD_SECTIONS,
@@ -94,7 +94,7 @@ export default function HcdDecisionEvidenceRecordPage() {
               Paste this structure into a governed knowledge, documentation, or
               work-management system and adapt its metadata to local policy.
             </p>
-            <CopyDecisionRecord />
+            <CopyTemplateButton text={HCD_DECISION_RECORD_MARKDOWN} />
             <pre className="template-code" tabIndex={0}>
               <code>{HCD_DECISION_RECORD_MARKDOWN}</code>
             </pre>

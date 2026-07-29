@@ -2,6 +2,24 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "template-hcd-outcome-measurement-plan",
+    type: "implements",
+    label: "Measures and learning artifact",
+  },
+  {
+    fromEntryId: "template-hcd-decision-evidence-record",
+    toEntryId: "template-hcd-outcome-measurement-plan",
+    type: "related",
+    label: "Decision follow-through and review evidence",
+  },
+  {
+    fromEntryId: "template-hcd-outcome-measurement-plan",
+    toEntryId: "case-study-navy-kpi-dashboard",
+    type: "related",
+    label: "Illustrative decision-support dashboard concept",
+  },
+  {
     fromEntryId: "method-evidence-first-synthesis",
     toEntryId: "template-hcd-decision-evidence-record",
     type: "implements",

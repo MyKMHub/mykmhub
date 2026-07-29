@@ -13,6 +13,7 @@ const PUBLIC_ROUTES = [
   "/frameworks/hcd-operating-model-baseline",
   "/patterns/hcd-engagement-intake-triage",
   "/templates/hcd-decision-evidence-record",
+  "/templates/hcd-outcome-measurement-plan",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -330,6 +331,28 @@ test("HCD decision record exposes a reusable accessible template", async ({
       name: "Quality checks before closing the record",
     }),
   ).toBeVisible();
+});
+
+test("HCD measurement plan separates activity from validated outcomes", async ({
+  page,
+}) => {
+  await page.goto("/templates/hcd-outcome-measurement-plan");
+  await expect(
+    page.getByRole("heading", {
+      name: "Build an outcome chain before selecting metrics",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Use six dimensions without forcing every metric",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Copy Markdown template" }),
+  ).toBeVisible();
+  await expect(page.locator(".template-code")).toContainText(
+    "## Balanced measures",
+  );
 });
 
 test("tool directory exposes status and verification context", async ({
