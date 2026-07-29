@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { SCALING_AUTOMATED_HCD_NAVY_HR } from "@/content/portfolio/scaling-automated-hcd-navy-hr";
-import { SCALING_HCD_THROUGH_AI } from "@/content/portfolio/scaling-hcd-through-ai";
-import { ACCESSIBLE_FORM_GENERATOR_CASE_STUDY } from "@/content/portfolio/accessible-form-generator";
-import { AI_IMAGE_PROMPT_WIZARD_CASE_STUDY } from "@/content/portfolio/ai-image-prompt-wizard";
-import { DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY } from "@/content/portfolio/doj-accessibility-redesign";
-import { MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY } from "@/content/portfolio/march-for-science-redesign";
-import { NAVY_KPI_DASHBOARD_CASE_STUDY } from "@/content/portfolio/navy-kpi-dashboard";
-import { PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY } from "@/content/portfolio/personal-knowledge-system";
+import { getPortfolioItems } from "@/content/portfolio/registry";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -16,60 +9,9 @@ export const metadata: Metadata = {
     "Case studies showing how human-centered design, accessibility, systems thinking, and design operations create measurable impact.",
 };
 
-const PORTFOLIO_ITEMS = [
-  {
-    study: PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY,
-    href: "/case-studies/personal-knowledge-management-system",
-    cover: PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY.figures[2],
-  },
-  {
-    study: NAVY_KPI_DASHBOARD_CASE_STUDY,
-    href: "/case-studies/navy-kpi-dashboard",
-    cover: NAVY_KPI_DASHBOARD_CASE_STUDY.figures[0],
-  },
-  {
-    study: MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY,
-    href: "/case-studies/march-for-science-site-redesign",
-    cover: MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY.figures[0],
-  },
-  {
-    study: DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY,
-    href: "/case-studies/doj-site-redesign-accessibility-usability",
-    cover: DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY.figures[1],
-  },
-  {
-    study: AI_IMAGE_PROMPT_WIZARD_CASE_STUDY,
-    href: "/case-studies/ai-image-creation-wizard",
-    cover: undefined,
-  },
-  {
-    study: ACCESSIBLE_FORM_GENERATOR_CASE_STUDY,
-    href:
-      "/case-studies/accessible-form-component-and-ux-requirements-generator",
-    cover: ACCESSIBLE_FORM_GENERATOR_CASE_STUDY.figures[0],
-  },
-  {
-    study: SCALING_AUTOMATED_HCD_NAVY_HR,
-    href: "/case-studies/scaling-automated-hcd-in-navy-hr-modernization",
-    cover: SCALING_AUTOMATED_HCD_NAVY_HR.figures[0],
-  },
-  {
-    study: SCALING_HCD_THROUGH_AI,
-    href: "/case-studies/scaling-hcd-through-ai",
-    cover: SCALING_HCD_THROUGH_AI.figures[1],
-  },
-] as const;
-
-function mostRecentYear(year: string) {
-  const years = year.match(/\d{4}/g)?.map(Number) ?? [0];
-  return Math.max(...years);
-}
-
-const SORTED_PORTFOLIO_ITEMS = [...PORTFOLIO_ITEMS].sort(
-  (a, b) => mostRecentYear(b.study.year) - mostRecentYear(a.study.year),
-);
-
 export default function PortfolioPage() {
+  const portfolioItems = getPortfolioItems();
+
   return (
     <article className="content-page">
       <header className="page-header">
@@ -83,14 +25,14 @@ export default function PortfolioPage() {
       </header>
 
       <div className="portfolio-list">
-        {SORTED_PORTFOLIO_ITEMS.map(({ study, href, cover }) => (
+        {portfolioItems.map(({ study, route, cover }) => (
           <section
             className={`portfolio-card${cover ? "" : " portfolio-card-text"}`}
             aria-labelledby={`${study.slug}-title`}
             key={study.id}
           >
             {cover && (
-              <Link href={href} tabIndex={-1} aria-hidden="true">
+              <Link href={route} tabIndex={-1} aria-hidden="true">
                 <Image
                   src={cover.src}
                   width={cover.width}
@@ -106,7 +48,7 @@ export default function PortfolioPage() {
               </p>
               <h2 id={`${study.slug}-title`}>{study.title}</h2>
               <p>{study.cardSummary}</p>
-              <Link className="primary-link" href={href}>
+              <Link className="primary-link" href={route}>
                 Read the case study
               </Link>
             </div>
