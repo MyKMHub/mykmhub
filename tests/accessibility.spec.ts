@@ -362,11 +362,13 @@ test("AI image prompt architect translates selections and supports manual overri
   await expect(
     page.getByRole("textbox", { name: "Google Gemini API key" }),
   ).toHaveAttribute("type", "password");
-  const resolution = page.getByRole("button", { name: "Resolution" });
-  await expect(resolution).toContainText("512");
-  await page.getByRole("button", { name: "Preview quality" }).click();
-  await page.getByRole("option", { name: "medium" }).click();
-  await expect(resolution).toContainText("1K");
+  const previewOutput = page.getByRole("button", { name: "Preview output" });
+  await expect(previewOutput).toContainText("Low · 512");
+  await expect(page.getByRole("button", { name: "Resolution" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Preview quality" })).toHaveCount(0);
+  await previewOutput.click();
+  await page.getByRole("option", { name: "Medium · 1K" }).click();
+  await expect(previewOutput).toContainText("Medium · 1K");
 
   await page
     .getByRole("button", { name: "4. Technical engine parameters" })

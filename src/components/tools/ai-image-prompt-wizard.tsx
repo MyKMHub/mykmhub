@@ -73,13 +73,6 @@ const EMPTY_API_KEYS: Record<Engine, string> = {
 
 const SESSION_API_KEYS_STORAGE = "mykmhub:ai-image-provider-keys";
 
-const INITIAL_RESOLUTIONS: Record<Engine, string> = {
-  openai: "provider",
-  gemini: "512",
-  midjourney: "provider",
-  "stable-diffusion": "1MP",
-};
-
 function resolutionForQuality(engine: Engine, quality: Quality) {
   if (engine === "gemini") {
     return { low: "512", medium: "1K", high: "4K" }[quality];
@@ -88,6 +81,15 @@ function resolutionForQuality(engine: Engine, quality: Quality) {
     return { low: "1MP", medium: "2MP", high: "4MP" }[quality];
   }
   return "provider";
+}
+
+function outputPresetLabel(engine: Engine, quality: Quality) {
+  const qualityLabel = `${quality[0].toUpperCase()}${quality.slice(1)}`;
+  const resolution = resolutionForQuality(engine, quality);
+  if (engine === "gemini" || engine === "stable-diffusion") {
+    return `${qualityLabel} · ${resolution}`;
+  }
+  return `${qualityLabel} · resolution follows aspect ratio`;
 }
 
 const ASPECTS = [
@@ -255,8 +257,6 @@ export function AiImagePromptWizard() {
   const [apiKeys, setApiKeys] = useState<Record<Engine, string>>(EMPTY_API_KEYS);
   const [rememberApiKeys, setRememberApiKeys] = useState(false);
   const [hasLoadedApiKeys, setHasLoadedApiKeys] = useState(false);
-  const [resolutions, setResolutions] =
-    useState<Record<Engine, string>>(INITIAL_RESOLUTIONS);
   const compiled = useMemo(() => compilePrompt(form), [form]);
   const previewPrompt = useMemo(() => compileNatural(form), [form]);
   const output = isManual ? manualPrompt : compiled;
@@ -304,18 +304,10 @@ export function AiImagePromptWizard() {
 
   function selectEngine(engine: Engine) {
     update("engine", engine);
-    setResolutions((current) => ({
-      ...current,
-      [engine]: resolutionForQuality(engine, form.quality),
-    }));
   }
 
   function selectQuality(quality: Quality) {
     update("quality", quality);
-    setResolutions((current) => ({
-      ...current,
-      [form.engine]: resolutionForQuality(form.engine, quality),
-    }));
   }
 
   async function copyPrompt() {
@@ -352,7 +344,7 @@ export function AiImagePromptWizard() {
           prompt: isManual ? manualPrompt : previewPrompt,
           aspectRatio: form.aspect,
           quality: form.quality,
-          resolution: resolutions[form.engine],
+          resolution: resolutionForQuality(form.engine, form.quality),
           engine: form.engine,
           apiKey: apiKeys[form.engine],
         }),
@@ -423,33 +415,26 @@ export function AiImagePromptWizard() {
                 </p>
               </div>
             )}
-            <FieldPicker label="Preview quality" value={form.quality} values={["low", "medium", "high"]} onChange={(value) => selectQuality(value as Quality)} />
             <Picker label="Aspect ratio" selectedKey={form.aspect} onSelectionChange={(key) => update("aspect", String(key))}>
               {ASPECTS.map((option) => <PickerItem id={option.id} key={option.id}>{option.label}</PickerItem>)}
             </Picker>
-            {form.engine === "gemini" && (
-              <FieldPicker
-                label="Resolution"
-                value={resolutions.gemini}
-                values={["512", "1K", "2K", "4K"]}
-                onChange={(value) => setResolutions((current) => ({ ...current, gemini: value }))}
-              />
-            )}
-            {form.engine === "stable-diffusion" && (
-              <FieldPicker
-                label="Resolution"
-                value={resolutions["stable-diffusion"]}
-                values={["1MP", "2MP", "4MP"]}
-                onChange={(value) => setResolutions((current) => ({ ...current, "stable-diffusion": value }))}
-              />
-            )}
-            {(form.engine === "gemini" || form.engine === "stable-diffusion") && (
-              <p className="field-description">
-                Preview quality selects the default resolution. You can override the resolution afterward.
-              </p>
-            )}
-            {form.engine === "openai" && (
-              <p className="field-description">Resolution is determined by the selected aspect ratio and GPT Image&apos;s supported output sizes.</p>
+            {form.engine !== "midjourney" && (
+              <Picker
+                label="Preview output"
+                selectedKey={form.quality}
+                onSelectionChange={(key) => selectQuality(String(key) as Quality)}
+                description={
+                  form.engine === "openai"
+                    ? "GPT Image resolution follows the selected aspect ratio."
+                    : "Each preset combines provider quality and resolution."
+                }
+              >
+                {(["low", "medium", "high"] as Quality[]).map((quality) => (
+                  <PickerItem id={quality} key={quality}>
+                    {outputPresetLabel(form.engine, quality)}
+                  </PickerItem>
+                ))}
+              </Picker>
             )}
           </div>
         </section>
@@ -549,7 +534,7 @@ export function AiImagePromptWizard() {
           <Button variant="accent" onPress={generateImage} isPending={isGenerating}>
             {form.engine === "midjourney" ? "Copy for Midjourney" : `Generate with ${ENGINES.find((item) => item.id === form.engine)?.label}`}
           </Button>
-          <Button variant="negative" fillStyle="outline" onPress={() => { setForm(INITIAL); setManualPrompt(""); setIsManual(false); setImage(""); setApiKeys(EMPTY_API_KEYS); setRememberApiKeys(false); sessionStorage.removeItem(SESSION_API_KEYS_STORAGE); setResolutions(INITIAL_RESOLUTIONS); setStatus("Reset the image workspace and cleared all API keys."); }}>Reset</Button>
+          <Button variant="negative" fillStyle="outline" onPress={() => { setForm(INITIAL); setManualPrompt(""); setIsManual(false); setImage(""); setApiKeys(EMPTY_API_KEYS); setRememberApiKeys(false); sessionStorage.removeItem(SESSION_API_KEYS_STORAGE); setStatus("Reset the image workspace and cleared all API keys."); }}>Reset</Button>
         </div>
 
         <section aria-labelledby="parameter-breakdown-heading">
@@ -559,7 +544,7 @@ export function AiImagePromptWizard() {
             <div><dt>Subject</dt><dd>{form.subject || "Not yet defined"}</dd></div>
             <div><dt>Medium</dt><dd>{form.medium}</dd></div>
             <div><dt>Composition</dt><dd>{form.framing}; {form.angle}; {form.lens}</dd></div>
-            <div><dt>Output</dt><dd>{form.aspect}; {form.quality} preview quality; {resolutions[form.engine] === "provider" ? "provider-determined resolution" : resolutions[form.engine]}</dd></div>
+            <div><dt>Output</dt><dd>{form.aspect}; {form.engine === "midjourney" ? "prompt only" : outputPresetLabel(form.engine, form.quality)}</dd></div>
             <div><dt>Constraints</dt><dd>{parts([...form.negatives, form.customNegative]).join(", ") || "None"}</dd></div>
           </dl>
         </section>
