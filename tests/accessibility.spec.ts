@@ -3,8 +3,7 @@ import { expect, test } from "@playwright/test";
 
 const PUBLIC_ROUTES = [
   "/",
-  "/tools",
-  "/tools/evidence-traceability-matrix-builder",
+  "/portfolio",
   "/case-studies/scaling-hcd-through-ai",
   "/methods/evidence-first-synthesis",
 ] as const;
@@ -53,17 +52,12 @@ test("accessibility preferences are keyboard reachable and persistent", async ({
   ).toBeChecked();
 });
 
-test("matrix sample persists and exports as CSV", async ({ page }) => {
-  await page.goto("/tools/evidence-traceability-matrix-builder");
+test("draft evidence-log routes are not publicly available", async ({ page }) => {
+  const toolResponse = await page.goto(
+    "/tools/evidence-traceability-matrix-builder",
+  );
+  expect(toolResponse?.status()).toBe(404);
 
-  await page.getByRole("button", { name: "Load sample" }).click();
-  await expect(page.getByRole("row")).toHaveCount(3);
-
-  await page.reload();
-  await expect(page.getByRole("row")).toHaveCount(3);
-
-  const downloadPromise = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Export CSV" }).click();
-  const download = await downloadPromise;
-  expect(download.suggestedFilename()).toBe("evidence-traceability-matrix.csv");
+  const libraryResponse = await page.goto("/tools");
+  expect(libraryResponse?.status()).toBe(404);
 });

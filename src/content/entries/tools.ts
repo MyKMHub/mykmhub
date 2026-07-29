@@ -9,8 +9,8 @@ export const TOOLS_ENTRY = {
   type: "landing-page",
   domains: ["human-centered-design", "knowledge-management"],
   tags: ["tools-library", "public"],
-  status: "published",
-  visibility: "public",
+  status: "draft",
+  visibility: "private",
   route: "/tools",
   relatedEntryIds: ["tool-evidence-traceability-matrix"],
 } satisfies ContentEntry;

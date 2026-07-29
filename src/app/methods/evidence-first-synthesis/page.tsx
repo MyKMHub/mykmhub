@@ -18,9 +18,6 @@ export default function EvidenceFirstSynthesisPage() {
           action—without confusing automation with researcher judgment.
         </p>
         <div className="related-links" aria-label="Related content">
-          <Link href="/tools/evidence-traceability-matrix-builder">
-            Use the matrix builder
-          </Link>
           <Link href="/case-studies/scaling-hcd-through-ai">
             See the method in practice
           </Link>
@@ -128,16 +125,6 @@ export default function EvidenceFirstSynthesisPage() {
           </ul>
         </section>
 
-        <aside className="next-step" aria-labelledby="method-next-heading">
-          <h2 id="method-next-heading">Build a traceable matrix</h2>
-          <p>
-            Practice the method with sanitized information or the included
-            synthetic sample.
-          </p>
-          <Link className="primary-link" href="/tools/evidence-traceability-matrix-builder">
-            Open the matrix builder
-          </Link>
-        </aside>
       </div>
     </article>
   );

@@ -5,12 +5,12 @@ export const EVIDENCE_MATRIX_TOOL_ENTRY = {
   slug: "evidence-traceability-matrix-builder",
   title: "Evidence Traceability Matrix Builder",
   summary:
-    "Map sanitized research evidence to process steps, identify unsupported areas, and export an auditable synthesis matrix.",
+    "A low-priority concept for a centralized team evidence log that records sources, interpretations, confidence, and a point of contact.",
   type: "tool",
   domains: ["human-centered-design", "research", "process-improvement"],
-  tags: ["synthesis", "traceability", "evidence", "browser-local"],
-  status: "published",
-  visibility: "public",
+  tags: ["synthesis", "traceability", "evidence", "concept", "low-priority"],
+  status: "draft",
+  visibility: "private",
   route: "/tools/evidence-traceability-matrix-builder",
   relatedEntryIds: [
     "case-study-hcd-velocity-engine",

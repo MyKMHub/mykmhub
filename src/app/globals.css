@@ -321,6 +321,31 @@ h3 {
   border-radius: 0.75rem;
 }
 
+.portfolio-card {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(1.5rem, 5vw, 3.5rem);
+  align-items: center;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  background: var(--surface-subtle);
+  border: 1px solid var(--surface-border);
+}
+
+.portfolio-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--surface-border);
+}
+
+.portfolio-card h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.portfolio-card p:not(.eyebrow) {
+  line-height: 1.65;
+}
+
 .tool-card h2 {
   font-size: clamp(1.5rem, 3vw, 2.25rem);
 }
@@ -636,6 +661,7 @@ h3 {
   gap: 0.75rem;
 }
 
+
 .site-footer {
   border-block-start: 1px solid var(--surface-border);
 }
@@ -700,12 +726,14 @@ html[data-motion="reduced"] *::after {
   .content-section,
   .principle-grid,
   .tool-card,
+  .portfolio-card,
   .form-grid,
   .form-grid-compact,
   .project-facts,
   .case-study-layout {
     grid-template-columns: 1fr;
   }
+
 
   .on-this-page {
     position: static;

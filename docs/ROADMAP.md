@@ -21,3 +21,21 @@ The comparison should include:
 Before implementation, validate licensing, language coverage, available weights and styles, performance, reflow, zoom, control clipping, and compatibility with Spectrum components.
 
 Priority: low. Revisit when the public Accessibility section is built.
+
+## Centralized HCD evidence log
+
+Retain the Evidence Traceability Matrix Builder as a private draft concept,
+not a published tool. Its potential value is creating a shared, team-visible
+evidence log so observations, interpretations, and competing views of reality
+are committed to a common record rather than held by individual team members.
+
+Before promotion beyond draft, validate:
+
+- point of contact or evidence-owner fields;
+- source, observation, interpretation, confidence, and decision fields;
+- attribution, change history, disagreement, and review workflows;
+- privacy, research consent, retention, and access controls;
+- multi-user persistence rather than browser-local storage;
+- export and interoperability requirements.
+
+Priority: low.
