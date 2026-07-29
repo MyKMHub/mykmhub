@@ -10,6 +10,7 @@ import { ACCESSIBLE_FORM_GENERATOR_TOOL_ENTRY } from "./entries/accessible-form-
 import { AI_IMAGE_PROMPT_WIZARD_CASE_STUDY_ENTRY } from "./entries/ai-image-prompt-wizard-case-study";
 import { AI_IMAGE_PROMPT_WIZARD_TOOL_ENTRY } from "./entries/ai-image-prompt-wizard-tool";
 import { DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY_ENTRY } from "./entries/doj-accessibility-redesign-case-study";
+import { MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY_ENTRY } from "./entries/march-for-science-redesign-case-study";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -24,6 +25,7 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   AI_IMAGE_PROMPT_WIZARD_CASE_STUDY_ENTRY,
   AI_IMAGE_PROMPT_WIZARD_TOOL_ENTRY,
   DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY_ENTRY,
+  MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY_ENTRY,
   EVIDENCE_FIRST_SYNTHESIS_ENTRY,
 ];
 

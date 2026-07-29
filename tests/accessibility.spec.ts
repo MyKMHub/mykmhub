@@ -13,6 +13,7 @@ const PUBLIC_ROUTES = [
   "/case-studies/accessible-form-component-and-ux-requirements-generator",
   "/case-studies/ai-image-creation-wizard",
   "/case-studies/doj-site-redesign-accessibility-usability",
+  "/case-studies/march-for-science-site-redesign",
   "/methods/evidence-first-synthesis",
 ] as const;
 
@@ -146,6 +147,31 @@ test("DOJ redesign case study preserves its three original comparison figures", 
       ).length,
   );
   expect(brokenImages).toBe(0);
+});
+
+test("March for Science case study preserves its four original design figures", async ({
+  page,
+}) => {
+  await page.goto("/case-studies/march-for-science-site-redesign");
+  await expect(
+    page.getByRole("heading", { name: "March for Science Site Redesign" }),
+  ).toBeVisible();
+  await expect(page.locator("figure")).toHaveCount(4);
+  await expect(
+    page.getByRole("heading", {
+      name: "A one-stop source for current news and reusable resources",
+    }),
+  ).toBeVisible();
+
+  const dimensions = await page.evaluate(() => ({
+    brokenImages: Array.from(document.images).filter(
+      (image) => image.complete && image.naturalWidth === 0,
+    ).length,
+    pageWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.brokenImages).toBe(0);
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
 });
 
 test("Navy modernization case study contains its media and contained data table", async ({

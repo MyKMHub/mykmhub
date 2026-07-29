@@ -93,4 +93,9 @@ advanced-search, and workflow evidence while documenting the accessibility-led
 research and phased modernization approach. Additional DOJ contributions remain
 in the roadmap for later Career Archive ingestion.
 
+The March for Science case study documents a combined UX and knowledge-management
+redesign, including responsive information architecture, participation paths,
+centralized current content, and a distributed publishing model for a
+volunteer-led organization.
+
 Authentication, private workspaces, multi-tenancy, billing, server-side research processing, and other future platform capabilities remain intentionally out of scope.
