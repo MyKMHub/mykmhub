@@ -14,15 +14,17 @@ import {
   ACTIVE_THEME_STORAGE_KEY,
   EYEBROW_STYLES,
   FOCUS_COLORS,
-  HEADING_SIZES,
   THEME_PRESETS,
+  TYPE_SCALE_DEFAULTS,
   applyThemeToSite,
+  getTypeScale,
   isThemeDraft,
   type EyebrowScale,
   type HeadingScale,
   type SpacingScale,
   type SpectrumBackground,
   type ThemeDraft,
+  type TypeScaleRatio,
 } from "./theme-settings";
 
 const STORAGE_KEY = "mykmhub-theme-lab-draft";
@@ -89,8 +91,14 @@ export function ThemeLab() {
   const focusPasses = lightContrast >= 3 && darkContrast >= 3;
   const textPasses = lightTextContrast >= 4.5 && darkTextContrast >= 4.5;
   const themeIsValid = isThemeDraft(theme);
+  const typeScale = getTypeScale(theme);
   const previewStyle = {
-    "--lab-h1-size": HEADING_SIZES[theme.headingScale],
+    "--lab-h1-size": typeScale.h1,
+    "--lab-h2-size": typeScale.h2,
+    "--lab-h3-size": typeScale.h3,
+    "--lab-h4-size": typeScale.h4,
+    "--lab-h5-size": typeScale.h5,
+    "--lab-h6-size": typeScale.h6,
     "--lab-eyebrow-size": EYEBROW_STYLES[theme.eyebrowScale].size,
     "--lab-eyebrow-spacing": EYEBROW_STYLES[theme.eyebrowScale].spacing,
     "--lab-body-line-height": String(theme.bodyLineHeight),
@@ -113,6 +121,18 @@ export function ThemeLab() {
   function selectPreset(id: "spectrum" | "aged-paper") {
     setTheme({ ...THEME_PRESETS[id] });
     setStatus(`${id === "aged-paper" ? "Aged Paper" : "Spectrum default"} preset loaded in the preview.`);
+  }
+
+  function selectTypePreset(id: HeadingScale) {
+    const selected = TYPE_SCALE_DEFAULTS[id];
+    setTheme((current) => ({
+      ...current,
+      headingScale: id,
+      typeBaseSize: selected.baseSize,
+      typeScaleRatio: selected.ratio,
+      presetId: "custom",
+    }));
+    setStatus("Coordinated type scale updated in the preview.");
   }
 
   function saveDraft() {
@@ -201,13 +221,35 @@ export function ThemeLab() {
         </Picker>
 
         <Picker
-          label="Heading scale"
+          label="Type scale preset"
           selectedKey={theme.headingScale}
-          onSelectionChange={(key) => update("headingScale", String(key) as HeadingScale)}
+          onSelectionChange={(key) => selectTypePreset(String(key) as HeadingScale)}
         >
-          <PickerItem id="compact">Compact · 3rem maximum</PickerItem>
-          <PickerItem id="balanced">Balanced · 3.75rem maximum</PickerItem>
-          <PickerItem id="display">Display · 5.25rem maximum</PickerItem>
+          <PickerItem id="compact">Compact · 16px / 1.200</PickerItem>
+          <PickerItem id="balanced">Balanced · 17px / 1.250</PickerItem>
+          <PickerItem id="display">Display · 18px / 1.333</PickerItem>
+        </Picker>
+
+        <Slider
+          label="Type scale base (px)"
+          minValue={16}
+          maxValue={20}
+          step={1}
+          value={typeScale.baseSize}
+          onChange={(value) => update("typeBaseSize", value)}
+          formatOptions={{ maximumFractionDigits: 0 }}
+        />
+
+        <Picker
+          label="Type scale ratio"
+          selectedKey={typeScale.ratioId}
+          onSelectionChange={(key) =>
+            update("typeScaleRatio", String(key) as TypeScaleRatio)
+          }
+        >
+          <PickerItem id="minor-third">Minor third · 1.200</PickerItem>
+          <PickerItem id="major-third">Major third · 1.250</PickerItem>
+          <PickerItem id="perfect-fourth">Perfect fourth · 1.333</PickerItem>
         </Picker>
 
         <Picker
@@ -349,6 +391,14 @@ export function ThemeLab() {
         <section className="lab-section" aria-labelledby="lab-type-heading">
           <p className="lab-eyebrow">Typography</p>
           <h3 id="lab-type-heading" className="lab-h2">Readable hierarchy</h3>
+          <div className="lab-type-scale" aria-label="Heading scale preview">
+            <p className="lab-scale-h1">H1 · Page title</p>
+            <p className="lab-scale-h2">H2 · Major section</p>
+            <p className="lab-scale-h3">H3 · Subsection</p>
+            <p className="lab-scale-h4">H4 · Group heading</p>
+            <p className="lab-scale-h5">H5 · Supporting heading</p>
+            <p className="lab-scale-h6">H6 · Minor heading</p>
+          </div>
           <p>
             Body copy should remain comfortable at 200% zoom, avoid overly long
             lines, and preserve clear separation between headings and supporting text.
@@ -398,7 +448,7 @@ export function ThemeLab() {
               <caption>Theme token examples</caption>
               <thead><tr><th scope="col">Token</th><th scope="col">Current preview</th><th scope="col">Status</th></tr></thead>
               <tbody>
-                <tr><th scope="row">Heading scale</th><td>{theme.headingScale}</td><td>Draft</td></tr>
+                <tr><th scope="row">Type scale</th><td>{typeScale.baseSize}px / {typeScale.ratioId}</td><td>Draft</td></tr>
                 <tr><th scope="row">Preset</th><td>{theme.presetId}</td><td>Draft</td></tr>
                 <tr><th scope="row">Focus width</th><td>{theme.focusWidth}px</td><td>{focusPasses ? "Validated" : "Review"}</td></tr>
               </tbody>

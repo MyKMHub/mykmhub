@@ -104,12 +104,12 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
   })).toBeVisible();
   await expect(page.getByText("Passes the 3:1 preview guardrail.")).toBeVisible();
 
-  const headingScale = page.getByRole("button", { name: "Heading scale" });
+  const headingScale = page.getByRole("button", { name: "Type scale preset" });
   await headingScale.click();
-  await page.getByRole("option", { name: "Compact · 3rem maximum" }).click();
+  await page.getByRole("option", { name: "Compact · 16px / 1.200" }).click();
   await page.getByRole("button", { name: "Save local draft" }).click();
   await page.reload();
-  await expect(headingScale).toContainText("Compact · 3rem maximum");
+  await expect(headingScale).toContainText("Compact · 16px / 1.200");
 
   await page.getByRole("button", { name: "Apply to site" }).click();
   await expect(page.getByText("Custom browser theme active")).toBeVisible();
@@ -120,7 +120,7 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
     })),
   ).toEqual({
     state: "active",
-    h1: "clamp(2rem, 4vw, 3rem)",
+    h1: "clamp(2.074rem, 6vw, 2.488rem)",
   });
 
   await page.goto("/portfolio");
@@ -136,7 +136,7 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
   ).toBeUndefined();
 
   await page.getByRole("button", { name: "Reset", exact: true }).click();
-  await expect(headingScale).toContainText("Balanced · 3.75rem maximum");
+  await expect(headingScale).toContainText("Balanced · 17px / 1.250");
 });
 
 test("Theme Lab remains contained on a mobile viewport", async ({ page }) => {

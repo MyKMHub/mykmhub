@@ -1,4 +1,5 @@
 export type HeadingScale = "compact" | "balanced" | "display";
+export type TypeScaleRatio = "minor-third" | "major-third" | "perfect-fourth";
 export type EyebrowScale = "quiet" | "balanced" | "prominent";
 export type SpacingScale = "compact" | "comfortable" | "spacious";
 export type ThemePresetId = "spectrum" | "aged-paper" | "custom";
@@ -8,6 +9,8 @@ export interface ThemeDraft {
   presetId: ThemePresetId;
   spectrumBackground: SpectrumBackground;
   headingScale: HeadingScale;
+  typeBaseSize?: number;
+  typeScaleRatio?: TypeScaleRatio;
   eyebrowScale: EyebrowScale;
   bodyLineHeight: number;
   focusColor: string;
@@ -28,11 +31,40 @@ export interface ThemeDraft {
 export const ACTIVE_THEME_STORAGE_KEY = "mykmhub-active-site-theme";
 export const SITE_THEME_EVENT = "mykmhub-site-theme-change";
 
-export const HEADING_SIZES: Record<HeadingScale, string> = {
-  compact: "clamp(2rem, 4vw, 3rem)",
-  balanced: "clamp(2.25rem, 5vw, 3.75rem)",
-  display: "clamp(2.5rem, 7vw, 5.25rem)",
+export const TYPE_SCALE_RATIOS: Record<TypeScaleRatio, number> = {
+  "minor-third": 1.2,
+  "major-third": 1.25,
+  "perfect-fourth": 1.333,
 };
+
+export const TYPE_SCALE_DEFAULTS: Record<
+  HeadingScale,
+  { baseSize: number; ratio: TypeScaleRatio }
+> = {
+  compact: { baseSize: 16, ratio: "minor-third" },
+  balanced: { baseSize: 17, ratio: "major-third" },
+  display: { baseSize: 18, ratio: "perfect-fourth" },
+};
+
+export function getTypeScale(theme: ThemeDraft) {
+  const fallback = TYPE_SCALE_DEFAULTS[theme.headingScale];
+  const baseRem = (theme.typeBaseSize ?? fallback.baseSize) / 16;
+  const ratioId = theme.typeScaleRatio ?? fallback.ratio;
+  const ratio = TYPE_SCALE_RATIOS[ratioId];
+  const sizes = [5, 4, 3, 2, 1, 0].map((power) =>
+    Number((baseRem * ratio ** power).toFixed(3)),
+  );
+  return {
+    baseSize: theme.typeBaseSize ?? fallback.baseSize,
+    ratioId,
+    h1: `clamp(${Math.max(sizes[1], sizes[0] * 0.78).toFixed(3)}rem, 6vw, ${sizes[0]}rem)`,
+    h2: `clamp(${Math.max(sizes[2], sizes[1] * 0.84).toFixed(3)}rem, 4vw, ${sizes[1]}rem)`,
+    h3: `${sizes[2]}rem`,
+    h4: `${sizes[3]}rem`,
+    h5: `${sizes[4]}rem`,
+    h6: `${sizes[5]}rem`,
+  };
+}
 
 export const EYEBROW_STYLES: Record<
   EyebrowScale,
@@ -62,6 +94,8 @@ export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft>
     presetId: "spectrum",
     spectrumBackground: "base",
     headingScale: "balanced",
+    typeBaseSize: 17,
+    typeScaleRatio: "major-third",
     eyebrowScale: "balanced",
     bodyLineHeight: 1.65,
     focusColor: "#1473e6",
@@ -82,6 +116,8 @@ export const THEME_PRESETS: Record<Exclude<ThemePresetId, "custom">, ThemeDraft>
     presetId: "aged-paper",
     spectrumBackground: "base",
     headingScale: "compact",
+    typeBaseSize: 16,
+    typeScaleRatio: "minor-third",
     eyebrowScale: "prominent",
     bodyLineHeight: 1.65,
     focusColor: "#455d73",
@@ -109,6 +145,14 @@ export function isThemeDraft(value: unknown): value is ThemeDraft {
     ["spectrum", "aged-paper", "custom"].includes(String(draft.presetId)) &&
     ["base", "layer-1", "layer-2"].includes(String(draft.spectrumBackground)) &&
     ["compact", "balanced", "display"].includes(String(draft.headingScale)) &&
+    (draft.typeBaseSize === undefined ||
+      (typeof draft.typeBaseSize === "number" &&
+        draft.typeBaseSize >= 16 &&
+        draft.typeBaseSize <= 20)) &&
+    (draft.typeScaleRatio === undefined ||
+      ["minor-third", "major-third", "perfect-fourth"].includes(
+        String(draft.typeScaleRatio),
+      )) &&
     ["quiet", "balanced", "prominent"].includes(String(draft.eyebrowScale)) &&
     typeof draft.bodyLineHeight === "number" &&
     draft.bodyLineHeight >= 1.5 &&
@@ -144,6 +188,11 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
     root.removeAttribute("data-custom-theme");
     [
       "--site-h1-size",
+      "--site-h2-size",
+      "--site-h3-size",
+      "--site-h4-size",
+      "--site-h5-size",
+      "--site-h6-size",
       "--site-eyebrow-size",
       "--site-eyebrow-spacing",
       "--site-body-line-height",
@@ -166,7 +215,13 @@ export function applyThemeToSite(theme: ThemeDraft | null) {
 
   root.dataset.customTheme = "active";
   root.dataset.themePreset = theme.presetId;
-  root.style.setProperty("--site-h1-size", HEADING_SIZES[theme.headingScale]);
+  const typeScale = getTypeScale(theme);
+  root.style.setProperty("--site-h1-size", typeScale.h1);
+  root.style.setProperty("--site-h2-size", typeScale.h2);
+  root.style.setProperty("--site-h3-size", typeScale.h3);
+  root.style.setProperty("--site-h4-size", typeScale.h4);
+  root.style.setProperty("--site-h5-size", typeScale.h5);
+  root.style.setProperty("--site-h6-size", typeScale.h6);
   root.style.setProperty(
     "--site-eyebrow-size",
     EYEBROW_STYLES[theme.eyebrowScale].size,
