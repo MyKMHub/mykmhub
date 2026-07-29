@@ -21,7 +21,8 @@ export default function ThemeLabPage() {
         <p>
           <strong>Instructions:</strong> Adjust guarded tokens, inspect the
           component gallery, validate focus contrast, and save or export a
-          draft. Apply a validated draft to use it across MyKMHub in this browser.
+          draft. Changes preview across this page immediately. Apply a validated
+          draft to retain it across MyKMHub in this browser.
         </p>
         <p><Link href="/design-system">Return to the Design System</Link></p>
       </header>

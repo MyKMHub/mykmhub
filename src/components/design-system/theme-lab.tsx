@@ -109,6 +109,28 @@ export function ThemeLab() {
     return () => window.clearTimeout(loadDraft);
   }, []);
 
+  useEffect(() => {
+    applyThemeToSite(theme);
+  }, [theme]);
+
+  useEffect(() => {
+    return () => {
+      const savedTheme = localStorage.getItem(ACTIVE_THEME_STORAGE_KEY);
+      if (!savedTheme) {
+        applyThemeToSite(null);
+        return;
+      }
+      try {
+        const parsed: unknown = JSON.parse(savedTheme);
+        applyThemeToSite(
+          isThemeDraft(parsed) ? normalizeThemeDraft(parsed) : null,
+        );
+      } catch {
+        applyThemeToSite(null);
+      }
+    };
+  }, []);
+
   const serialized = useMemo(() => JSON.stringify(theme, null, 2), [theme]);
   const isAppliedToSite =
     activeThemeJson !== undefined && activeThemeJson !== null;
@@ -201,9 +223,10 @@ export function ThemeLab() {
 
   function restoreSiteDefault() {
     localStorage.removeItem(ACTIVE_THEME_STORAGE_KEY);
-    applyThemeToSite(null);
+    setTheme({ ...DEFAULT_THEME });
+    applyThemeToSite(DEFAULT_THEME);
     setActiveThemeJson(null);
-    setStatus("Restored the MyKMHub site defaults.");
+    setStatus("Restored and previewed the MyKMHub site defaults.");
   }
 
   async function copyTheme() {

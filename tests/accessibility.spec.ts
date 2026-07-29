@@ -127,26 +127,30 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
     "data-canvas-effect",
     "paper-vignette",
   );
-  await expect(page.locator(".theme-preview")).toHaveCSS(
+  await expect(page.locator("body")).toHaveCSS(
     "background-image",
     /radial-gradient/,
   );
   await expect(page.getByRole("button", { name: "Focus color" })).toContainText(
     "Spectrum blue",
   );
-  await expect(page.locator(".theme-preview")).toHaveCSS(
+  await expect(page.locator("body")).toHaveCSS(
     "background-color",
     "rgb(249, 246, 240)",
+  );
+  await expect(page.locator(".theme-preview")).toHaveCSS(
+    "background-color",
+    "rgb(253, 251, 247)",
   );
   await page.getByText("Accessibility", { exact: true }).click();
   const appearance = page.getByRole("button", { name: "Appearance" });
   await appearance.click();
   await page.getByRole("option", { name: "Dark" }).click();
-  await expect(page.locator(".theme-preview")).toHaveCSS(
+  await expect(page.locator("body")).toHaveCSS(
     "background-color",
     "rgb(36, 35, 32)",
   );
-  await expect(page.locator(".theme-preview")).toHaveCSS(
+  await expect(page.locator("body")).toHaveCSS(
     "color",
     "rgb(243, 238, 228)",
   );
@@ -157,6 +161,10 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
     .fill("#f8f5ef");
   await expect(themePreset).toContainText("Modified draft");
   await expect(page.locator(".theme-preview")).toHaveAttribute(
+    "data-canvas-effect",
+    "paper-vignette",
+  );
+  await expect(page.locator("html")).toHaveAttribute(
     "data-canvas-effect",
     "paper-vignette",
   );
@@ -191,11 +199,17 @@ test("Theme Lab previews and persists a guarded local draft", async ({ page }) =
   await page.getByRole("button", { name: "Restore site default" }).click();
   await expect(page.getByText("MyKMHub default")).toBeVisible();
   await expect.poll(() =>
-    page.evaluate(() => document.documentElement.dataset.customTheme),
-  ).toBeUndefined();
+    page.evaluate(() =>
+      window.localStorage.getItem("mykmhub-active-site-theme"),
+    ),
+  ).toBeNull();
 
   await page.getByRole("button", { name: "Reset", exact: true }).click();
   await expect(headingScale).toContainText("Balanced · 17px / 1.250");
+  await page.goto("/portfolio");
+  await expect.poll(() =>
+    page.evaluate(() => document.documentElement.dataset.customTheme),
+  ).toBeUndefined();
 });
 
 test("Theme Lab remains contained on a mobile viewport", async ({ page }) => {
