@@ -64,6 +64,10 @@ through specification-led AI-assisted development. It is maintained as guidance
 rather than a blog post or case study and is connected to the MyKMHub platform
 effort, Design System, and Tools.
 
+The HCD Director Toolkit is a contextual leadership view over existing methods,
+tools, guidance, and portfolio evidence. It organizes useful pathways without
+duplicating the underlying content records.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

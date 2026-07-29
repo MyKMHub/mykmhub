@@ -782,6 +782,11 @@ Build:
 7. Knowledge/Resources
 8. About
 
+The HCD Director Toolkit landing experience is now published at `/toolkit` as
+a contextual view over existing methods, tools, guidance, and portfolio
+evidence. It does not duplicate the underlying records or create placeholder
+pages for unpopulated toolkit areas.
+
 ### Phase 3 - Content and capability expansion
 
 Populate high-value Director resources and begin connecting:

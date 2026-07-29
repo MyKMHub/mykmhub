@@ -2,6 +2,24 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "landing-hcd-director-toolkit",
+    toEntryId: "method-evidence-first-synthesis",
+    type: "related",
+    label: "Evidence and synthesis leadership method",
+  },
+  {
+    fromEntryId: "landing-hcd-director-toolkit",
+    toEntryId: "tool-accessible-form-generator",
+    type: "related",
+    label: "Accessible delivery requirements tool",
+  },
+  {
+    fromEntryId: "landing-hcd-director-toolkit",
+    toEntryId: "guidance-ai-assisted-mykmhub-development",
+    type: "related",
+    label: "Governed AI-assisted delivery practice",
+  },
+  {
     fromEntryId: "guidance-ai-assisted-mykmhub-development",
     toEntryId: "landing-design-system",
     type: "explains",

@@ -11,6 +11,7 @@ const NAVIGATION_LABELS: Readonly<Record<string, string>> = {
   portfolio: "Portfolio",
   "design-system": "Design System",
   knowledge: "Knowledge",
+  "hcd-director-toolkit": "Toolkit",
 };
 
 export const PRIMARY_NAVIGATION: readonly NavigationItem[] = PUBLISHED_CONTENT.flatMap(

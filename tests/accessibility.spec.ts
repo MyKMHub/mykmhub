@@ -8,6 +8,7 @@ const PUBLIC_ROUTES = [
   "/design-system/theme-lab",
   "/knowledge",
   "/knowledge/building-mykmhub-ai-assisted-development",
+  "/toolkit",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -235,6 +236,21 @@ test("Knowledge remains contained with its published navigation item", async ({
     clientWidth: document.documentElement.clientWidth,
   }));
   expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
+});
+
+test("Toolkit exposes connected leadership pathways", async ({ page }) => {
+  await page.goto("/toolkit");
+  await expect(
+    page.getByRole("heading", {
+      name: "Start with the work you need to move forward",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Use the evidence-first synthesis method" }),
+  ).toHaveAttribute("href", "/methods/evidence-first-synthesis");
+  await expect(
+    page.getByRole("link", { name: "Open the accessible form generator" }),
+  ).toHaveAttribute("href", "/tools/accessible-form-requirements-generator");
 });
 
 test("tool directory exposes status and verification context", async ({
