@@ -227,3 +227,43 @@ The future concept should:
 Priority: future. Requires authentication, private storage, connector
 authorization, permission-aware indexing, retention controls, and a security
 review before implementation.
+
+## Site versions, backup, and recovery
+
+Provide a private administrative workflow for capturing named site milestones
+and recovering the site when a release, content change, or configuration update
+causes a problem.
+
+The future capability should:
+
+1. Create a named snapshot from the UI with a version label, release notes,
+   author, timestamp, and the source revision or deployment it corresponds to.
+2. Capture the state needed for a genuine recovery: application source and
+   dependency manifest, structured content, database schema and data, uploaded
+   media, approved theme settings, and non-secret runtime configuration.
+3. Keep credentials, personal API keys, access tokens, and other secrets out of
+   downloadable archives and recovery history.
+4. Show available versions with their verification status, contents, size,
+   compatibility, and retention date. Support comparison before selecting a
+   restore point.
+5. Verify archive integrity and run schema and compatibility checks before a
+   restore. Provide a preview or dry run when practical.
+6. Require strong authentication, explicit confirmation, and an audit record
+   for backup deletion or restoration.
+7. Automatically capture a pre-restore snapshot so an unsuccessful restoration
+   can be rolled back.
+8. Support an encrypted downloadable archive and at least one independently
+   stored copy. A browser-local copy alone is not an adequate backup.
+9. Test restoration periodically; a snapshot is not considered verified until
+   it can recreate a working, accessible site in an isolated environment.
+10. Preserve Git as the source-code history while treating database, content,
+    media, theme, and deployment backups as related but distinct recovery
+    layers.
+
+The first implementation should be read-only version history plus a manually
+initiated, downloadable snapshot. Full in-place restoration should follow only
+after authentication, durable storage, schema migration handling, audit
+logging, and recovery testing are established.
+
+Priority: future. Revisit when MyKMHub has authenticated administration and
+persistent content or database storage.
