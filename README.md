@@ -4,6 +4,11 @@ MyKMHub is a public-facing HCD Director toolkit and knowledge hub. It will provi
 
 The authoritative working specification is [docs/MYKMHUB-PROJECT-SPEC.md](docs/MYKMHUB-PROJECT-SPEC.md).
 
+To resume, run, publish, or troubleshoot the project, use the
+[operations and continuity guide](docs/OPERATIONS.md). The
+[context-driven KM model](docs/KM-CONTEXT-MODEL.md) documents how reusable
+records, metadata, and contextual views should evolve.
+
 ## Technology
 
 - Next.js 16 App Router

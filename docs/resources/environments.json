@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "lastVerified": "2026-07-29",
+  "publicRepositorySafe": true,
+  "resources": [
+    {
+      "id": "local-workspace",
+      "name": "MyKMHub working directory",
+      "type": "workspace",
+      "environment": "local",
+      "access": "device-owner",
+      "location": "C:\\Projects\\mykmhub",
+      "purpose": "Authoritative local working files and Git repository.",
+      "verify": "Run git status --short --branch from this directory.",
+      "related": ["local-development", "git-local", "github-repository"]
+    },
+    {
+      "id": "local-development",
+      "name": "Local development site",
+      "type": "endpoint",
+      "environment": "local-browser",
+      "access": "device-owner",
+      "location": "http://localhost:3000",
+      "purpose": "Interactive development preview started with npm run dev.",
+      "verify": "Confirm the terminal reports Ready and the page responds.",
+      "related": ["local-workspace", "production-site"]
+    },
+    {
+      "id": "production-site",
+      "name": "MyKMHub production site",
+      "type": "endpoint",
+      "environment": "public-cloud",
+      "access": "public",
+      "location": "https://mykmhub.com",
+      "purpose": "Public production experience.",
+      "verify": "Open a recently changed route and confirm the expected content.",
+      "related": ["vercel-project", "vercel-domains", "github-repository"]
+    },
+    {
+      "id": "git-local",
+      "name": "Local Git repository",
+      "type": "version-control",
+      "environment": "local",
+      "access": "device-owner",
+      "location": "C:\\Projects\\mykmhub\\.git",
+      "purpose": "Local commits, branches, and source history.",
+      "verify": "Compare git rev-parse HEAD with git rev-parse origin/main.",
+      "related": ["local-workspace", "github-repository"]
+    },
+    {
+      "id": "github-organization",
+      "name": "MyKMHub GitHub organization",
+      "type": "service",
+      "environment": "cloud",
+      "access": "public-read/admin-write",
+      "location": "https://github.com/MyKMHub",
+      "purpose": "Organization-level repository access.",
+      "verify": "Confirm the MyKMHub repository is listed.",
+      "related": ["github-repository"]
+    },
+    {
+      "id": "github-repository",
+      "name": "MyKMHub GitHub repository",
+      "type": "repository",
+      "environment": "cloud",
+      "access": "public-read/admin-write",
+      "location": "https://github.com/MyKMHub/mykmhub",
+      "purpose": "Durable remote source history and Vercel deployment source.",
+      "verify": "Confirm the latest main-branch commit matches local HEAD.",
+      "related": ["github-organization", "git-local", "vercel-project"]
+    },
+    {
+      "id": "vercel-project",
+      "name": "MyKMHub Vercel project",
+      "type": "deployment-service",
+      "environment": "cloud",
+      "access": "account-admin",
+      "location": "https://vercel.com/my-kmh-ub/mykmhub",
+      "purpose": "Build history, deployment logs, previews, and production status.",
+      "verify": "Confirm the latest production deployment uses the expected Git commit.",
+      "related": ["github-repository", "production-site", "vercel-domains"]
+    },
+    {
+      "id": "vercel-domains",
+      "name": "MyKMHub domain settings",
+      "type": "administrative-location",
+      "environment": "cloud",
+      "access": "account-admin",
+      "location": "https://vercel.com/my-kmh-ub/mykmhub/settings/domains",
+      "purpose": "Production-domain assignment and domain-status checks.",
+      "verify": "Confirm mykmhub.com is assigned and reports a valid configuration.",
+      "related": ["vercel-project", "production-site"]
+    },
+    {
+      "id": "design-system",
+      "name": "MyKMHub Design System",
+      "type": "application-route",
+      "environment": "local-and-public",
+      "access": "public",
+      "location": "/design-system",
+      "purpose": "Approved foundations, components, patterns, and design decisions.",
+      "verify": "Check locally and on mykmhub.com after design-system changes.",
+      "related": ["theme-lab", "local-development", "production-site"]
+    },
+    {
+      "id": "theme-lab",
+      "name": "Theme Lab",
+      "type": "application-route",
+      "environment": "local-and-public",
+      "access": "public-experimental",
+      "location": "/design-system/theme-lab",
+      "purpose": "Select, modify, validate, and locally apply experimental themes.",
+      "verify": "Confirm presets persist and apply across routes in the current browser.",
+      "related": ["design-system", "local-development", "production-site"]
+    },
+    {
+      "id": "project-specification",
+      "name": "Project specification",
+      "type": "document",
+      "environment": "repository",
+      "access": "public",
+      "location": "docs/MYKMHUB-PROJECT-SPEC.md",
+      "purpose": "Authoritative product direction, constraints, and decisions.",
+      "verify": "Review before changes that affect product scope or architecture.",
+      "related": ["roadmap", "operations-guide", "km-context-model"]
+    },
+    {
+      "id": "roadmap",
+      "name": "Project roadmap",
+      "type": "document",
+      "environment": "repository",
+      "access": "public",
+      "location": "docs/ROADMAP.md",
+      "purpose": "Future capabilities, priorities, and deferred work.",
+      "verify": "Update when a future concept is accepted, implemented, or retired.",
+      "related": ["project-specification", "operations-guide"]
+    },
+    {
+      "id": "operations-guide",
+      "name": "Operations and continuity guide",
+      "type": "document",
+      "environment": "repository",
+      "access": "public-safe",
+      "location": "docs/OPERATIONS.md",
+      "purpose": "Resume, test, publish, verify, and troubleshoot MyKMHub.",
+      "verify": "Follow the resume checklist after an extended break.",
+      "related": ["local-workspace", "github-repository", "vercel-project"]
+    },
+    {
+      "id": "km-context-model",
+      "name": "Context-driven KM model",
+      "type": "document",
+      "environment": "repository",
+      "access": "public",
+      "location": "docs/KM-CONTEXT-MODEL.md",
+      "purpose": "Shared metadata, contextual views, and knowledge/action boundaries.",
+      "verify": "Test proposed facets against real records before extending them.",
+      "related": ["project-specification", "operations-guide"]
+    }
+  ]
+}

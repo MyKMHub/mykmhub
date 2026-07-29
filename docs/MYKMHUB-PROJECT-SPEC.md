@@ -443,6 +443,12 @@ Potential shared metadata:
 
 This should enable contextual discovery without duplicate content.
 
+The working facet model, historical context vocabulary, active-work boundary,
+and future Context Hub pattern are maintained in
+[KM-CONTEXT-MODEL.md](KM-CONTEXT-MODEL.md). Operational locations and
+procedures use the same approach through [OPERATIONS.md](OPERATIONS.md) and the
+machine-readable [environment registry](resources/environments.json).
+
 ---
 
 # 12. Governance / Operating Models - **Concept**
