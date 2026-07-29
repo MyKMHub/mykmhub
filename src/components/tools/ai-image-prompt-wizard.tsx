@@ -362,13 +362,7 @@ export function AiImagePromptWizard() {
 
   return (
     <div className="image-architect">
-      <section className="architect-controls" aria-labelledby="architect-heading">
-        <div>
-          <p className="eyebrow">Prompt architect</p>
-          <h2 id="architect-heading">Define visual intent in four zones</h2>
-          <p>Start with the subject, then disclose only the controls needed for the target engine.</p>
-        </div>
-
+      <section className="architect-controls" aria-label="AI image prompt controls">
         <section className="provider-setup" aria-labelledby="provider-setup-heading">
           <h3 id="provider-setup-heading">Engine and output setup</h3>
           <RadioGroup

@@ -381,6 +381,10 @@ test("AI image prompt architect translates selections and supports manual overri
   await expect(page.getByRole("button", { name: "More description" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Current scope" })).toHaveCount(0);
   await expect(page.getByText("Context", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("Prompt architect", { exact: true })).toHaveCount(0);
+  await expect(page.getByText(
+    "Start with the subject, then disclose only the controls needed for the target engine.",
+  )).toHaveCount(0);
   await page.getByRole("textbox", { name: "Primary subject" }).fill(
     "An accessibility researcher",
   );
