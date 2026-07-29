@@ -669,10 +669,11 @@ h3 {
   grid-template-columns: minmax(0, 1.3fr) minmax(15rem, 0.7fr);
   gap: clamp(1.5rem, 4vw, 2.5rem);
   margin-block-start: 1.5rem;
-  padding: 0 0 0 clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
   color: CanvasText;
-  background: transparent;
-  border-inline-start: 0.25rem solid var(--surface-border);
+  background: color-mix(in srgb, CanvasText 2%, Canvas);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.5rem;
 }
 
 .effort-context h2 {
@@ -880,6 +881,7 @@ h3 {
 
 .project-facts div {
   display: flex;
+  align-items: baseline;
   gap: 0.5rem;
   padding: 0;
   background: transparent;
@@ -910,6 +912,11 @@ h3 {
 .impact-list dd {
   margin: 0.5rem 0 0;
   line-height: 1.5;
+}
+
+.project-facts dd {
+  min-width: 0;
+  margin: 0;
 }
 
 .case-study-layout {
@@ -1051,6 +1058,7 @@ html[data-contrast="increased"] .preferences-panel,
 html[data-contrast="increased"] .principle-grid article,
 html[data-contrast="increased"] .status-note,
 html[data-contrast="increased"] .tool-card,
+html[data-contrast="increased"] .effort-context,
 html[data-contrast="increased"] .matrix-form fieldset,
 html[data-contrast="increased"] .table-scroll {
   border-width: 2px;
@@ -1128,7 +1136,8 @@ html[data-motion="reduced"] *::after {
 @media (forced-colors: active) {
   .preferences-panel,
   .principle-grid article,
-  .status-note {
+  .status-note,
+  .effort-context {
     border: 1px solid CanvasText;
   }
 }

@@ -329,10 +329,41 @@ test("portfolio project facts use a compact label and value layout", async ({
 
   const layout = await facts.locator("div").first().evaluate((item) => ({
     display: window.getComputedStyle(item).display,
+    alignItems: window.getComputedStyle(item).alignItems,
     padding: window.getComputedStyle(item).padding,
+    valueMargin: window.getComputedStyle(
+      item.querySelector("dd") as HTMLElement,
+    ).margin,
   }));
   expect(layout.display).toBe("flex");
+  expect(layout.alignItems).toBe("baseline");
   expect(layout.padding).toBe("0px");
+  expect(layout.valueMargin).toBe("0px");
+});
+
+test("portfolio effort context has a restrained complete boundary", async ({
+  page,
+}) => {
+  await page.goto(
+    "/case-studies/accessible-form-component-and-ux-requirements-generator",
+  );
+  const border = await page.locator(".effort-context").evaluate((item) => {
+    const style = window.getComputedStyle(item);
+    return {
+      top: style.borderTopWidth,
+      right: style.borderRightWidth,
+      bottom: style.borderBottomWidth,
+      left: style.borderLeftWidth,
+      radius: style.borderRadius,
+    };
+  });
+  expect(border).toEqual({
+    top: "1px",
+    right: "1px",
+    bottom: "1px",
+    left: "1px",
+    radius: "8px",
+  });
 });
 
 test("404 page is readable and accessible in explicit dark mode", async ({
