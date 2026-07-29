@@ -18,6 +18,10 @@ const pathways = [
         href: "/frameworks/hcd-operating-model-baseline",
       },
       {
+        label: "Use the engagement intake and triage pattern",
+        href: "/patterns/hcd-engagement-intake-triage",
+      },
+      {
         label: "Use the evidence-first synthesis method",
         href: "/methods/evidence-first-synthesis",
       },

@@ -804,6 +804,13 @@ framework, minimum operating-agreement structure, leadership review questions,
 and warning signs. The framework is connected to the Director Toolkit,
 evidence-first synthesis method, and relevant portfolio evidence.
 
+The companion HCD engagement intake and triage pattern is published at
+`/patterns/hcd-engagement-intake-triage`. It implements the demand and
+prioritization portion of the operating model through a minimum intake record,
+transparent priority dimensions, explicit routing outcomes, and operating
+checks. It remains a reusable content pattern rather than prematurely becoming
+a workflow application.
+
 ### Phase 4+
 
 Evaluate:

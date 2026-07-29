@@ -76,6 +76,10 @@ Phase 3 begins with an HCD operating model baseline: a substantive Director
 framework covering mandate, intake, evidence, decision rights, delivery
 integration, accessibility, measurement, and organizational learning.
 
+The HCD engagement intake and triage pattern turns the operating model's demand
+and prioritization capability into a reusable process with a minimum intake
+record, transparent assessment dimensions, and explicit routing outcomes.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

@@ -320,6 +320,29 @@ h6 {
   min-width: 0;
 }
 
+.inline-definition-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-block: 1.5rem;
+}
+
+.inline-definition-list div {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.35fr) minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+}
+
+.inline-definition-list dt,
+.inline-definition-list dd {
+  margin: 0;
+}
+
+@media (max-width: 40rem) {
+  .inline-definition-list div {
+    grid-template-columns: 1fr;
+  }
+}
+
 .not-found-page {
   display: grid;
   gap: clamp(2.5rem, 7vw, 5rem);

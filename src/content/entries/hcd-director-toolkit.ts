@@ -14,6 +14,7 @@ export const HCD_DIRECTOR_TOOLKIT_ENTRY = {
   route: "/toolkit",
   relatedEntryIds: [
     "framework-hcd-operating-model-baseline",
+    "pattern-hcd-engagement-intake-triage",
     "method-evidence-first-synthesis",
     "tool-accessible-form-generator",
     "guidance-ai-assisted-mykmhub-development",

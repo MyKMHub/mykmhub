@@ -2,6 +2,18 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "pattern-hcd-engagement-intake-triage",
+    type: "implements",
+    label: "Demand and prioritization operating pattern",
+  },
+  {
+    fromEntryId: "landing-hcd-director-toolkit",
+    toEntryId: "pattern-hcd-engagement-intake-triage",
+    type: "related",
+    label: "HCD demand and routing pattern",
+  },
+  {
     fromEntryId: "landing-hcd-director-toolkit",
     toEntryId: "framework-hcd-operating-model-baseline",
     type: "related",

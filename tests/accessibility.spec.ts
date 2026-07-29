@@ -11,6 +11,7 @@ const PUBLIC_ROUTES = [
   "/toolkit",
   "/about",
   "/frameworks/hcd-operating-model-baseline",
+  "/patterns/hcd-engagement-intake-triage",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -290,6 +291,24 @@ test("HCD operating model provides a usable governance baseline", async ({
       name: "Return to the HCD Director Toolkit",
     }),
   ).toHaveAttribute("href", "/toolkit");
+});
+
+test("HCD intake pattern provides transparent triage and routing", async ({
+  page,
+}) => {
+  await page.goto("/patterns/hcd-engagement-intake-triage");
+  await expect(
+    page.getByRole("heading", { name: "Capture a minimum intake record" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Compare demand across six dimensions" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "End triage with an explicit outcome" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Review the operating model baseline" }),
+  ).toHaveAttribute("href", "/frameworks/hcd-operating-model-baseline");
 });
 
 test("tool directory exposes status and verification context", async ({
