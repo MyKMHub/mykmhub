@@ -398,12 +398,14 @@ test("image generation endpoint requests a key when none is supplied or configur
   });
 });
 
-test("Gemini image generation requests its supported JPEG output", async () => {
+test("Gemini image generation requests its supported output format and size", async () => {
   const routeSource = await import("node:fs/promises").then(({ readFile }) =>
     readFile("src/app/api/tools/ai-image/generate/route.ts", "utf8"),
   );
   expect(routeSource).toContain('mime_type: "image/jpeg"');
   expect(routeSource).not.toContain('mime_type: "image/png"');
+  expect(routeSource).toContain('quality === "low" ? "512"');
+  expect(routeSource).not.toContain('"512px"');
 });
 
 test("AI image prompt wizard does not widen the mobile page", async ({ page }) => {

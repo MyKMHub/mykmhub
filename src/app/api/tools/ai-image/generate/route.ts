@@ -57,7 +57,7 @@ async function generateGemini(
   aspectRatio: string,
   quality: string,
 ) {
-  const imageSize = quality === "high" ? "2K" : quality === "low" ? "512px" : "1K";
+  const imageSize = quality === "high" ? "2K" : quality === "low" ? "512" : "1K";
   const response = await fetch(
     "https://generativelanguage.googleapis.com/v1beta/interactions",
     {
