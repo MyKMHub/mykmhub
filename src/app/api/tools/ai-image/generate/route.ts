@@ -8,6 +8,8 @@ const RATIOS: Record<string, { openai: string; width: number; height: number }> 
 };
 
 const QUALITIES = new Set(["low", "medium", "high"]);
+const GEMINI_RESOLUTIONS = new Set(["512", "1K", "2K", "4K"]);
+const FLUX_RESOLUTIONS = new Set(["1MP", "2MP", "4MP"]);
 const ENGINES = new Set(["openai", "gemini", "stable-diffusion"]);
 type SupportedEngine = "openai" | "gemini" | "stable-diffusion";
 
@@ -55,9 +57,8 @@ async function generateGemini(
   apiKey: string,
   prompt: string,
   aspectRatio: string,
-  quality: string,
+  resolution: string,
 ) {
-  const imageSize = quality === "high" ? "2K" : quality === "low" ? "512" : "1K";
   const response = await fetch(
     "https://generativelanguage.googleapis.com/v1beta/interactions",
     {
@@ -73,7 +74,7 @@ async function generateGemini(
           type: "image",
           mime_type: "image/jpeg",
           aspect_ratio: aspectRatio,
-          image_size: imageSize,
+          image_size: resolution,
         },
       }),
       cache: "no-store",
@@ -128,7 +129,11 @@ async function generateFlux(
   apiKey: string,
   prompt: string,
   ratio: (typeof RATIOS)[string],
+  resolution: string,
 ) {
+  const scale = resolution === "4MP" ? 2 : resolution === "2MP" ? Math.SQRT2 : 1;
+  const width = Math.round((ratio.width * scale) / 16) * 16;
+  const height = Math.round((ratio.height * scale) / 16) * 16;
   const submission = await fetch(
     "https://api.bfl.ai/v1/flux-2-pro-preview",
     {
@@ -140,8 +145,8 @@ async function generateFlux(
       },
       body: JSON.stringify({
         prompt,
-        width: ratio.width,
-        height: ratio.height,
+        width,
+        height,
         output_format: "png",
       }),
       cache: "no-store",
@@ -208,6 +213,7 @@ export async function POST(request: Request) {
     prompt?: unknown;
     aspectRatio?: unknown;
     quality?: unknown;
+    resolution?: unknown;
     engine?: unknown;
     apiKey?: unknown;
   };
@@ -215,6 +221,8 @@ export async function POST(request: Request) {
   const aspectRatio =
     typeof input.aspectRatio === "string" ? input.aspectRatio : "1:1";
   const quality = typeof input.quality === "string" ? input.quality : "low";
+  const resolution =
+    typeof input.resolution === "string" ? input.resolution : "";
   const engine =
     typeof input.engine === "string" ? input.engine : "openai";
 
@@ -226,6 +234,12 @@ export async function POST(request: Request) {
   }
   if (!RATIOS[aspectRatio] || !QUALITIES.has(quality) || !ENGINES.has(engine)) {
     return Response.json({ error: "Unsupported image parameters." }, { status: 400 });
+  }
+  if (
+    (engine === "gemini" && !GEMINI_RESOLUTIONS.has(resolution)) ||
+    (engine === "stable-diffusion" && !FLUX_RESOLUTIONS.has(resolution))
+  ) {
+    return Response.json({ error: "Unsupported provider resolution." }, { status: 400 });
   }
 
   const serverKeys: Record<SupportedEngine, string | undefined> = {
@@ -251,7 +265,7 @@ export async function POST(request: Request) {
     return generateOpenAi(apiKey, prompt, RATIOS[aspectRatio], quality);
   }
   if (supportedEngine === "gemini") {
-    return generateGemini(apiKey, prompt, aspectRatio, quality);
+    return generateGemini(apiKey, prompt, aspectRatio, resolution);
   }
-  return generateFlux(apiKey, prompt, RATIOS[aspectRatio]);
+  return generateFlux(apiKey, prompt, RATIOS[aspectRatio], resolution);
 }

@@ -9,6 +9,7 @@ import {
 import { Button } from "@react-spectrum/s2/Button";
 import { Checkbox, CheckboxGroup } from "@react-spectrum/s2/CheckboxGroup";
 import { Picker, PickerItem } from "@react-spectrum/s2/Picker";
+import { Radio, RadioGroup } from "@react-spectrum/s2/RadioGroup";
 import { Slider } from "@react-spectrum/s2/Slider";
 import { Switch } from "@react-spectrum/s2/Switch";
 import { TextArea } from "@react-spectrum/s2/TextArea";
@@ -70,6 +71,13 @@ const EMPTY_API_KEYS: Record<Engine, string> = {
   "stable-diffusion": "",
 };
 
+const INITIAL_RESOLUTIONS: Record<Engine, string> = {
+  openai: "provider",
+  gemini: "1K",
+  midjourney: "provider",
+  "stable-diffusion": "1MP",
+};
+
 const ASPECTS = [
   { id: "1:1", label: "1:1 square" },
   { id: "16:9", label: "16:9 landscape" },
@@ -113,7 +121,7 @@ interface PromptState {
 }
 
 const INITIAL: PromptState = {
-  engine: "openai",
+  engine: "gemini",
   subject: "",
   traits: [],
   action: "Standing",
@@ -233,6 +241,8 @@ export function AiImagePromptWizard() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [image, setImage] = useState("");
   const [apiKeys, setApiKeys] = useState<Record<Engine, string>>(EMPTY_API_KEYS);
+  const [resolutions, setResolutions] =
+    useState<Record<Engine, string>>(INITIAL_RESOLUTIONS);
   const compiled = useMemo(() => compilePrompt(form), [form]);
   const previewPrompt = useMemo(() => compileNatural(form), [form]);
   const output = isManual ? manualPrompt : compiled;
@@ -277,6 +287,7 @@ export function AiImagePromptWizard() {
           prompt: isManual ? manualPrompt : previewPrompt,
           aspectRatio: form.aspect,
           quality: form.quality,
+          resolution: resolutions[form.engine],
           engine: form.engine,
           apiKey: apiKeys[form.engine],
         }),
@@ -301,18 +312,64 @@ export function AiImagePromptWizard() {
           <p>Start with the subject, then disclose only the controls needed for the target engine.</p>
         </div>
 
-        <Picker
-          label="Target engine"
-          selectedKey={form.engine}
-          onSelectionChange={(key) => update("engine", String(key) as Engine)}
-        >
-          {ENGINES.map((engine) => (
-            <PickerItem id={engine.id} key={engine.id}>{engine.label}</PickerItem>
-          ))}
-        </Picker>
-        <p className="field-description">
-          {ENGINES.find((item) => item.id === form.engine)?.label}. The formatted output adapts to this engine; preview generation uses the configured MyKMHub image provider.
-        </p>
+        <section className="provider-setup" aria-labelledby="provider-setup-heading">
+          <h3 id="provider-setup-heading">Engine and output setup</h3>
+          <RadioGroup
+            label="AI engine"
+            value={form.engine}
+            onChange={(value) => update("engine", value as Engine)}
+            orientation="horizontal"
+          >
+            {ENGINES.map((engine) => (
+              <Radio value={engine.id} key={engine.id}>{engine.label}</Radio>
+            ))}
+          </RadioGroup>
+          <p className="field-description">
+            The formatted output and generation provider adapt to the selected engine.
+          </p>
+          <div className="architect-fields">
+            {form.engine === "midjourney" ? (
+              <p className="field-description">
+                Midjourney does not provide a supported direct-generation API. MyKMHub will copy the compiled prompt and will not request a credential.
+              </p>
+            ) : (
+              <TextField
+                label={CREDENTIALS[form.engine].label}
+                type="password"
+                value={apiKeys[form.engine]}
+                onChange={(value) => setApiKeys((current) => ({
+                  ...current,
+                  [form.engine]: value,
+                }))}
+                autoComplete="off"
+                description={`${CREDENTIALS[form.engine].description} The key is not saved by this tool.`}
+              />
+            )}
+            <FieldPicker label="Preview quality" value={form.quality} values={["low", "medium", "high"]} onChange={(value) => update("quality", value as Quality)} />
+            <Picker label="Aspect ratio" selectedKey={form.aspect} onSelectionChange={(key) => update("aspect", String(key))}>
+              {ASPECTS.map((option) => <PickerItem id={option.id} key={option.id}>{option.label}</PickerItem>)}
+            </Picker>
+            {form.engine === "gemini" && (
+              <FieldPicker
+                label="Resolution"
+                value={resolutions.gemini}
+                values={["512", "1K", "2K", "4K"]}
+                onChange={(value) => setResolutions((current) => ({ ...current, gemini: value }))}
+              />
+            )}
+            {form.engine === "stable-diffusion" && (
+              <FieldPicker
+                label="Resolution"
+                value={resolutions["stable-diffusion"]}
+                values={["1MP", "2MP", "4MP"]}
+                onChange={(value) => setResolutions((current) => ({ ...current, "stable-diffusion": value }))}
+              />
+            )}
+            {form.engine === "openai" && (
+              <p className="field-description">Resolution is determined by the selected aspect ratio and GPT Image&apos;s supported output sizes.</p>
+            )}
+          </div>
+        </section>
 
         <Accordion defaultExpandedKeys={["subject"]} allowsMultipleExpanded density="compact">
           <AccordionItem id="subject">
@@ -365,27 +422,6 @@ export function AiImagePromptWizard() {
             <AccordionItemTitle level={3}>4. Technical engine parameters</AccordionItemTitle>
             <AccordionItemPanel>
               <div className="architect-fields">
-                <Picker label="Aspect ratio" selectedKey={form.aspect} onSelectionChange={(key) => update("aspect", String(key))}>
-                  {ASPECTS.map((option) => <PickerItem id={option.id} key={option.id}>{option.label}</PickerItem>)}
-                </Picker>
-                <FieldPicker label="Preview quality" value={form.quality} values={["low", "medium", "high"]} onChange={(value) => update("quality", value as Quality)} />
-                {form.engine === "midjourney" ? (
-                  <p className="field-description">
-                    Midjourney does not provide a supported direct-generation API. MyKMHub will copy the compiled prompt for use in Midjourney and will not request a credential.
-                  </p>
-                ) : (
-                  <TextField
-                    label={CREDENTIALS[form.engine].label}
-                    type="password"
-                    value={apiKeys[form.engine]}
-                    onChange={(value) => setApiKeys((current) => ({
-                      ...current,
-                      [form.engine]: value,
-                    }))}
-                    autoComplete="off"
-                    description={`${CREDENTIALS[form.engine].description} The key is not saved by this tool.`}
-                  />
-                )}
                 <MultiOptions label="Common exclusions" value={form.negatives} values={OPTIONS.negatives} onChange={(value) => update("negatives", value)} />
                 <TextArea label="Other exclusions" value={form.customNegative} onChange={(value) => update("customNegative", value)} />
                 {form.engine === "stable-diffusion" ? (
@@ -430,7 +466,7 @@ export function AiImagePromptWizard() {
           <Button variant="accent" onPress={generateImage} isPending={isGenerating}>
             {form.engine === "midjourney" ? "Copy for Midjourney" : `Generate with ${ENGINES.find((item) => item.id === form.engine)?.label}`}
           </Button>
-          <Button variant="negative" fillStyle="outline" onPress={() => { setForm(INITIAL); setManualPrompt(""); setIsManual(false); setImage(""); setApiKeys(EMPTY_API_KEYS); setStatus("Reset the image workspace and cleared all API keys."); }}>Reset</Button>
+          <Button variant="negative" fillStyle="outline" onPress={() => { setForm(INITIAL); setManualPrompt(""); setIsManual(false); setImage(""); setApiKeys(EMPTY_API_KEYS); setResolutions(INITIAL_RESOLUTIONS); setStatus("Reset the image workspace and cleared all API keys."); }}>Reset</Button>
         </div>
 
         <section aria-labelledby="parameter-breakdown-heading">
@@ -440,7 +476,7 @@ export function AiImagePromptWizard() {
             <div><dt>Subject</dt><dd>{form.subject || "Not yet defined"}</dd></div>
             <div><dt>Medium</dt><dd>{form.medium}</dd></div>
             <div><dt>Composition</dt><dd>{form.framing}; {form.angle}; {form.lens}</dd></div>
-            <div><dt>Output</dt><dd>{form.aspect}; {form.quality} preview quality</dd></div>
+            <div><dt>Output</dt><dd>{form.aspect}; {form.quality} preview quality; {resolutions[form.engine] === "provider" ? "provider-determined resolution" : resolutions[form.engine]}</dd></div>
             <div><dt>Constraints</dt><dd>{parts([...form.negatives, form.customNegative]).join(", ") || "None"}</dd></div>
           </dl>
         </section>

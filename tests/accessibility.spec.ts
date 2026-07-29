@@ -348,6 +348,13 @@ test("AI image prompt architect translates selections and supports manual overri
   await expect(preview).toContainText("An accessibility researcher");
   await expect(preview).toContainText("Photography");
   await expect(preview).toContainText("Avoid");
+  await expect(
+    page.getByRole("radio", { name: "Google Gemini" }),
+  ).toBeChecked();
+  await expect(
+    page.getByRole("textbox", { name: "Google Gemini API key" }),
+  ).toHaveAttribute("type", "password");
+  await expect(page.getByRole("button", { name: "Resolution" })).toContainText("1K");
 
   await page
     .getByRole("button", { name: "4. Technical engine parameters" })
@@ -358,16 +365,12 @@ test("AI image prompt architect translates selections and supports manual overri
   await expect(
     page.getByRole("heading", { name: "Parameter breakdown" }),
   ).toBeVisible();
+
+  await page.getByRole("radio", { name: "OpenAI GPT Image" }).press("Space");
   await expect(
     page.getByRole("textbox", { name: "OpenAI API key" }),
   ).toHaveAttribute("type", "password");
-
-  await page.getByRole("button", { name: "Target engine" }).click();
-  await page.getByRole("option", { name: "Google Gemini" }).click();
-  await expect(
-    page.getByRole("textbox", { name: "Google Gemini API key" }),
-  ).toHaveAttribute("type", "password");
-  await expect(page.getByRole("textbox", { name: "OpenAI API key" })).toHaveCount(0);
+  await expect(page.getByRole("textbox", { name: "Google Gemini API key" })).toHaveCount(0);
 
   await preview.fill("A manually refined image prompt");
   await expect(
@@ -404,7 +407,8 @@ test("Gemini image generation requests its supported output format and size", as
   );
   expect(routeSource).toContain('mime_type: "image/jpeg"');
   expect(routeSource).not.toContain('mime_type: "image/png"');
-  expect(routeSource).toContain('quality === "low" ? "512"');
+  expect(routeSource).toContain('image_size: resolution');
+  expect(routeSource).toContain('["512", "1K", "2K", "4K"]');
   expect(routeSource).not.toContain('"512px"');
   expect(routeSource).toContain('step?.type !== "model_output"');
   expect(routeSource).toContain('content?.type === "image" && content.data');

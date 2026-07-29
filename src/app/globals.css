@@ -486,6 +486,18 @@ h3 {
   min-width: 0;
 }
 
+.provider-setup {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+}
+
+.provider-setup h3 {
+  margin: 0;
+}
+
 .architect-output {
   position: sticky;
   inset-block-start: 6rem;
