@@ -406,6 +406,8 @@ test("Gemini image generation requests its supported output format and size", as
   expect(routeSource).not.toContain('mime_type: "image/png"');
   expect(routeSource).toContain('quality === "low" ? "512"');
   expect(routeSource).not.toContain('"512px"');
+  expect(routeSource).toContain('step?.type !== "model_output"');
+  expect(routeSource).toContain('content?.type === "image" && content.data');
 });
 
 test("AI image prompt wizard does not widen the mobile page", async ({ page }) => {

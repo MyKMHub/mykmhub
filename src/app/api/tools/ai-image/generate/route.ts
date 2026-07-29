@@ -81,14 +81,46 @@ async function generateGemini(
   );
   const result = (await response.json()) as {
     output_image?: { data?: string; mime_type?: string };
+    steps?: Array<{
+      type?: string;
+      content?: Array<{
+        type?: string;
+        data?: string;
+        mime_type?: string;
+      }>;
+    }>;
     error?: { message?: string };
   };
   if (!response.ok) return providerError(response.status, result.error?.message);
 
-  const encoded = result.output_image?.data;
-  if (!encoded) return providerError(502, "Gemini returned no image.");
+  let generatedImage = result.output_image;
+  if (!generatedImage?.data) {
+    for (let stepIndex = (result.steps?.length || 0) - 1; stepIndex >= 0; stepIndex -= 1) {
+      const step = result.steps?.[stepIndex];
+      if (step?.type !== "model_output") continue;
+      for (
+        let contentIndex = (step.content?.length || 0) - 1;
+        contentIndex >= 0;
+        contentIndex -= 1
+      ) {
+        const content = step.content?.[contentIndex];
+        if (content?.type === "image" && content.data) {
+          generatedImage = content;
+          break;
+        }
+      }
+      if (generatedImage?.data) break;
+    }
+  }
+
+  if (!generatedImage?.data) {
+    return providerError(
+      502,
+      "Gemini completed the request without an inline image. Try revising the prompt.",
+    );
+  }
   return imageResponse(
-    `data:${result.output_image?.mime_type || "image/png"};base64,${encoded}`,
+    `data:${generatedImage.mime_type || "image/jpeg"};base64,${generatedImage.data}`,
   );
 }
 
