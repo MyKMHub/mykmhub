@@ -340,6 +340,14 @@ test("AI image prompt architect translates selections and supports manual overri
   page,
 }) => {
   await page.goto("/tools/ai-image-prompt-wizard");
+  await expect(page.getByRole("heading", {
+    level: 1,
+    name: "AI Image Prompt Architect & Generator",
+  })).toBeVisible();
+  await expect(page.getByText("Status: Version 1.0")).toBeVisible();
+  await expect(page.getByRole("button", { name: "More description" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Current scope" })).toHaveCount(0);
+  await expect(page.getByText("Context", { exact: true })).toHaveCount(0);
   await page.getByRole("textbox", { name: "Primary subject" }).fill(
     "An accessibility researcher",
   );
@@ -354,7 +362,11 @@ test("AI image prompt architect translates selections and supports manual overri
   await expect(
     page.getByRole("textbox", { name: "Google Gemini API key" }),
   ).toHaveAttribute("type", "password");
-  await expect(page.getByRole("button", { name: "Resolution" })).toContainText("1K");
+  const resolution = page.getByRole("button", { name: "Resolution" });
+  await expect(resolution).toContainText("512");
+  await page.getByRole("button", { name: "Preview quality" }).click();
+  await page.getByRole("option", { name: "medium" }).click();
+  await expect(resolution).toContainText("1K");
 
   await page
     .getByRole("button", { name: "4. Technical engine parameters" })

@@ -75,10 +75,20 @@ const SESSION_API_KEYS_STORAGE = "mykmhub:ai-image-provider-keys";
 
 const INITIAL_RESOLUTIONS: Record<Engine, string> = {
   openai: "provider",
-  gemini: "1K",
+  gemini: "512",
   midjourney: "provider",
   "stable-diffusion": "1MP",
 };
+
+function resolutionForQuality(engine: Engine, quality: Quality) {
+  if (engine === "gemini") {
+    return { low: "512", medium: "1K", high: "4K" }[quality];
+  }
+  if (engine === "stable-diffusion") {
+    return { low: "1MP", medium: "2MP", high: "4MP" }[quality];
+  }
+  return "provider";
+}
 
 const ASPECTS = [
   { id: "1:1", label: "1:1 square" },
@@ -292,6 +302,22 @@ export function AiImagePromptWizard() {
     if (isManual) setStatus("Selections changed. Restore the generated prompt to include them.");
   }
 
+  function selectEngine(engine: Engine) {
+    update("engine", engine);
+    setResolutions((current) => ({
+      ...current,
+      [engine]: resolutionForQuality(engine, form.quality),
+    }));
+  }
+
+  function selectQuality(quality: Quality) {
+    update("quality", quality);
+    setResolutions((current) => ({
+      ...current,
+      [form.engine]: resolutionForQuality(form.engine, quality),
+    }));
+  }
+
   async function copyPrompt() {
     if (!form.subject.trim()) {
       setStatus("Add a primary subject before copying.");
@@ -356,7 +382,7 @@ export function AiImagePromptWizard() {
           <RadioGroup
             label="AI engine"
             value={form.engine}
-            onChange={(value) => update("engine", value as Engine)}
+            onChange={(value) => selectEngine(value as Engine)}
             orientation="horizontal"
           >
             {ENGINES.map((engine) => (
@@ -397,7 +423,7 @@ export function AiImagePromptWizard() {
                 </p>
               </div>
             )}
-            <FieldPicker label="Preview quality" value={form.quality} values={["low", "medium", "high"]} onChange={(value) => update("quality", value as Quality)} />
+            <FieldPicker label="Preview quality" value={form.quality} values={["low", "medium", "high"]} onChange={(value) => selectQuality(value as Quality)} />
             <Picker label="Aspect ratio" selectedKey={form.aspect} onSelectionChange={(key) => update("aspect", String(key))}>
               {ASPECTS.map((option) => <PickerItem id={option.id} key={option.id}>{option.label}</PickerItem>)}
             </Picker>
@@ -416,6 +442,11 @@ export function AiImagePromptWizard() {
                 values={["1MP", "2MP", "4MP"]}
                 onChange={(value) => setResolutions((current) => ({ ...current, "stable-diffusion": value }))}
               />
+            )}
+            {(form.engine === "gemini" || form.engine === "stable-diffusion") && (
+              <p className="field-description">
+                Preview quality selects the default resolution. You can override the resolution afterward.
+              </p>
             )}
             {form.engine === "openai" && (
               <p className="field-description">Resolution is determined by the selected aspect ratio and GPT Image&apos;s supported output sizes.</p>

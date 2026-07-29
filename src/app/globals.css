@@ -498,6 +498,31 @@ h3 {
   margin: 0;
 }
 
+.compact-tool-header {
+  gap: 0.75rem;
+}
+
+.compact-tool-header > * {
+  margin-block: 0;
+}
+
+.compact-tool-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+}
+
+.compact-tool-meta p {
+  margin: 0;
+}
+
+.clamped-tool-description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .architect-output {
   position: sticky;
   inset-block-start: 6rem;
