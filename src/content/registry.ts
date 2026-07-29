@@ -12,6 +12,7 @@ import { AI_IMAGE_PROMPT_WIZARD_TOOL_ENTRY } from "./entries/ai-image-prompt-wiz
 import { DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY_ENTRY } from "./entries/doj-accessibility-redesign-case-study";
 import { MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY_ENTRY } from "./entries/march-for-science-redesign-case-study";
 import { NAVY_KPI_DASHBOARD_CASE_STUDY_ENTRY } from "./entries/navy-kpi-dashboard-case-study";
+import { PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY_ENTRY } from "./entries/personal-knowledge-system-case-study";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -28,6 +29,7 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY_ENTRY,
   MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY_ENTRY,
   NAVY_KPI_DASHBOARD_CASE_STUDY_ENTRY,
+  PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY_ENTRY,
   EVIDENCE_FIRST_SYNTHESIS_ENTRY,
 ];
 

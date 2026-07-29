@@ -195,3 +195,35 @@ When the Career Archive or its GPT export becomes available:
 
 Priority: backlog pending access to the Career Archive/GPT and review of the
 additional DOJ contribution inventory.
+
+## Private personal knowledge workspace
+
+Modernize the 2008 RAVeN concept as an authenticated MyKMHub tool for discovering
+and working across a user-approved set of local and online information sources.
+
+The future concept should:
+
+1. Connect only to explicitly authorized sources and clearly show each source,
+   owner, access boundary, and last-synchronized time.
+2. Support contextual browsing and unified search across local files, cloud
+   storage, email, calendar, knowledge records, portfolio material, and other
+   enabled connectors without collapsing their provenance.
+3. Provide metadata, tags, relationships, saved views, recent items, and
+   source-aware semantic search.
+4. Keep private content out of public portfolio, knowledge, and tool records
+   unless the owner deliberately publishes a reviewed derivative.
+5. Preserve source permissions during indexing and retrieval; search results
+   must never expand a user’s underlying access.
+6. Make connection, indexing, retention, deletion, and reauthorization states
+   understandable and user-controlled.
+7. Provide accessible keyboard, screen-reader, zoom, reflow, reduced-motion,
+   and low-vision experiences for browsing, filtering, previewing, and managing
+   sources.
+8. Treat AI summaries and answers as derived views with citations, freshness,
+   uncertainty, and a direct path back to source material.
+9. Begin with a small read-only proof of concept before adding editing,
+   synchronization, automation, or agent actions.
+
+Priority: future. Requires authentication, private storage, connector
+authorization, permission-aware indexing, retention controls, and a security
+review before implementation.

@@ -8,6 +8,7 @@ import { AI_IMAGE_PROMPT_WIZARD_CASE_STUDY } from "@/content/portfolio/ai-image-
 import { DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY } from "@/content/portfolio/doj-accessibility-redesign";
 import { MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY } from "@/content/portfolio/march-for-science-redesign";
 import { NAVY_KPI_DASHBOARD_CASE_STUDY } from "@/content/portfolio/navy-kpi-dashboard";
+import { PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY } from "@/content/portfolio/personal-knowledge-system";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -16,6 +17,11 @@ export const metadata: Metadata = {
 };
 
 const PORTFOLIO_ITEMS = [
+  {
+    study: PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY,
+    href: "/case-studies/personal-knowledge-management-system",
+    cover: PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY.figures[2],
+  },
   {
     study: NAVY_KPI_DASHBOARD_CASE_STUDY,
     href: "/case-studies/navy-kpi-dashboard",

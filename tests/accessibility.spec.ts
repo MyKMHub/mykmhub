@@ -15,6 +15,7 @@ const PUBLIC_ROUTES = [
   "/case-studies/doj-site-redesign-accessibility-usability",
   "/case-studies/march-for-science-site-redesign",
   "/case-studies/navy-kpi-dashboard",
+  "/case-studies/personal-knowledge-management-system",
   "/methods/evidence-first-synthesis",
 ] as const;
 
@@ -202,6 +203,34 @@ test("Navy KPI Dashboard identifies its values as illustrative concept data", as
       ).length,
   );
   expect(brokenImages).toBe(0);
+});
+
+test("personal knowledge system uses the corrected 2008 date and preserves three figures", async ({
+  page,
+}) => {
+  await page.goto("/case-studies/personal-knowledge-management-system");
+  await expect(
+    page.getByRole("heading", {
+      name: "RAVeN Personal Knowledge Management System",
+    }),
+  ).toBeVisible();
+  await expect(page.getByText("Case study · 2008")).toBeVisible();
+  await expect(page.locator("figure")).toHaveCount(3);
+  await expect(
+    page.getByRole("heading", {
+      name: "A private MyKMHub personal knowledge workspace",
+    }),
+  ).toBeVisible();
+
+  const dimensions = await page.evaluate(() => ({
+    brokenImages: Array.from(document.images).filter(
+      (image) => image.complete && image.naturalWidth === 0,
+    ).length,
+    pageWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.brokenImages).toBe(0);
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
 });
 
 test("Navy modernization case study contains its media and contained data table", async ({

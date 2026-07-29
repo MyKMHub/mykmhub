@@ -103,4 +103,9 @@ that organizes execution health, quality and delivery risk, impact, and
 customer experience. Its displayed values are explicitly treated as
 illustrative until operationally validated.
 
+The RAVeN case study preserves a 2008 personal knowledge-management system that
+unified 19 local and online source locations through context pages. A
+private-by-default, permission-aware MyKMHub modernization is documented as a
+future roadmap concept rather than represented as a working tool.
+
 Authentication, private workspaces, multi-tenancy, billing, server-side research processing, and other future platform capabilities remain intentionally out of scope.
