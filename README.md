@@ -103,6 +103,10 @@ The HCD research and evidence plan connects intake to inclusive participation,
 permitted evidence, responsible data stewardship, traceable interpretation,
 and an accountable decision and delivery handoff.
 
+The HCD operating model review and improvement plan closes the leadership loop
+by connecting operating commitments, delivery evidence, accessibility,
+outcomes, recurring exceptions, and bounded improvement decisions.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

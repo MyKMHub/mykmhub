@@ -849,6 +849,12 @@ decision through inclusive participation, permitted sources, responsible data
 stewardship, traceable interpretation, and explicit decision, delivery, and
 knowledge handoffs.
 
+The HCD operating model review and improvement plan is published at
+`/templates/hcd-operating-model-review`. It closes the operating cycle by
+reviewing mandate and demand, evidence and decisions, delivery integration,
+accessibility and responsible practice, and outcomes and learning without
+collapsing unlike risks into a maturity score.
+
 ### Phase 4+
 
 Evaluate:
@@ -971,7 +977,8 @@ Provide the tradeoffs and recommend the lower-complexity/higher-value alternativ
 Phases 1 and 2 are established, and Phase 3 now provides a connected public
 Director resource set spanning operating context, intake, research and evidence
 planning, synthesis, decisions, delivery, accessibility governance, outcome
-measurement, and a minimum operating agreement.
+measurement, a minimum operating agreement, and evidence-based operating-model
+review and improvement.
 
 Continue through reviewed thin vertical slices. Preserve Spectrum 2,
 accessibility-first implementation, normalized content relationships, and the

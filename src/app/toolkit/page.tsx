@@ -88,6 +88,10 @@ const pathways = [
     summary:
       "Use case-study evidence to explain decisions, delivery tradeoffs, organizational impact, and what should change next.",
     links: [
+      {
+        label: "Review and improve the HCD operating model",
+        href: "/templates/hcd-operating-model-review",
+      },
       { label: "Browse portfolio evidence", href: "/portfolio" },
       { label: "Read connected practice notes", href: "/knowledge" },
       {

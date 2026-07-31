@@ -2,6 +2,48 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "template-hcd-operating-model-review",
+    type: "implements",
+    label: "Operating-model review and improvement artifact",
+  },
+  {
+    fromEntryId: "template-hcd-operating-agreement",
+    toEntryId: "template-hcd-operating-model-review",
+    type: "related",
+    label: "Versioned operating commitments under review",
+  },
+  {
+    fromEntryId: "template-hcd-outcome-measurement-plan",
+    toEntryId: "template-hcd-operating-model-review",
+    type: "related",
+    label: "Outcome and learning evidence",
+  },
+  {
+    fromEntryId: "framework-accessibility-governance-baseline",
+    toEntryId: "template-hcd-operating-model-review",
+    type: "implements",
+    label: "Accessibility governance effectiveness review",
+  },
+  {
+    fromEntryId: "pattern-hcd-delivery-checkpoints",
+    toEntryId: "template-hcd-operating-model-review",
+    type: "related",
+    label: "Delivery control and exception evidence",
+  },
+  {
+    fromEntryId: "template-hcd-decision-evidence-record",
+    toEntryId: "template-hcd-operating-model-review",
+    type: "related",
+    label: "Decision traceability evidence",
+  },
+  {
+    fromEntryId: "landing-hcd-director-toolkit",
+    toEntryId: "template-hcd-operating-model-review",
+    type: "related",
+    label: "Operating-model review and improvement plan",
+  },
+  {
     fromEntryId: "pattern-hcd-engagement-intake-triage",
     toEntryId: "template-hcd-research-evidence-plan",
     type: "implements",

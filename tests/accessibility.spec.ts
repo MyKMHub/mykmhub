@@ -23,6 +23,7 @@ const PUBLIC_ROUTES = [
   "/templates/hcd-outcome-measurement-plan",
   "/templates/hcd-operating-agreement",
   "/templates/hcd-research-evidence-plan",
+  "/templates/hcd-operating-model-review",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -553,6 +554,31 @@ test("HCD research plan connects inclusive evidence to a decision handoff", asyn
   await expect(
     page.getByRole("link", { name: "Evidence-first Synthesis" }),
   ).toHaveAttribute("href", "/methods/evidence-first-synthesis");
+});
+
+test("HCD operating-model review turns evidence into bounded improvements", async ({
+  page,
+}) => {
+  await page.goto("/templates/hcd-operating-model-review");
+  await expect(
+    page.getByRole("heading", {
+      name: "Review five areas as one operating system",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Look for conditions, not maturity theater",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Copy Markdown template" }),
+  ).toBeVisible();
+  await expect(page.locator(".template-code")).toContainText(
+    "## Improvement decisions",
+  );
+  await expect(
+    page.getByRole("link", { name: "Minimum HCD operating agreement" }),
+  ).toHaveAttribute("href", "/templates/hcd-operating-agreement");
 });
 
 test("tool directory exposes status and verification context", async ({
