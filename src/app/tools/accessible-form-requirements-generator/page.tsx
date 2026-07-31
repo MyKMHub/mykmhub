@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RelatedContent } from "@/components/related-content";
 import { ToolPageHeader } from "@/components/tool-page-header";
 import { AccessibleFormGenerator } from "@/components/tools/accessible-form-generator";
 import { ACCESSIBLE_FORM_GENERATOR_TOOL as tool } from "@/content/tools/accessible-form-generator";
@@ -19,10 +20,11 @@ export default function AccessibleFormGeneratorPage() {
         description={tool.briefDescription}
         expandedDescription={tool.description}
         instructions="Choose a form component, configure its content and behavior, then generate and review the live pattern, semantic code, requirements, and test guidance."
-        relatedLinks={[{
-          href: "/case-studies/accessible-form-component-and-ux-requirements-generator",
-          label: "Read the related portfolio case study",
-        }]}
+      />
+
+      <RelatedContent
+        entryId="tool-accessible-form-generator"
+        heading="Connect requirements to governance and evidence"
       />
 
       <AccessibleFormGenerator />

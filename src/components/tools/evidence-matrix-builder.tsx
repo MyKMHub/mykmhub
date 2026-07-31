@@ -26,24 +26,78 @@ const STORAGE_KEY = "mykmhub-evidence-traceability-matrix";
 const SAMPLE_ROWS: EvidenceRow[] = [
   {
     id: "sample-1",
-    processId: "04",
-    processStep: "Review submitted request",
+    processId: "01",
+    processStep: "Submit access request",
     evidence:
-      "Participants described checking three separate systems before a request could be approved.",
-    source: "Interview 02, 14:20",
-    pointOfContact: "Research lead",
-    painPoint: "Reviewers cannot see complete request context in one place.",
+      "“I usually copy the same employee details into the request form and then send them again to the manager in email.”",
+    source: "New-hire coordinator interview, 08:42",
+    pointOfContact: "HR operations lead",
+    painPoint:
+      "Requesters enter the same information twice, increasing effort and the chance of inconsistent data.",
     priority: "High",
     confidence: "Explicit",
   },
   {
     id: "sample-2",
+    processId: "02",
+    processStep: "Check request completeness",
+    evidence:
+      "Seven of the 12 requests reviewed were returned because a start date, cost center, or system role was missing.",
+    source: "Access-request audit, Q2 sample, rows 1–12",
+    pointOfContact: "Service desk analyst",
+    painPoint:
+      "The form does not prevent incomplete requests, creating avoidable rework before review can begin.",
+    priority: "High",
+    confidence: "Explicit",
+  },
+  {
+    id: "sample-3",
+    processId: "03",
+    processStep: "Obtain manager approval",
+    evidence:
+      "Approval time ranged from four hours to six business days; the longest cases each required a manual reminder.",
+    source: "Workflow log analysis, 3–28 June",
+    pointOfContact: "Identity and access manager",
+    painPoint:
+      "The lack of automatic reminders may be contributing to unpredictable approval times.",
+    priority: "High",
+    confidence: "Inferred",
+  },
+  {
+    id: "sample-4",
+    processId: "04",
+    processStep: "Provision system access",
+    evidence:
+      "Analysts described opening the ticket, HR directory, role catalog, and each target system to complete one request.",
+    source: "Service desk observation 02, 13:10–13:34",
+    pointOfContact: "Senior access analyst",
+    painPoint:
+      "Provisioning requires repeated context switching across disconnected systems.",
+    priority: "Medium",
+    confidence: "Explicit",
+  },
+  {
+    id: "sample-5",
     processId: "05",
-    processStep: "Notify requester",
+    processStep: "Confirm access with requester",
+    evidence:
+      "Four of five observed tickets were closed after provisioning without confirmation that the employee could sign in.",
+    source: "Ticket review, sample A, tickets 1042–1046",
+    pointOfContact: "Service desk manager",
+    painPoint:
+      "Tickets may be closed before access is verified, allowing unresolved login problems to surface later.",
+    priority: "Medium",
+    confidence: "Inferred",
+  },
+  {
+    id: "sample-6",
+    processId: "06",
+    processStep: "Review access after 90 days",
     evidence: "",
     source: "",
-    pointOfContact: "Process owner",
-    painPoint: "No supported finding recorded.",
+    pointOfContact: "Information security owner",
+    painPoint:
+      "None identified: the current research did not establish whether a 90-day access review occurs.",
     priority: "Low",
     confidence: "None identified",
   },
@@ -122,7 +176,7 @@ export function EvidenceMatrixBuilder() {
 
   function loadSample() {
     setRows(SAMPLE_ROWS);
-    setMessage("Loaded two synthetic sample entries.");
+    setMessage(`Loaded ${SAMPLE_ROWS.length} synthetic sample entries.`);
   }
 
   function clearRows() {

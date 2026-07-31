@@ -825,6 +825,24 @@ measures, interpretation, and learning actions. It explicitly separates
 activity and output counts from validated outcomes and connects to the KPI
 dashboard concept without treating illustrative values as performance claims.
 
+The HCD delivery checkpoints pattern is published at
+`/patterns/hcd-delivery-checkpoints`. It implements the operating model's
+delivery-integration capability by connecting evidence and accessibility to
+planning, requirements, design review, implementation verification, release
+decisions, governed exceptions, and post-launch learning.
+
+The accessibility governance baseline is published at
+`/frameworks/accessibility-governance-baseline`. It implements the operating
+model's accessibility and responsible-practice capability through an
+operational commitment, distributed accountability, lifecycle controls,
+decision-appropriate evidence, governed exceptions, and continuous monitoring.
+
+The minimum HCD operating agreement is published at
+`/templates/hcd-operating-agreement`. It turns the operating-model framework
+into a copy-ready, versioned agreement covering mandate, demand, evidence,
+decision rights, delivery integration, accessibility, measures, and model
+review.
+
 ### Phase 4+
 
 Evaluate:

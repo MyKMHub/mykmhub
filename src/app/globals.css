@@ -365,6 +365,10 @@ h6 {
 }
 
 @media (max-width: 40rem) {
+  .discovery-controls {
+    grid-template-columns: 1fr;
+  }
+
   .inline-definition-list div {
     grid-template-columns: 1fr;
   }
@@ -445,6 +449,43 @@ h6 {
   min-height: 2.75rem;
   align-items: center;
   margin-block-start: 1.5rem;
+}
+
+.content-discovery {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.discovery-controls {
+  display: grid;
+  grid-template-columns: minmax(16rem, 2fr) repeat(2, minmax(12rem, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.discovery-count {
+  margin: 0;
+  font-weight: 700;
+}
+
+.related-content {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.related-content > h2 {
+  margin-bottom: 0.5rem;
+}
+
+.related-resource-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.related-resource-list h3 a {
+  color: inherit;
+  text-underline-offset: 0.25em;
 }
 
 .tool-card {

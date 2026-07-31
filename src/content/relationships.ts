@@ -3,6 +3,78 @@ import type { ContentRelationship } from "./model";
 export const CONTENT_RELATIONSHIPS = [
   {
     fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "template-hcd-operating-agreement",
+    type: "implements",
+    label: "Minimum versioned operating agreement",
+  },
+  {
+    fromEntryId: "template-hcd-operating-agreement",
+    toEntryId: "pattern-hcd-engagement-intake-triage",
+    type: "related",
+    label: "Demand and prioritization operating pattern",
+  },
+  {
+    fromEntryId: "template-hcd-operating-agreement",
+    toEntryId: "pattern-hcd-delivery-checkpoints",
+    type: "related",
+    label: "Delivery integration operating pattern",
+  },
+  {
+    fromEntryId: "template-hcd-operating-agreement",
+    toEntryId: "framework-accessibility-governance-baseline",
+    type: "related",
+    label: "Accessibility governance controls",
+  },
+  {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "framework-accessibility-governance-baseline",
+    type: "implements",
+    label: "Accessibility and responsible-practice governance",
+  },
+  {
+    fromEntryId: "framework-accessibility-governance-baseline",
+    toEntryId: "pattern-hcd-delivery-checkpoints",
+    type: "implements",
+    label: "Lifecycle delivery controls",
+  },
+  {
+    fromEntryId: "framework-accessibility-governance-baseline",
+    toEntryId: "tool-accessible-form-generator",
+    type: "related",
+    label: "Accessible component requirements tool",
+  },
+  {
+    fromEntryId: "framework-accessibility-governance-baseline",
+    toEntryId: "landing-design-system",
+    type: "related",
+    label: "Reusable accessible component foundation",
+  },
+  {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "pattern-hcd-delivery-checkpoints",
+    type: "implements",
+    label: "Delivery integration operating pattern",
+  },
+  {
+    fromEntryId: "pattern-hcd-delivery-checkpoints",
+    toEntryId: "template-hcd-decision-evidence-record",
+    type: "implements",
+    label: "Checkpoint decision and exception record",
+  },
+  {
+    fromEntryId: "pattern-hcd-delivery-checkpoints",
+    toEntryId: "template-hcd-outcome-measurement-plan",
+    type: "related",
+    label: "Post-release measurement and learning",
+  },
+  {
+    fromEntryId: "pattern-hcd-delivery-checkpoints",
+    toEntryId: "tool-accessible-form-generator",
+    type: "related",
+    label: "Accessible implementation requirements tool",
+  },
+  {
+    fromEntryId: "framework-hcd-operating-model-baseline",
     toEntryId: "template-hcd-outcome-measurement-plan",
     type: "implements",
     label: "Measures and learning artifact",

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { RelatedContent } from "@/components/related-content";
 
 export const metadata: Metadata = {
   title: "Evidence-first synthesis",
@@ -17,12 +17,9 @@ export default function EvidenceFirstSynthesisPage() {
           Preserve the path from source material to finding, decision, and
           action—without confusing automation with researcher judgment.
         </p>
-        <div className="related-links" aria-label="Related content">
-          <Link href="/case-studies/scaling-hcd-through-ai">
-            See the method in practice
-          </Link>
-        </div>
       </header>
+
+      <RelatedContent entryId="method-evidence-first-synthesis" />
 
       <div className="prose method-content">
         <section aria-labelledby="when-heading">

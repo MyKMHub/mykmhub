@@ -88,6 +88,17 @@ The HCD outcome measurement and learning plan adds a balanced, copy-ready
 structure for connecting HCD work to experience, accessibility, behavior,
 delivery, risk, organizational capability, and decisions.
 
+The HCD delivery checkpoints pattern connects evidence and accessibility to
+planning, requirements, design review, implementation verification, release
+decisions, exceptions, and post-launch learning.
+
+The accessibility governance baseline defines an operating commitment,
+distributed decision rights, lifecycle controls, sufficient evidence,
+governed exceptions, and continuous monitoring.
+
+The minimum HCD operating agreement turns these connected capabilities into a
+copy-ready, versioned leadership artifact with ownership and review controls.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

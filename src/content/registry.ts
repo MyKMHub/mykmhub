@@ -22,6 +22,10 @@ import { HCD_OPERATING_MODEL_BASELINE_ENTRY } from "./entries/hcd-operating-mode
 import { HCD_ENGAGEMENT_INTAKE_TRIAGE_ENTRY } from "./entries/hcd-engagement-intake-triage";
 import { HCD_DECISION_EVIDENCE_RECORD_ENTRY } from "./entries/hcd-decision-evidence-record";
 import { HCD_OUTCOME_MEASUREMENT_PLAN_ENTRY } from "./entries/hcd-outcome-measurement-plan";
+import { HCD_DELIVERY_CHECKPOINTS_ENTRY } from "./entries/hcd-delivery-checkpoints";
+import { ACCESSIBILITY_GOVERNANCE_BASELINE_ENTRY } from "./entries/accessibility-governance-baseline";
+import { HCD_OPERATING_AGREEMENT_ENTRY } from "./entries/hcd-operating-agreement";
+import { THEME_LAB_ENTRY } from "./entries/theme-lab";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -29,6 +33,7 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   PORTFOLIO_ENTRY,
   TOOLS_ENTRY,
   DESIGN_SYSTEM_ENTRY,
+  THEME_LAB_ENTRY,
   KNOWLEDGE_ENTRY,
   HCD_DIRECTOR_TOOLKIT_ENTRY,
   ABOUT_ENTRY,
@@ -36,6 +41,9 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   HCD_ENGAGEMENT_INTAKE_TRIAGE_ENTRY,
   HCD_DECISION_EVIDENCE_RECORD_ENTRY,
   HCD_OUTCOME_MEASUREMENT_PLAN_ENTRY,
+  HCD_DELIVERY_CHECKPOINTS_ENTRY,
+  ACCESSIBILITY_GOVERNANCE_BASELINE_ENTRY,
+  HCD_OPERATING_AGREEMENT_ENTRY,
   AI_ASSISTED_MYKMHUB_DEVELOPMENT_ENTRY,
   EVIDENCE_MATRIX_TOOL_ENTRY,
   HCD_VELOCITY_CASE_STUDY_ENTRY,

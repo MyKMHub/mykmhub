@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ContentDiscovery } from "@/components/content-discovery";
+import { PUBLISHED_CONTENT } from "@/content/registry";
 
 export const metadata: Metadata = {
   title: "HCD Director Toolkit",
@@ -18,8 +20,16 @@ const pathways = [
         href: "/frameworks/hcd-operating-model-baseline",
       },
       {
+        label: "Copy the minimum HCD operating agreement",
+        href: "/templates/hcd-operating-agreement",
+      },
+      {
         label: "Use the engagement intake and triage pattern",
         href: "/patterns/hcd-engagement-intake-triage",
+      },
+      {
+        label: "Establish an accessibility governance baseline",
+        href: "/frameworks/accessibility-governance-baseline",
       },
       {
         label: "Use the evidence-first synthesis method",
@@ -63,6 +73,10 @@ const pathways = [
         label: "Inspect the live Design System",
         href: "/design-system",
       },
+      {
+        label: "Use HCD delivery checkpoints",
+        href: "/patterns/hcd-delivery-checkpoints",
+      },
     ],
   },
   {
@@ -81,6 +95,18 @@ const pathways = [
 ] as const;
 
 export default function HcdDirectorToolkitPage() {
+  const discoveryEntries = PUBLISHED_CONTENT.filter(
+    (entry) => entry.type !== "landing-page" && entry.route,
+  ).map((entry) => ({
+    id: entry.id,
+    title: entry.title,
+    summary: entry.summary,
+    type: entry.type,
+    domains: entry.domains,
+    tags: entry.tags,
+    route: entry.route!,
+  }));
+
   return (
     <article className="content-page">
       <header className="page-header">
@@ -110,6 +136,18 @@ export default function HcdDirectorToolkitPage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section aria-labelledby="browse-heading">
+        <div className="section-heading">
+          <p className="eyebrow">Browse the system</p>
+          <h2 id="browse-heading">Find a resource by need or context</h2>
+          <p>
+            Search the shared MyKMHub registry or narrow it by content type and
+            practice context.
+          </p>
+        </div>
+        <ContentDiscovery entries={discoveryEntries} />
       </section>
 
       <aside className="status-note" aria-labelledby="toolkit-model-heading">

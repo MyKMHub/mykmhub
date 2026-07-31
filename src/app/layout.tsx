@@ -3,6 +3,7 @@ import { Atkinson_Hyperlegible_Next } from "next/font/google";
 import "@react-spectrum/s2/page.css";
 import "./globals.css";
 import { SiteShell } from "@/components/site-shell/site-shell";
+import { SITE_URL } from "@/content/site";
 import { Providers } from "./providers";
 
 const atkinsonHyperlegible = Atkinson_Hyperlegible_Next({
@@ -13,7 +14,7 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible_Next({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mykmhub.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "MyKMHub | A practical HCD Director toolkit",
     template: "%s | MyKMHub",

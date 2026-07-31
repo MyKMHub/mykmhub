@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { RelatedContent } from "@/components/related-content";
 import { CopyTemplateButton } from "@/components/templates/copy-template-button";
 import {
   HCD_MEASUREMENT_DIMENSIONS,
@@ -32,18 +32,9 @@ export default function HcdOutcomeMeasurementPlanPage() {
           which decision the results must support—without confusing HCD
           activity with organizational impact.
         </p>
-        <div className="related-links" aria-label="Related resources">
-          <Link href="/frameworks/hcd-operating-model-baseline">
-            Review the operating model baseline
-          </Link>
-          <Link href="/templates/hcd-decision-evidence-record">
-            Use the decision and evidence record
-          </Link>
-          <Link href="/case-studies/navy-kpi-dashboard">
-            Review the KPI dashboard concept
-          </Link>
-        </div>
       </header>
+
+      <RelatedContent entryId="template-hcd-outcome-measurement-plan" />
 
       <div className="case-study-layout">
         <aside className="on-this-page" aria-labelledby="contents-heading">

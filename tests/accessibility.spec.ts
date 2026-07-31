@@ -1,5 +1,10 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import robots from "@/app/robots";
+import sitemap from "@/app/sitemap";
+import { CONTENT_REGISTRY } from "@/content/registry";
+import { CONTENT_RELATIONSHIPS } from "@/content/relationships";
+import { SITE_URL } from "@/content/site";
 
 const PUBLIC_ROUTES = [
   "/",
@@ -11,9 +16,12 @@ const PUBLIC_ROUTES = [
   "/toolkit",
   "/about",
   "/frameworks/hcd-operating-model-baseline",
+  "/frameworks/accessibility-governance-baseline",
   "/patterns/hcd-engagement-intake-triage",
+  "/patterns/hcd-delivery-checkpoints",
   "/templates/hcd-decision-evidence-record",
   "/templates/hcd-outcome-measurement-plan",
+  "/templates/hcd-operating-agreement",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -28,6 +36,55 @@ const PUBLIC_ROUTES = [
   "/case-studies/personal-knowledge-management-system",
   "/methods/evidence-first-synthesis",
 ] as const;
+
+const INDEXABLE_ROUTES = PUBLIC_ROUTES.filter(
+  (route) => route !== "/tools/evidence-traceability-matrix-builder",
+);
+
+test("sitemap and robots expose published pages without indexing APIs", () => {
+  const sitemapUrls = sitemap()
+    .map((entry) => entry.url)
+    .sort();
+  const publicUrls = INDEXABLE_ROUTES.map((route) =>
+    new URL(route, SITE_URL).toString(),
+  ).sort();
+
+  expect(sitemapUrls).toEqual(publicUrls);
+  expect(robots()).toEqual({
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: "/api/",
+    },
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
+  });
+});
+
+test("content relationships reference valid unique entries", () => {
+  const entryIds = new Set(CONTENT_REGISTRY.map((entry) => entry.id));
+  const relationshipKeys = new Set<string>();
+
+  for (const relationship of CONTENT_RELATIONSHIPS) {
+    expect(entryIds.has(relationship.fromEntryId)).toBe(true);
+    expect(entryIds.has(relationship.toEntryId)).toBe(true);
+    expect(relationship.fromEntryId).not.toBe(relationship.toEntryId);
+
+    const key = [
+      relationship.fromEntryId,
+      relationship.toEntryId,
+      relationship.type,
+    ].join(":");
+    expect(relationshipKeys.has(key)).toBe(false);
+    relationshipKeys.add(key);
+  }
+
+  for (const entry of CONTENT_REGISTRY) {
+    for (const relatedEntryId of entry.relatedEntryIds ?? []) {
+      expect(entryIds.has(relatedEntryId)).toBe(true);
+    }
+  }
+});
 
 for (const route of PUBLIC_ROUTES) {
   test(`${route} has no automatically detectable WCAG A or AA violations`, async ({
@@ -75,6 +132,10 @@ test("accessibility preferences are keyboard reachable and persistent", async ({
 
 test("draft evidence log is clearly identified", async ({ page }) => {
   await page.goto("/tools/evidence-traceability-matrix-builder");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    "noindex, nofollow",
+  );
   await expect(page.getByText(
     "Status: Working proof of concept · Low priority",
   )).toBeVisible();
@@ -258,6 +319,27 @@ test("Toolkit exposes connected leadership pathways", async ({ page }) => {
   ).toHaveAttribute("href", "/tools/accessible-form-requirements-generator");
 });
 
+test("Toolkit discovery searches shared content metadata", async ({ page }) => {
+  await page.goto("/toolkit");
+
+  const search = page.getByRole("searchbox", { name: "Search resources" });
+  await search.fill("accessibility");
+
+  await expect(page.getByText(/\d+ resources? found/)).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Accessibility governance baseline" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Navy KPI Dashboard" }),
+  ).toBeHidden();
+
+  await search.fill("a phrase with no matching resource");
+  await expect(
+    page.getByRole("heading", { name: "No matching resources" }),
+  ).toBeVisible();
+  await expect(page.getByText("0 resources found")).toBeVisible();
+});
+
 test("About explains the public site and its future boundary", async ({
   page,
 }) => {
@@ -290,9 +372,63 @@ test("HCD operating model provides a usable governance baseline", async ({
   ).toBeVisible();
   await expect(
     page.getByRole("link", {
-      name: "Return to the HCD Director Toolkit",
+      name: "HCD Director Toolkit",
     }),
   ).toHaveAttribute("href", "/toolkit");
+});
+
+test("accessibility governance baseline defines accountable lifecycle controls", async ({
+  page,
+}) => {
+  await page.goto("/frameworks/accessibility-governance-baseline");
+  await expect(
+    page.getByRole("heading", {
+      name: "Define a commitment teams can act on",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Govern accessibility across the lifecycle",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Do not let exceptions become silent policy",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "HCD delivery checkpoints" }),
+  ).toHaveAttribute("href", "/patterns/hcd-delivery-checkpoints");
+});
+
+test("accessibility journey connects governance, tool, and case-study evidence", async ({
+  page,
+}) => {
+  await page.goto("/frameworks/accessibility-governance-baseline");
+  await expect(
+    page.getByRole("link", {
+      name: "Accessible Form Component & UX Requirements Generator",
+    }),
+  ).toHaveAttribute(
+    "href",
+    "/tools/accessible-form-requirements-generator",
+  );
+
+  await page.goto("/tools/accessible-form-requirements-generator");
+  await expect(
+    page.locator(
+      'a[href="/case-studies/accessible-form-component-and-ux-requirements-generator"]',
+    ),
+  ).toHaveText("Accessible Form Component & UX Requirements Generator");
+
+  await page.goto(
+    "/case-studies/accessible-form-component-and-ux-requirements-generator",
+  );
+  await expect(
+    page.locator(
+      '.related-content a[href="/tools/accessible-form-requirements-generator"]',
+    ),
+  ).toHaveText("Accessible Form Component & UX Requirements Generator");
 });
 
 test("HCD intake pattern provides transparent triage and routing", async ({
@@ -309,8 +445,28 @@ test("HCD intake pattern provides transparent triage and routing", async ({
     page.getByRole("heading", { name: "End triage with an explicit outcome" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("link", { name: "Review the operating model baseline" }),
+    page.getByRole("link", { name: "HCD operating model baseline" }),
   ).toHaveAttribute("href", "/frameworks/hcd-operating-model-baseline");
+});
+
+test("HCD delivery checkpoints connect evidence to release and learning", async ({
+  page,
+}) => {
+  await page.goto("/patterns/hcd-delivery-checkpoints");
+  await expect(
+    page.getByRole("heading", { name: "Establish a minimum delivery contract" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Use six connected checkpoints" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Make exceptions explicit and temporary",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "HCD decision and evidence record" }),
+  ).toHaveAttribute("href", "/templates/hcd-decision-evidence-record");
 });
 
 test("HCD decision record exposes a reusable accessible template", async ({
@@ -352,6 +508,26 @@ test("HCD measurement plan separates activity from validated outcomes", async ({
   ).toBeVisible();
   await expect(page.locator(".template-code")).toContainText(
     "## Balanced measures",
+  );
+});
+
+test("HCD operating agreement exposes a copy-ready governed artifact", async ({
+  page,
+}) => {
+  await page.goto("/templates/hcd-operating-agreement");
+  await expect(
+    page.getByRole("heading", {
+      name: "Build it with the people who must act on it",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Connect seven operating sections" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Copy Markdown template" }),
+  ).toBeVisible();
+  await expect(page.locator(".template-code")).toContainText(
+    "## Accessibility and responsible practice",
   );
 });
 

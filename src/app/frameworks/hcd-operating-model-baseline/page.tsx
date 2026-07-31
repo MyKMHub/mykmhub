@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { RelatedContent } from "@/components/related-content";
 
 export const metadata: Metadata = {
   title: "HCD operating model baseline",
@@ -71,13 +71,9 @@ export default function HcdOperatingModelBaselinePage() {
           evidence, influences delivery, receives oversight, and demonstrates
           value.
         </p>
-        <div className="related-links" aria-label="Related resources">
-          <Link href="/toolkit">Return to the HCD Director Toolkit</Link>
-          <Link href="/methods/evidence-first-synthesis">
-            Use the evidence-first synthesis method
-          </Link>
-        </div>
       </header>
+
+      <RelatedContent entryId="framework-hcd-operating-model-baseline" />
 
       <div className="case-study-layout">
         <aside className="on-this-page" aria-labelledby="contents-heading">

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { RelatedContent } from "@/components/related-content";
 import { getEffortById } from "@/content/efforts/registry";
 import type {
   PortfolioBlock,
@@ -173,6 +174,10 @@ export function PortfolioCaseStudy({
             )}
           </aside>
         )}
+        <RelatedContent
+          entryId={study.id}
+          heading="Use the tools and methods behind this work"
+        />
       </header>
 
       <div className="case-study-layout">

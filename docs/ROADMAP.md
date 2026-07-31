@@ -46,6 +46,13 @@ Add contextual help that can include an AI assistant capable of answering
 questions about the current page, its associated effort, and the broader
 MyKMHub content library.
 
+The experience should support a dynamic conversation rather than only a fixed
+FAQ or one-response search box. Users should be able to ask follow-up
+questions, refine what they mean, move between related content, and retain
+enough visible conversation context to understand each answer. AI should be an
+enhancement to searchable, structured help rather than the only way to obtain
+important instructions.
+
 The initial assistant should use retrieval-augmented generation rather than
 answering from unconstrained model memory. Its minimum useful retrieval context
 should include:
@@ -102,6 +109,79 @@ Implementation sequence:
 Priority: backlog. Revisit after the normalized content model, Knowledge area,
 contextual help, feedback, authentication, and content-permission foundations
 are stable.
+
+## Structured page and application feedback
+
+Provide an accessible feedback and issue-reporting workflow for public content
+pages and working applications. Use the clarity of GitHub issue forms as a
+model, while keeping users inside the context of the MyKMHub page or tool they
+are evaluating.
+
+Feedback types should initially include:
+
+- content was helpful or unhelpful, with an optional explanation;
+- incorrect, unclear, outdated, incomplete, or inaccessible information;
+- application defect or unexpected behavior;
+- accessibility barrier;
+- enhancement or new-feature suggestion;
+- general question or other feedback.
+
+Capture only fields appropriate to the selected feedback type. Potential
+fields include:
+
+- page or tool title, stable content ID, route, version, and last-verified date,
+  populated automatically;
+- concise summary and detailed description;
+- expected result, actual result, and reproducible steps for defects;
+- impact, frequency, affected task, and whether a workaround exists;
+- browser, operating system, viewport, input method, and assistive technology,
+  collected only with clear notice and user control;
+- optional screenshot or attachment with instructions to remove personal,
+  sensitive, controlled, credential, API-key, and client information;
+- permission to contact the submitter and optional contact information;
+- consent and privacy acknowledgment appropriate to the submitted data.
+
+Experience requirements:
+
+- offer a lightweight helpful/unhelpful action without forcing a long form;
+- progressively disclose issue-specific fields after the user selects a type;
+- preserve the page or tool state needed to describe a problem without
+  silently transmitting form values, generated content, API keys, or private
+  workspace data;
+- allow users to review and edit the complete submission before sending;
+- provide a confirmation, stable reference, and understandable next steps;
+- support keyboard, screen reader, zoom, reflow, reduced motion, forced colors,
+  error recovery, attachment removal, and accessible status announcements;
+- do not require the AI assistant to submit or understand feedback.
+
+Triage and governance requirements:
+
+- store submissions privately by default and define who may review them;
+- route accessibility barriers and security or privacy concerns through
+  appropriate escalation paths rather than an ordinary enhancement backlog;
+- support status, priority, owner, duplicate relationship, resolution, and
+  communication history;
+- redact sensitive information before copying a report into a public tracker;
+- use rate limiting, spam and abuse controls, file validation, retention, and
+  deletion policies;
+- avoid automatically creating public GitHub issues from unreviewed user input;
+- optionally create or link a reviewed GitHub issue later, preserving the
+  private submission as the source record without exposing the submitter;
+- aggregate helpfulness and recurring themes without presenting small or
+  biased samples as representative user research.
+
+Implementation sequence:
+
+1. Add page-scoped helpful/unhelpful feedback with an optional comment.
+2. Add structured content, defect, accessibility, and suggestion forms.
+3. Create a private triage view with ownership, status, and escalation.
+4. Add reviewed GitHub issue linking or export if it improves delivery flow.
+5. Connect recurring feedback themes to content versions, tool releases,
+   roadmap decisions, and outcome measures.
+
+Priority: backlog. Begin with public page and tool feedback only after a secure
+submission endpoint, durable private storage, privacy notice, abuse controls,
+and an authorized triage workflow are available.
 
 ## HCD synthesis GPT tool family modernization
 

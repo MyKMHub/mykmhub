@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { RelatedContent } from "@/components/related-content";
 import { CopyTemplateButton } from "@/components/templates/copy-template-button";
 import {
   HCD_DECISION_RECORD_MARKDOWN,
@@ -30,15 +30,9 @@ export default function HcdDecisionEvidenceRecordPage() {
           informed it, who had authority, which concerns remain, and when the
           organization should reconsider it.
         </p>
-        <div className="related-links" aria-label="Related resources">
-          <Link href="/methods/evidence-first-synthesis">
-            Use evidence-first synthesis
-          </Link>
-          <Link href="/patterns/hcd-engagement-intake-triage">
-            Review the intake and triage pattern
-          </Link>
-        </div>
       </header>
+
+      <RelatedContent entryId="template-hcd-decision-evidence-record" />
 
       <div className="case-study-layout">
         <aside className="on-this-page" aria-labelledby="contents-heading">

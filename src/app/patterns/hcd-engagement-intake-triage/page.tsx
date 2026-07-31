@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { RelatedContent } from "@/components/related-content";
 
 export const metadata: Metadata = {
   title: "HCD engagement intake and triage",
@@ -91,13 +91,9 @@ export default function HcdEngagementIntakeTriagePage() {
           Create a visible front door for HCD demand, centered on the decision
           at stake rather than the artifact someone initially requests.
         </p>
-        <div className="related-links" aria-label="Related resources">
-          <Link href="/frameworks/hcd-operating-model-baseline">
-            Review the operating model baseline
-          </Link>
-          <Link href="/toolkit">Return to the HCD Director Toolkit</Link>
-        </div>
       </header>
+
+      <RelatedContent entryId="pattern-hcd-engagement-intake-triage" />
 
       <div className="case-study-layout">
         <aside className="on-this-page" aria-labelledby="contents-heading">
