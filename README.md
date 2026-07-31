@@ -99,6 +99,10 @@ governed exceptions, and continuous monitoring.
 The minimum HCD operating agreement turns these connected capabilities into a
 copy-ready, versioned leadership artifact with ownership and review controls.
 
+The HCD research and evidence plan connects intake to inclusive participation,
+permitted evidence, responsible data stewardship, traceable interpretation,
+and an accountable decision and delivery handoff.
+
 Portfolio routes render through a shared case-study component. Tool directory
 and detail pages read from the same normalized tool records, including
 operational status and last-verification information.

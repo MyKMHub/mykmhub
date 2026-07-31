@@ -22,6 +22,7 @@ const PUBLIC_ROUTES = [
   "/templates/hcd-decision-evidence-record",
   "/templates/hcd-outcome-measurement-plan",
   "/templates/hcd-operating-agreement",
+  "/templates/hcd-research-evidence-plan",
   "/tools",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
@@ -529,6 +530,29 @@ test("HCD operating agreement exposes a copy-ready governed artifact", async ({
   await expect(page.locator(".template-code")).toContainText(
     "## Accessibility and responsible practice",
   );
+});
+
+test("HCD research plan connects inclusive evidence to a decision handoff", async ({
+  page,
+}) => {
+  await page.goto("/templates/hcd-research-evidence-plan");
+  await expect(
+    page.getByRole("heading", { name: "Define what the evidence must change" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Plan participation without treating access as an exception",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Copy Markdown template" }),
+  ).toBeVisible();
+  await expect(page.locator(".template-code")).toContainText(
+    "## Privacy, safety, and stewardship",
+  );
+  await expect(
+    page.getByRole("link", { name: "Evidence-first Synthesis" }),
+  ).toHaveAttribute("href", "/methods/evidence-first-synthesis");
 });
 
 test("tool directory exposes status and verification context", async ({

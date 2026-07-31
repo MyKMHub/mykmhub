@@ -843,6 +843,12 @@ into a copy-ready, versioned agreement covering mandate, demand, evidence,
 decision rights, delivery integration, accessibility, measures, and model
 review.
 
+The HCD research and evidence plan is published at
+`/templates/hcd-research-evidence-plan`. It connects intake to a defined
+decision through inclusive participation, permitted sources, responsible data
+stewardship, traceable interpretation, and explicit decision, delivery, and
+knowledge handoffs.
+
 ### Phase 4+
 
 Evaluate:
@@ -960,23 +966,20 @@ Provide the tradeoffs and recommend the lower-complexity/higher-value alternativ
 
 ---
 
-# 28. Immediate Next Task
+# 28. Current Implementation Status
 
-**Build the Phase 1 accessible Spectrum 2 site shell.**
+Phases 1 and 2 are established, and Phase 3 now provides a connected public
+Director resource set spanning operating context, intake, research and evidence
+planning, synthesis, decisions, delivery, accessibility governance, outcome
+measurement, and a minimum operating agreement.
 
-Do not resume design-system evaluation.
+Continue through reviewed thin vertical slices. Preserve Spectrum 2,
+accessibility-first implementation, normalized content relationships, and the
+existing content architecture. Do not create empty routes for future concepts.
 
-Do not spend time refining branding first.
-
-Do not start building future private capabilities.
-
-The immediate implementation should establish:
-
-**responsive structure + landmarks + navigation + skip navigation + main + footer + accessibility foundation + scalable architecture**
-
-using Spectrum 2 defaults wherever viable.
-
-Then evaluate the actual rendered site before deciding what needs customization.
+The roadmap remains a record of deferred work, not an instruction to begin
+private workspaces, Career Archive, AI assistants, feedback infrastructure, or
+other Phase 4+ capabilities without an explicit priority decision.
 
 ---
 

@@ -47,6 +47,10 @@ const pathways = [
       "Connect source material, observations, interpretations, confidence, process context, and decisions without obscuring evidence gaps.",
     links: [
       {
+        label: "Plan inclusive research and governed evidence",
+        href: "/templates/hcd-research-evidence-plan",
+      },
+      {
         label: "Explore the evidence log concept",
         href: "/tools/evidence-traceability-matrix-builder",
       },

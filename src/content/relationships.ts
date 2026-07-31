@@ -2,6 +2,42 @@ import type { ContentRelationship } from "./model";
 
 export const CONTENT_RELATIONSHIPS = [
   {
+    fromEntryId: "pattern-hcd-engagement-intake-triage",
+    toEntryId: "template-hcd-research-evidence-plan",
+    type: "implements",
+    label: "Decision-scoped research and evidence planning",
+  },
+  {
+    fromEntryId: "template-hcd-research-evidence-plan",
+    toEntryId: "method-evidence-first-synthesis",
+    type: "related",
+    label: "Traceable interpretation and synthesis",
+  },
+  {
+    fromEntryId: "template-hcd-research-evidence-plan",
+    toEntryId: "template-hcd-decision-evidence-record",
+    type: "implements",
+    label: "Evidence handoff to an accountable decision",
+  },
+  {
+    fromEntryId: "framework-accessibility-governance-baseline",
+    toEntryId: "template-hcd-research-evidence-plan",
+    type: "implements",
+    label: "Inclusive participation and evidence controls",
+  },
+  {
+    fromEntryId: "framework-hcd-operating-model-baseline",
+    toEntryId: "template-hcd-research-evidence-plan",
+    type: "implements",
+    label: "Evidence lifecycle planning artifact",
+  },
+  {
+    fromEntryId: "landing-hcd-director-toolkit",
+    toEntryId: "template-hcd-research-evidence-plan",
+    type: "related",
+    label: "Research and evidence planning template",
+  },
+  {
     fromEntryId: "framework-hcd-operating-model-baseline",
     toEntryId: "template-hcd-operating-agreement",
     type: "implements",

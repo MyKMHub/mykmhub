@@ -25,6 +25,7 @@ import { HCD_OUTCOME_MEASUREMENT_PLAN_ENTRY } from "./entries/hcd-outcome-measur
 import { HCD_DELIVERY_CHECKPOINTS_ENTRY } from "./entries/hcd-delivery-checkpoints";
 import { ACCESSIBILITY_GOVERNANCE_BASELINE_ENTRY } from "./entries/accessibility-governance-baseline";
 import { HCD_OPERATING_AGREEMENT_ENTRY } from "./entries/hcd-operating-agreement";
+import { HCD_RESEARCH_EVIDENCE_PLAN_ENTRY } from "./entries/hcd-research-evidence-plan";
 import { THEME_LAB_ENTRY } from "./entries/theme-lab";
 import type { ContentEntry } from "./types";
 
@@ -44,6 +45,7 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   HCD_DELIVERY_CHECKPOINTS_ENTRY,
   ACCESSIBILITY_GOVERNANCE_BASELINE_ENTRY,
   HCD_OPERATING_AGREEMENT_ENTRY,
+  HCD_RESEARCH_EVIDENCE_PLAN_ENTRY,
   AI_ASSISTED_MYKMHUB_DEVELOPMENT_ENTRY,
   EVIDENCE_MATRIX_TOOL_ENTRY,
   HCD_VELOCITY_CASE_STUDY_ENTRY,
