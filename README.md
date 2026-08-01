@@ -133,6 +133,12 @@ the shared Navy HR modernization effort:
 The Evidence Traceability Matrix Builder remains a publicly explorable,
 low-priority working draft for a future centralized team evidence log.
 
+The HCD Decision & Evidence Record Builder operationalizes the published
+decision-record template as a Spectrum 2 browser-only workflow. It produces a
+copy-ready Markdown artifact without persisting or transmitting entered
+content and remains connected to the canonical template, evidence-first method,
+delivery checkpoints, and Director Toolkit through the relationship registry.
+
 The Accessible Form Component & UX Requirements Generator is the first hybrid
 Tool and Portfolio entry. Its canonical working application lives in Tools,
 while its normalized Portfolio record documents the design context,

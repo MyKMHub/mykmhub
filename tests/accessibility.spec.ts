@@ -26,6 +26,7 @@ const PUBLIC_ROUTES = [
   "/templates/hcd-research-evidence-plan",
   "/templates/hcd-operating-model-review",
   "/tools",
+  "/tools/hcd-decision-evidence-record-builder",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
   "/tools/ai-image-prompt-wizard",
@@ -107,6 +108,17 @@ test("canonical relationships provide deterministic contextual collections", () 
       ({ entry }) => entry.id === "tool-evidence-traceability-matrix",
     ),
   ).toBe(false);
+
+  expect(
+    getRelatedPublishedContent("tool-hcd-decision-evidence-record-builder").map(
+      ({ entry }) => entry.id,
+    ),
+  ).toEqual([
+    "template-hcd-decision-evidence-record",
+    "method-evidence-first-synthesis",
+    "landing-hcd-director-toolkit",
+    "pattern-hcd-delivery-checkpoints",
+  ]);
 });
 
 for (const route of PUBLIC_ROUTES) {
@@ -173,6 +185,7 @@ test("draft evidence log is clearly identified", async ({ page }) => {
 
 test("working tool pages use the compact shared header", async ({ page }) => {
   for (const route of [
+    "/tools/hcd-decision-evidence-record-builder",
     "/tools/accessible-form-requirements-generator",
     "/tools/ai-image-prompt-wizard",
     "/tools/evidence-traceability-matrix-builder",
@@ -658,6 +671,77 @@ test("tool table scrolls within its region without widening the mobile page", as
 
   expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
   expect(dimensions.regionScrollWidth).toBeGreaterThan(dimensions.regionWidth);
+});
+
+test("decision record builder creates a governed Markdown artifact", async ({
+  page,
+}) => {
+  await page.goto("/tools/hcd-decision-evidence-record-builder");
+
+  await page.getByRole("textbox", { name: "Decision title" }).fill(
+    "Adopt a shared research repository",
+  );
+  await page.getByRole("textbox", { name: "Decision to make" }).fill(
+    "Whether the program should adopt one governed repository for research evidence.",
+  );
+  await page.getByRole("textbox", {
+    name: "Material evidence and source references",
+  }).fill("Research audit R-14 and support review S-08.");
+  await page.getByRole("textbox", { name: "Selected option" }).fill(
+    "Pilot the repository with two delivery teams.",
+  );
+  await page.getByRole("textbox", {
+    name: "Accessibility, privacy, safety, ethics, policy, and security implications",
+  }).fill("Require accessible authoring and role-based access before the pilot.");
+
+  await page.getByRole("button", { name: "Generate record" }).click();
+
+  await expect(
+    page.getByRole("heading", { name: "Review and copy the Markdown" }),
+  ).toBeVisible();
+  const output = page.getByLabel("Generated decision record Markdown");
+  await expect(output).toContainText("# Adopt a shared research repository");
+  await expect(output).toContainText("Research audit R-14");
+  await expect(output).toContainText("Require accessible authoring");
+  await expect(output).toContainText("- Next review: Not recorded");
+  await expect(
+    page.getByRole("heading", { name: "Use sanitized information only" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "HCD decision and evidence record" }),
+  ).toHaveAttribute("href", "/templates/hcd-decision-evidence-record");
+
+  expect(
+    await page.evaluate(() =>
+      Object.keys(window.localStorage).some((key) => key.includes("decision")),
+    ),
+  ).toBe(false);
+});
+
+test("decision record builder reflows with larger text on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      "mykmhub-accessibility-preferences",
+      JSON.stringify({
+        colorScheme: "system",
+        textSize: "larger",
+        increasedContrast: false,
+        reducedMotion: true,
+        underlinedLinks: true,
+      }),
+    );
+  });
+  await page.goto("/tools/hcd-decision-evidence-record-builder");
+  await expect(page.locator("html")).toHaveAttribute("data-text-size", "larger");
+
+  const dimensions = await page.evaluate(() => ({
+    pageWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
 });
 
 test("case study identifies its shared effort", async ({ page }) => {

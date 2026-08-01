@@ -1310,6 +1310,23 @@ html[data-custom-theme="active"] :is(
   gap: 2.5rem;
 }
 
+.decision-record-builder,
+.decision-record-output {
+  display: grid;
+  min-width: 0;
+  gap: 1.5rem;
+}
+
+.decision-record-output {
+  padding-block-start: 2.5rem;
+  border-block-start: 1px solid var(--surface-border);
+}
+
+.decision-record-output > p:not(.eyebrow) {
+  max-width: 52rem;
+  line-height: 1.65;
+}
+
 .tool-section-heading {
   max-width: 50rem;
 }

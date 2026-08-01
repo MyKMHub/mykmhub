@@ -855,6 +855,13 @@ reviewing mandate and demand, evidence and decisions, delivery integration,
 accessibility and responsible practice, and outcomes and learning without
 collapsing unlike risks into a maturity score.
 
+The HCD Decision & Evidence Record Builder is published at
+`/tools/hcd-decision-evidence-record-builder`. It operationalizes the existing
+decision-record template through a Spectrum 2 browser-only form and generates a
+reviewable Markdown artifact without persisting or transmitting entered
+content. Its content entry and connections to the template, evidence-first
+method, delivery checkpoints, and Director Toolkit remain normalized.
+
 ### Phase 4+
 
 Evaluate:

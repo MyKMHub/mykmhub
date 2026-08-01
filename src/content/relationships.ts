@@ -385,4 +385,28 @@ export const CONTENT_RELATIONSHIPS = [
     type: "related",
     label: "Measures and model-review evidence",
   },
+  {
+    fromEntryId: "tool-hcd-decision-evidence-record-builder",
+    toEntryId: "template-hcd-decision-evidence-record",
+    type: "implements",
+    label: "Interactive builder for this reusable decision-record structure",
+  },
+  {
+    fromEntryId: "tool-hcd-decision-evidence-record-builder",
+    toEntryId: "method-evidence-first-synthesis",
+    type: "related",
+    label: "Method for tracing findings to governed source evidence",
+  },
+  {
+    fromEntryId: "tool-hcd-decision-evidence-record-builder",
+    toEntryId: "landing-hcd-director-toolkit",
+    type: "related",
+    label: "Director-level pathway for evidence-informed decisions",
+  },
+  {
+    fromEntryId: "tool-hcd-decision-evidence-record-builder",
+    toEntryId: "pattern-hcd-delivery-checkpoints",
+    type: "related",
+    label: "Delivery checkpoints where decisions and evidence are reviewed",
+  },
 ] satisfies readonly ContentRelationship[];
