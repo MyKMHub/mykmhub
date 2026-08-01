@@ -1311,10 +1311,26 @@ html[data-custom-theme="active"] :is(
 }
 
 .decision-record-builder,
+.measurement-plan-builder,
 .decision-record-output {
   display: grid;
   min-width: 0;
   gap: 1.5rem;
+}
+
+.measure-builder {
+  display: grid;
+  min-width: 0;
+  gap: 1.5rem;
+}
+
+.measure-card {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.measure-card > button {
+  width: fit-content;
 }
 
 .decision-record-output {

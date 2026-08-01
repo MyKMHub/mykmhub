@@ -27,6 +27,7 @@ const PUBLIC_ROUTES = [
   "/templates/hcd-operating-model-review",
   "/tools",
   "/tools/hcd-decision-evidence-record-builder",
+  "/tools/hcd-outcome-measurement-plan-builder",
   "/tools/evidence-traceability-matrix-builder",
   "/tools/accessible-form-requirements-generator",
   "/tools/ai-image-prompt-wizard",
@@ -118,6 +119,18 @@ test("canonical relationships provide deterministic contextual collections", () 
     "method-evidence-first-synthesis",
     "landing-hcd-director-toolkit",
     "pattern-hcd-delivery-checkpoints",
+    "tool-hcd-outcome-measurement-plan-builder",
+  ]);
+
+  expect(
+    getRelatedPublishedContent("tool-hcd-outcome-measurement-plan-builder").map(
+      ({ entry }) => entry.id,
+    ),
+  ).toEqual([
+    "template-hcd-outcome-measurement-plan",
+    "tool-hcd-decision-evidence-record-builder",
+    "case-study-navy-kpi-dashboard",
+    "landing-hcd-director-toolkit",
   ]);
 });
 
@@ -186,6 +199,7 @@ test("draft evidence log is clearly identified", async ({ page }) => {
 test("working tool pages use the compact shared header", async ({ page }) => {
   for (const route of [
     "/tools/hcd-decision-evidence-record-builder",
+    "/tools/hcd-outcome-measurement-plan-builder",
     "/tools/accessible-form-requirements-generator",
     "/tools/ai-image-prompt-wizard",
     "/tools/evidence-traceability-matrix-builder",
@@ -735,6 +749,97 @@ test("decision record builder reflows with larger text on mobile", async ({
     );
   });
   await page.goto("/tools/hcd-decision-evidence-record-builder");
+  await expect(page.locator("html")).toHaveAttribute("data-text-size", "larger");
+
+  const dimensions = await page.evaluate(() => ({
+    pageWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
+});
+
+test("outcome measurement builder manages measures and generates a learning plan", async ({
+  page,
+}) => {
+  await page.goto("/tools/hcd-outcome-measurement-plan-builder");
+
+  await page.getByRole("textbox", { name: "Plan title" }).fill(
+    "Research repository pilot outcomes",
+  );
+  await page.getByRole("textbox", { name: "Current condition" }).fill(
+    "Evidence is distributed across team-specific locations.",
+  );
+  await page.getByRole("textbox", {
+    name: "Intended user or stakeholder outcome",
+  }).fill("Researchers can locate governed evidence without relying on its author.");
+  await page.getByRole("textbox", { name: "Measure 1 question" }).fill(
+    "Can researchers locate a cited source?",
+  );
+  await page.getByRole("textbox", {
+    name: "Measure 1 operational definition",
+  }).fill("Percentage of sampled citations retrieved within five minutes.");
+  await page.getByRole("textbox", {
+    name: "Measure 1 source and collection method",
+  }).fill("Moderated retrieval task with a sanitized citation sample.");
+
+  await page.getByRole("button", { name: "Add another measure" }).click();
+  await expect(page.getByRole("button", { name: "Remove measure 2" })).toBeVisible();
+  await page.getByRole("textbox", { name: "Measure 2 question" }).fill(
+    "Can keyboard users complete the retrieval task?",
+  );
+  await page.getByRole("textbox", {
+    name: "Measure 2 operational definition",
+  }).fill("Completion rate using keyboard-only navigation at 200% zoom.");
+  await page.getByRole("textbox", {
+    name: "Measure 2 source and collection method",
+  }).fill("Accessibility-focused usability sessions.");
+
+  await page.getByRole("button", { name: "Remove measure 1" }).click();
+  await expect(page.getByRole("button", { name: "Remove measure 2" })).toHaveCount(0);
+  await expect(page.getByRole("textbox", { name: "Measure 1 question" })).toHaveValue(
+    "Can keyboard users complete the retrieval task?",
+  );
+
+  await page.getByRole("button", { name: "Generate plan" }).click();
+
+  const output = page.getByLabel(
+    "Generated outcome measurement and learning plan Markdown",
+  );
+  await expect(output).toContainText("# Research repository pilot outcomes");
+  await expect(output).toContainText("Can keyboard users complete the retrieval task?");
+  await expect(output).toContainText("Accessibility-focused usability sessions");
+  await expect(output).not.toContainText("sampled citations retrieved");
+  await expect(
+    page.getByRole("heading", { name: "Use authorized, sanitized information only" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "HCD outcome measurement and learning plan" }),
+  ).toHaveAttribute("href", "/templates/hcd-outcome-measurement-plan");
+
+  expect(
+    await page.evaluate(() =>
+      Object.keys(window.localStorage).some((key) => key.includes("measurement")),
+    ),
+  ).toBe(false);
+});
+
+test("outcome measurement builder reflows with larger text on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      "mykmhub-accessibility-preferences",
+      JSON.stringify({
+        colorScheme: "system",
+        textSize: "larger",
+        increasedContrast: true,
+        reducedMotion: true,
+        underlinedLinks: true,
+      }),
+    );
+  });
+  await page.goto("/tools/hcd-outcome-measurement-plan-builder");
   await expect(page.locator("html")).toHaveAttribute("data-text-size", "larger");
 
   const dimensions = await page.evaluate(() => ({

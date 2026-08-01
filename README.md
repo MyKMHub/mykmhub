@@ -139,6 +139,11 @@ copy-ready Markdown artifact without persisting or transmitting entered
 content and remains connected to the canonical template, evidence-first method,
 delivery checkpoints, and Director Toolkit through the relationship registry.
 
+The HCD Outcome Measurement & Learning Plan Builder extends that decision path
+into evaluation. It builds an explicit outcome chain and repeatable,
+decision-ready measures across the six published evidence dimensions, then
+generates a browser-only Markdown learning plan without storing entered data.
+
 The Accessible Form Component & UX Requirements Generator is the first hybrid
 Tool and Portfolio entry. Its canonical working application lives in Tools,
 while its normalized Portfolio record documents the design context,

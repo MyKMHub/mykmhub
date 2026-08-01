@@ -409,4 +409,28 @@ export const CONTENT_RELATIONSHIPS = [
     type: "related",
     label: "Delivery checkpoints where decisions and evidence are reviewed",
   },
+  {
+    fromEntryId: "tool-hcd-outcome-measurement-plan-builder",
+    toEntryId: "template-hcd-outcome-measurement-plan",
+    type: "implements",
+    label: "Interactive builder for this reusable measurement-plan structure",
+  },
+  {
+    fromEntryId: "tool-hcd-outcome-measurement-plan-builder",
+    toEntryId: "tool-hcd-decision-evidence-record-builder",
+    type: "related",
+    label: "Connect measured results to the decision they inform",
+  },
+  {
+    fromEntryId: "tool-hcd-outcome-measurement-plan-builder",
+    toEntryId: "case-study-navy-kpi-dashboard",
+    type: "related",
+    label: "Illustrative decision-support concept requiring operational validation",
+  },
+  {
+    fromEntryId: "tool-hcd-outcome-measurement-plan-builder",
+    toEntryId: "landing-hcd-director-toolkit",
+    type: "related",
+    label: "Director-level pathway for outcomes and organizational learning",
+  },
 ] satisfies readonly ContentRelationship[];

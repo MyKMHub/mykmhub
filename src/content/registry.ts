@@ -29,6 +29,7 @@ import { HCD_RESEARCH_EVIDENCE_PLAN_ENTRY } from "./entries/hcd-research-evidenc
 import { HCD_OPERATING_MODEL_REVIEW_ENTRY } from "./entries/hcd-operating-model-review";
 import { THEME_LAB_ENTRY } from "./entries/theme-lab";
 import { HCD_DECISION_EVIDENCE_RECORD_BUILDER_ENTRY } from "./entries/hcd-decision-evidence-record-builder";
+import { HCD_OUTCOME_MEASUREMENT_PLAN_BUILDER_ENTRY } from "./entries/hcd-outcome-measurement-plan-builder";
 import type { ContentEntry } from "./types";
 
 export const CONTENT_REGISTRY: readonly ContentEntry[] = [
@@ -44,6 +45,7 @@ export const CONTENT_REGISTRY: readonly ContentEntry[] = [
   HCD_ENGAGEMENT_INTAKE_TRIAGE_ENTRY,
   HCD_DECISION_EVIDENCE_RECORD_ENTRY,
   HCD_DECISION_EVIDENCE_RECORD_BUILDER_ENTRY,
+  HCD_OUTCOME_MEASUREMENT_PLAN_BUILDER_ENTRY,
   HCD_OUTCOME_MEASUREMENT_PLAN_ENTRY,
   HCD_DELIVERY_CHECKPOINTS_ENTRY,
   ACCESSIBILITY_GOVERNANCE_BASELINE_ENTRY,

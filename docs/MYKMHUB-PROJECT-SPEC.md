@@ -862,6 +862,15 @@ reviewable Markdown artifact without persisting or transmitting entered
 content. Its content entry and connections to the template, evidence-first
 method, delivery checkpoints, and Director Toolkit remain normalized.
 
+The HCD Outcome Measurement & Learning Plan Builder is published at
+`/tools/hcd-outcome-measurement-plan-builder`. It turns the existing outcome
+plan into a Spectrum 2 browser-only workflow with an explicit outcome chain and
+repeatable measures spanning the six balanced evidence dimensions. Generated
+Markdown distinguishes activity and output from outcomes, records collection
+and interpretation limitations, and is not persisted or transmitted. Its
+relationships to the canonical template, Decision Record Builder, KPI
+Dashboard case study, and Director Toolkit remain normalized.
+
 ### Phase 4+
 
 Evaluate:
