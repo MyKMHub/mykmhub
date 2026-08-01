@@ -13,5 +13,4 @@ export const PERSONAL_KNOWLEDGE_SYSTEM_CASE_STUDY_ENTRY = {
   visibility: "public",
   route: "/case-studies/personal-knowledge-management-system",
   effortId: "effort-personal-knowledge-system",
-  relatedEntryIds: [],
 } satisfies ContentEntry;

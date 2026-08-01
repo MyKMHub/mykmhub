@@ -13,5 +13,4 @@ export const NAVY_KPI_DASHBOARD_CASE_STUDY_ENTRY = {
   visibility: "public",
   route: "/case-studies/navy-kpi-dashboard",
   effortId: "effort-navy-kpi-dashboard",
-  relatedEntryIds: [],
 } satisfies ContentEntry;

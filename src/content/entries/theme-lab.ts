@@ -12,5 +12,4 @@ export const THEME_LAB_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/design-system/theme-lab",
-  relatedEntryIds: ["landing-design-system"],
 } satisfies ContentEntry;

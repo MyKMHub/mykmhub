@@ -984,6 +984,10 @@ Continue through reviewed thin vertical slices. Preserve Spectrum 2,
 accessibility-first implementation, normalized content relationships, and the
 existing content architecture. Do not create empty routes for future concepts.
 
+`src/content/relationships.ts` is the sole canonical source for public content
+relationships. Entries retain their own identity and metadata but do not
+duplicate related-entry lists.
+
 The roadmap remains a record of deferred work, not an instruction to begin
 private workspaces, Career Archive, AI assistants, feedback infrastructure, or
 other Phase 4+ capabilities without an explicit priority decision.

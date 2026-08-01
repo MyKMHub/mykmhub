@@ -16,8 +16,4 @@ export const NAVY_HR_AUTOMATED_HCD_CASE_STUDY_ENTRY = {
   externalUrl:
     "https://natebyrnes.wixsite.com/kmux/portfolio/scaling-automated-hcd-in-navy-hr-modernization",
   effortId: "effort-navy-hr-modernization",
-  relatedEntryIds: [
-    "case-study-hcd-velocity-engine",
-    "method-evidence-first-synthesis",
-  ],
 } satisfies ContentEntry;

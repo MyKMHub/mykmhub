@@ -17,9 +17,4 @@ export const HCD_DECISION_EVIDENCE_RECORD_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/templates/hcd-decision-evidence-record",
-  relatedEntryIds: [
-    "framework-hcd-operating-model-baseline",
-    "pattern-hcd-engagement-intake-triage",
-    "method-evidence-first-synthesis",
-  ],
 } satisfies ContentEntry;

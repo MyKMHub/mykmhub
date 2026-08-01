@@ -18,13 +18,4 @@ export const HCD_OPERATING_MODEL_REVIEW_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/templates/hcd-operating-model-review",
-  relatedEntryIds: [
-    "framework-hcd-operating-model-baseline",
-    "template-hcd-operating-agreement",
-    "template-hcd-outcome-measurement-plan",
-    "framework-accessibility-governance-baseline",
-    "pattern-hcd-delivery-checkpoints",
-    "template-hcd-decision-evidence-record",
-    "landing-hcd-director-toolkit",
-  ],
 } satisfies ContentEntry;

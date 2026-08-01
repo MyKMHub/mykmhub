@@ -18,12 +18,4 @@ export const HCD_RESEARCH_EVIDENCE_PLAN_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/templates/hcd-research-evidence-plan",
-  relatedEntryIds: [
-    "pattern-hcd-engagement-intake-triage",
-    "method-evidence-first-synthesis",
-    "template-hcd-decision-evidence-record",
-    "framework-accessibility-governance-baseline",
-    "framework-hcd-operating-model-baseline",
-    "landing-hcd-director-toolkit",
-  ],
 } satisfies ContentEntry;

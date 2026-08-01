@@ -17,9 +17,4 @@ export const ABOUT_ENTRY = {
   visibility: "public",
   route: "/about",
   effortId: "effort-mykmhub-platform",
-  relatedEntryIds: [
-    "landing-hcd-director-toolkit",
-    "landing-portfolio",
-    "guidance-ai-assisted-mykmhub-development",
-  ],
 } satisfies ContentEntry;

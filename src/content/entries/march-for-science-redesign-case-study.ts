@@ -13,5 +13,4 @@ export const MARCH_FOR_SCIENCE_REDESIGN_CASE_STUDY_ENTRY = {
   visibility: "public",
   route: "/case-studies/march-for-science-site-redesign",
   effortId: "effort-march-for-science-redesign",
-  relatedEntryIds: [],
 } satisfies ContentEntry;

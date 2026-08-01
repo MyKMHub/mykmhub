@@ -13,8 +13,4 @@ export const EVIDENCE_MATRIX_TOOL_ENTRY = {
   visibility: "public",
   route: "/tools/evidence-traceability-matrix-builder",
   effortId: "effort-navy-hr-modernization",
-  relatedEntryIds: [
-    "case-study-hcd-velocity-engine",
-    "method-evidence-first-synthesis",
-  ],
 } satisfies ContentEntry;

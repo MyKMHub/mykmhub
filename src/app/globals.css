@@ -48,7 +48,7 @@ html[data-text-size="larger"] {
 
 body {
   margin: 0;
-  min-width: 20rem;
+  min-width: min(20rem, 100%);
   min-height: 100vh;
   font-family: var(--reading-font);
   color: var(--site-text);
@@ -365,10 +365,6 @@ h6 {
 }
 
 @media (max-width: 40rem) {
-  .discovery-controls {
-    grid-template-columns: 1fr;
-  }
-
   .inline-definition-list div {
     grid-template-columns: 1fr;
   }
@@ -1676,10 +1672,11 @@ html[data-motion="reduced"] *::after {
 }
 
 @media (max-width: 48rem) {
+  .discovery-controls,
   .design-system-grid,
   .theme-lab-layout,
   .lab-control-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .theme-lab-controls {

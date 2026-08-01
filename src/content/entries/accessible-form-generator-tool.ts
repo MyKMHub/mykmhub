@@ -13,5 +13,4 @@ export const ACCESSIBLE_FORM_GENERATOR_TOOL_ENTRY = {
   visibility: "public",
   route: "/tools/accessible-form-requirements-generator",
   effortId: "effort-accessible-form-generator",
-  relatedEntryIds: ["case-study-accessible-form-generator"],
 } satisfies ContentEntry;

@@ -12,8 +12,4 @@ export const HCD_ENGAGEMENT_INTAKE_TRIAGE_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/patterns/hcd-engagement-intake-triage",
-  relatedEntryIds: [
-    "framework-hcd-operating-model-baseline",
-    "landing-hcd-director-toolkit",
-  ],
 } satisfies ContentEntry;

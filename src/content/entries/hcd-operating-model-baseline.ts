@@ -17,9 +17,4 @@ export const HCD_OPERATING_MODEL_BASELINE_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/frameworks/hcd-operating-model-baseline",
-  relatedEntryIds: [
-    "landing-hcd-director-toolkit",
-    "method-evidence-first-synthesis",
-    "case-study-navy-hr-automated-hcd",
-  ],
 } satisfies ContentEntry;

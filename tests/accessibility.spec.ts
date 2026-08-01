@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
+import { getRelatedPublishedContent } from "@/content/related";
 import { CONTENT_REGISTRY } from "@/content/registry";
 import { CONTENT_RELATIONSHIPS } from "@/content/relationships";
 import { SITE_URL } from "@/content/site";
@@ -72,20 +73,40 @@ test("content relationships reference valid unique entries", () => {
     expect(entryIds.has(relationship.toEntryId)).toBe(true);
     expect(relationship.fromEntryId).not.toBe(relationship.toEntryId);
 
-    const key = [
-      relationship.fromEntryId,
-      relationship.toEntryId,
-      relationship.type,
-    ].join(":");
+    expect(relationship.label.trim()).not.toBe("");
+
+    const key = [relationship.fromEntryId, relationship.toEntryId]
+      .sort()
+      .join(":");
     expect(relationshipKeys.has(key)).toBe(false);
     relationshipKeys.add(key);
   }
 
-  for (const entry of CONTENT_REGISTRY) {
-    for (const relatedEntryId of entry.relatedEntryIds ?? []) {
-      expect(entryIds.has(relatedEntryId)).toBe(true);
-    }
-  }
+  expect(
+    CONTENT_REGISTRY.some((entry) => "relatedEntryIds" in entry),
+  ).toBe(false);
+});
+
+test("canonical relationships provide deterministic contextual collections", () => {
+  expect(
+    getRelatedPublishedContent("landing-portfolio").map(({ entry }) => entry.id),
+  ).toEqual([
+    "landing-about",
+    "landing-hcd-director-toolkit",
+    "case-study-accessible-form-generator",
+    "case-study-navy-hr-automated-hcd",
+    "case-study-hcd-velocity-engine",
+  ]);
+
+  expect(
+    getRelatedPublishedContent("landing-tools").map(({ entry }) => entry.id),
+  ).toEqual(["guidance-ai-assisted-mykmhub-development"]);
+
+  expect(
+    getRelatedPublishedContent("landing-tools").some(
+      ({ entry }) => entry.id === "tool-evidence-traceability-matrix",
+    ),
+  ).toBe(false);
 });
 
 for (const route of PUBLIC_ROUTES) {
@@ -319,6 +340,32 @@ test("Toolkit exposes connected leadership pathways", async ({ page }) => {
   await expect(
     page.getByRole("link", { name: "Open the accessible form generator" }),
   ).toHaveAttribute("href", "/tools/accessible-form-requirements-generator");
+});
+
+test("Toolkit discovery remains contained with larger text on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      "mykmhub-accessibility-preferences",
+      JSON.stringify({
+        colorScheme: "system",
+        textSize: "larger",
+        increasedContrast: false,
+        reducedMotion: false,
+        underlinedLinks: true,
+      }),
+    );
+  });
+  await page.goto("/toolkit");
+  await expect(page.locator("html")).toHaveAttribute("data-text-size", "larger");
+
+  const dimensions = await page.evaluate(() => ({
+    pageWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.pageWidth).toBe(dimensions.clientWidth);
 });
 
 test("Toolkit discovery searches shared content metadata", async ({ page }) => {

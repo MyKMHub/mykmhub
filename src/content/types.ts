@@ -28,6 +28,5 @@ export interface ContentEntry {
   visibility: ContentVisibility;
   route?: `/${string}` | "/";
   externalUrl?: `https://${string}`;
-  relatedEntryIds?: string[];
   effortId?: string;
 }

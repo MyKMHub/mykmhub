@@ -24,5 +24,4 @@ export const AI_ASSISTED_MYKMHUB_DEVELOPMENT_ENTRY = {
   visibility: "public",
   route: "/knowledge/building-mykmhub-ai-assisted-development",
   effortId: "effort-mykmhub-platform",
-  relatedEntryIds: ["landing-design-system", "landing-tools"],
 } satisfies ContentEntry;

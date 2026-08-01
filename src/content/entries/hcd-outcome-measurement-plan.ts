@@ -17,9 +17,4 @@ export const HCD_OUTCOME_MEASUREMENT_PLAN_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/templates/hcd-outcome-measurement-plan",
-  relatedEntryIds: [
-    "framework-hcd-operating-model-baseline",
-    "template-hcd-decision-evidence-record",
-    "case-study-navy-kpi-dashboard",
-  ],
 } satisfies ContentEntry;

@@ -13,5 +13,4 @@ export const AI_IMAGE_PROMPT_WIZARD_CASE_STUDY_ENTRY = {
   visibility: "public",
   route: "/case-studies/ai-image-creation-wizard",
   effortId: "effort-ai-image-prompt-wizard",
-  relatedEntryIds: ["tool-ai-image-prompt-wizard"],
 } satisfies ContentEntry;

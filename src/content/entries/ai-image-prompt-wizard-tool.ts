@@ -13,5 +13,4 @@ export const AI_IMAGE_PROMPT_WIZARD_TOOL_ENTRY = {
   visibility: "public",
   route: "/tools/ai-image-prompt-wizard",
   effortId: "effort-ai-image-prompt-wizard",
-  relatedEntryIds: ["case-study-ai-image-prompt-wizard"],
 } satisfies ContentEntry;

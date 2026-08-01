@@ -38,21 +38,7 @@ export function getRelatedPublishedContent(
       related.set(relatedId, {
         entry,
         relationshipType: relationship.type,
-        relationshipLabel: relationship.label ?? "Related resource",
-      });
-    }
-  }
-
-  const currentEntry = entriesById.get(entryId);
-  for (const relatedId of currentEntry?.relatedEntryIds ?? []) {
-    if (related.has(relatedId)) continue;
-
-    const entry = entriesById.get(relatedId);
-    if (entry) {
-      related.set(relatedId, {
-        entry,
-        relationshipType: "related",
-        relationshipLabel: "Related resource",
+        relationshipLabel: relationship.label,
       });
     }
   }

@@ -39,6 +39,11 @@ can see it, and whether action is required. MyKMHub should use distinct facets.
 The current public architecture only needs a subset: record type, context,
 effort, relationships, access, lifecycle, and last-verified date.
 
+Public content relationships are maintained once in
+`src/content/relationships.ts`. Individual content entries do not maintain a
+second relationship list. Contextual views resolve the canonical graph in a
+deterministic order and expose only published, public records with routes.
+
 ## Record families
 
 ### Long-term knowledge

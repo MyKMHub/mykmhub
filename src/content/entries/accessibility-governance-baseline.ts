@@ -17,11 +17,4 @@ export const ACCESSIBILITY_GOVERNANCE_BASELINE_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/frameworks/accessibility-governance-baseline",
-  relatedEntryIds: [
-    "framework-hcd-operating-model-baseline",
-    "pattern-hcd-delivery-checkpoints",
-    "tool-accessible-form-generator",
-    "landing-design-system",
-    "landing-hcd-director-toolkit",
-  ],
 } satisfies ContentEntry;

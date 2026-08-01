@@ -17,5 +17,4 @@ export const KNOWLEDGE_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/knowledge",
-  relatedEntryIds: ["guidance-ai-assisted-mykmhub-development"],
 } satisfies ContentEntry;

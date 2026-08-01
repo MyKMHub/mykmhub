@@ -16,5 +16,4 @@ export const HCD_VELOCITY_CASE_STUDY_ENTRY = {
   effortId: "effort-navy-hr-modernization",
   externalUrl:
     "https://natebyrnes.wixsite.com/kmux/portfolio/scaling-strategic-impact%3A-automating-hcd-synthesis-yields-80%25-capacity-gain",
-  relatedEntryIds: ["method-evidence-first-synthesis"],
 } satisfies ContentEntry;

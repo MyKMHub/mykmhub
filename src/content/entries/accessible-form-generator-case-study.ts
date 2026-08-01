@@ -16,5 +16,4 @@ export const ACCESSIBLE_FORM_GENERATOR_CASE_STUDY_ENTRY = {
   externalUrl:
     "https://natebyrnes.wixsite.com/kmux/portfolio/accessible-form-component-%26-ux-requirements-generator-",
   effortId: "effort-accessible-form-generator",
-  relatedEntryIds: ["tool-accessible-form-generator"],
 } satisfies ContentEntry;

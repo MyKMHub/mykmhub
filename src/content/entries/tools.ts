@@ -12,5 +12,4 @@ export const TOOLS_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/tools",
-  relatedEntryIds: ["tool-evidence-traceability-matrix"],
 } satisfies ContentEntry;

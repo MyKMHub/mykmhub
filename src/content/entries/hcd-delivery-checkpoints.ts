@@ -17,11 +17,4 @@ export const HCD_DELIVERY_CHECKPOINTS_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/patterns/hcd-delivery-checkpoints",
-  relatedEntryIds: [
-    "framework-hcd-operating-model-baseline",
-    "template-hcd-decision-evidence-record",
-    "template-hcd-outcome-measurement-plan",
-    "tool-accessible-form-generator",
-    "landing-hcd-director-toolkit",
-  ],
 } satisfies ContentEntry;

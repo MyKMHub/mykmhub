@@ -13,5 +13,4 @@ export const DOJ_ACCESSIBILITY_REDESIGN_CASE_STUDY_ENTRY = {
   visibility: "public",
   route: "/case-studies/doj-site-redesign-accessibility-usability",
   effortId: "effort-doj-application-modernization",
-  relatedEntryIds: [],
 } satisfies ContentEntry;

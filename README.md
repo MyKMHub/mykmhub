@@ -52,8 +52,8 @@ Content is maintained independently in `src/content`:
 - `portfolio/` stores normalized case-study records and content blocks.
 - `tools/` stores tool status, accessibility, privacy, relationship, and
   version metadata.
-- `relationships.ts` records how case studies, methods, knowledge, and tools
-  relate without duplicating them.
+- `relationships.ts` is the sole canonical source for labeled relationships
+  among case studies, methods, knowledge, tools, templates, and collections.
 - `registry.ts` exposes published public content.
 - `navigation.ts` derives navigation only from published routes.
 

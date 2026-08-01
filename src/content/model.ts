@@ -26,7 +26,7 @@ export interface ContentRelationship {
   fromEntryId: string;
   toEntryId: string;
   type: RelationshipType;
-  label?: string;
+  label: string;
 }
 
 export interface KnowledgeRecord {

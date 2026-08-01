@@ -17,12 +17,4 @@ export const HCD_OPERATING_AGREEMENT_ENTRY = {
   status: "published",
   visibility: "public",
   route: "/templates/hcd-operating-agreement",
-  relatedEntryIds: [
-    "framework-hcd-operating-model-baseline",
-    "pattern-hcd-engagement-intake-triage",
-    "pattern-hcd-delivery-checkpoints",
-    "framework-accessibility-governance-baseline",
-    "template-hcd-outcome-measurement-plan",
-    "landing-hcd-director-toolkit",
-  ],
 } satisfies ContentEntry;
